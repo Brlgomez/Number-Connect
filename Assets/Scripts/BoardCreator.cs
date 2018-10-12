@@ -29,6 +29,7 @@ public class BoardCreator : MonoBehaviour
 
     void Start()
     {
+        //PlayerPrefs.DeleteAll();
         undoButton.GetComponent<Button>().interactable = false;
         if (PlayerPrefs.GetInt(PlayerPrefsManager.boardSize) == 0)
         {

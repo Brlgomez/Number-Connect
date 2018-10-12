@@ -18,21 +18,21 @@
     public const string bestTimeHardPlus = "best_time_hard_plus";
     public const string bestTimeExpertPlus = "best_time_expert_plus";
 #else
-    public const string winsEasy = "";
-    public const string winsMedium = "";
-    public const string winsHard = "";
-    public const string winsExpert = "";
-    public const string winsEasyPlus = "";
-    public const string winsMediumPlus = "";
-    public const string winsHardPlus = "";
-    public const string winsExpertPlus = "";
-    public const string bestTimeEasy = "";
-    public const string bestTimeMedium = "";
-    public const string bestTimeHard = "";
-    public const string bestTimeExpert = "";
-    public const string bestTimeEasyPlus = "";
-    public const string bestTimeMediumPlus = "";
-    public const string bestTimeHardPlus = "";
-    public const string bestTimeExpertPlus = "";
+    public const string winsEasy = GPGSIds.leaderboard_wins__easy;
+    public const string winsMedium = GPGSIds.leaderboard_wins__medium;
+    public const string winsHard = GPGSIds.leaderboard_wins__hard;
+    public const string winsExpert = GPGSIds.leaderboard_wins__expert;
+    public const string winsEasyPlus = GPGSIds.leaderboard_wins__easy_2;
+    public const string winsMediumPlus = GPGSIds.leaderboard_wins__medium_2;
+    public const string winsHardPlus = GPGSIds.leaderboard_wins__hard_2;
+    public const string winsExpertPlus = GPGSIds.leaderboard_wins__expert_2;
+    public const string bestTimeEasy = GPGSIds.leaderboard_best_time__easy;
+    public const string bestTimeMedium = GPGSIds.leaderboard_best_time__medium;
+    public const string bestTimeHard = GPGSIds.leaderboard_best_time__hard;
+    public const string bestTimeExpert = GPGSIds.leaderboard_best_time__expert;
+    public const string bestTimeEasyPlus = GPGSIds.leaderboard_best_time__easy_2;
+    public const string bestTimeMediumPlus = GPGSIds.leaderboard_best_time__medium_2;
+    public const string bestTimeHardPlus = GPGSIds.leaderboard_best_time__hard_2;
+    public const string bestTimeExpertPlus = GPGSIds.leaderboard_best_time__expert_2;
 #endif
 }

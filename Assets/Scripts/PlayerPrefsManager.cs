@@ -67,10 +67,18 @@ public class PlayerPrefsManager : MonoBehaviour
             if (bestTimeAmount > GetComponent<Timer>().GetTime())
             {
                 PlayerPrefs.SetFloat(diff + bestTime, GetComponent<Timer>().GetTime());
-                int milliseconds = Mathf.FloorToInt(GetComponent<Timer>().GetTime() * 100);
-                //TODO: GetComponent<LeaderboardsManager>().PushBestTime(milliseconds, diff);
                 newBest = true;
             }
+            int milliseconds;
+            if (Application.platform == RuntimePlatform.Android)
+            {
+                milliseconds = Mathf.FloorToInt(PlayerPrefs.GetFloat(diff + bestTime) * 1000);
+            }
+            else
+            {
+                milliseconds = Mathf.FloorToInt(PlayerPrefs.GetFloat(diff + bestTime) * 100);
+            }
+            GetComponent<LeaderboardsManager>().PushBestTime(milliseconds, diff);
 
             /* win streaks */
             int currentWinStreakAmount = PlayerPrefs.GetInt(diff + currentWinStreak, 0);
@@ -81,7 +89,7 @@ public class PlayerPrefsManager : MonoBehaviour
             {
                 PlayerPrefs.SetInt(diff + longestWinStreak, currentWinStreakAmount);
             }
-            //TODO: GetComponent<LeaderboardsManager>().PushWinCount(winAmount + 1, diff);
+            GetComponent<LeaderboardsManager>().PushWinCount(winAmount + 1, diff);
 
             /* hint count */
             int currentHintAmount = PlayerPrefs.GetInt(currentHintCount, 0);

@@ -28,3 +28,4 @@ sysinfo.txt
 *.unitypackage
 user.keystore
 .vs/*
+GPGSIds.cs
