@@ -34,7 +34,7 @@ public class Menus : MonoBehaviour
         easy = new Difficulties
         {
             difficulty = "Easy",
-            boardCount = 100,
+            boardCount = 25,
             maxBoardSize = 14,
             percentageEmpty = 0.80f,
             diagonals = false
@@ -66,7 +66,7 @@ public class Menus : MonoBehaviour
         easyDiag = new Difficulties
         {
             difficulty = "Easy +",
-            boardCount = 60,
+            boardCount = 25,
             maxBoardSize = 14,
             percentageEmpty = 0.75f,
             diagonals = true
@@ -117,11 +117,13 @@ public class Menus : MonoBehaviour
         {
             lineSlider.GetComponent<Slider>().value = 0;
             GetComponent<BoardCreator>().lineHolder.SetActive(false);
+            GetComponent<Appearance>().settingLines.SetActive(false);
         }
         else
         {
             lineSlider.GetComponent<Slider>().value = 1;
             GetComponent<BoardCreator>().lineHolder.SetActive(true);
+            GetComponent<Appearance>().settingLines.SetActive(true);
         }
         if (PlayerPrefs.GetInt(PlayerPrefsManager.showNodeHighlights, 0) == 0)
         {
@@ -132,6 +134,26 @@ public class Menus : MonoBehaviour
         {
             highlightSlider.GetComponent<Slider>().value = 1;
             GetComponent<Appearance>().highlightHolder.SetActive(true);
+        }
+        if (Application.platform == RuntimePlatform.Android)
+        {
+            ChangeMoreMenuForAndroid();
+        }
+    }
+
+    void ChangeMoreMenuForAndroid()
+    {
+        for (int i = 0; i < moreMenu.transform.childCount - 1; i++)
+        {
+            if (moreMenu.transform.GetChild(i).name == "Restore Purchases")
+            {
+                moreMenu.transform.GetChild(i).gameObject.SetActive(false);
+            }
+            Vector3 newPosition = new Vector2(
+                moreMenu.transform.GetChild(i).GetComponent<RectTransform>().anchoredPosition.x,
+                (moreMenu.transform.GetChild(i).GetComponent<RectTransform>().anchoredPosition.y - 100));
+            Debug.Log(newPosition);
+            moreMenu.transform.GetChild(i).GetComponent<RectTransform>().anchoredPosition = newPosition;
         }
     }
 
@@ -234,12 +256,14 @@ public class Menus : MonoBehaviour
                 PlayerPrefs.SetInt(PlayerPrefsManager.showLines, 1);
                 lineSlider.GetComponent<SliderMovement>().SetGoTowards(1);
                 GetComponent<BoardCreator>().lineHolder.SetActive(true);
+                GetComponent<Appearance>().settingLines.SetActive(true);
             }
             else
             {
                 PlayerPrefs.SetInt(PlayerPrefsManager.showLines, 0);
                 lineSlider.GetComponent<SliderMovement>().SetGoTowards(0);
                 GetComponent<BoardCreator>().lineHolder.SetActive(false);
+                GetComponent<Appearance>().settingLines.SetActive(false);
             }
             PlayerPrefs.Save();
         }
@@ -532,6 +556,7 @@ public class Menus : MonoBehaviour
         GetComponent<NumberScroller>().ClearNumberScroller();
         GetComponent<NumberScroller>().SetUpNumberScroller();
         NewGameMenuClose();
+        GetComponent<Appearance>().RestartButtonSave();
     }
 
     public void Restart()

@@ -54,6 +54,8 @@ public class PlayerPrefsManager : MonoBehaviour
         bool newBest = false;
         if (PlayerPrefs.GetInt(boardCompleted, 0) == 1)
         {
+            GetComponent<Appearance>().RestartButtonNoSave();
+
             string diff = PlayerPrefs.GetString(difficulty);
             int winAmount = PlayerPrefs.GetInt(diff + winCount, 0);
 

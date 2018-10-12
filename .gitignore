@@ -26,6 +26,9 @@ sysinfo.txt
 
 # Builds
 *.unitypackage
+
+# Visual Studio cache directory
+.vs
+
 user.keystore
-.vs/*
 GPGSIds.cs

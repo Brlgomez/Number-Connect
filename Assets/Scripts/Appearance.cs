@@ -21,6 +21,8 @@ public class Appearance : MonoBehaviour
     public Image normalConnection, diagonalConnection, normalBoard, diagonalBoard;
     public Slider thicknessSlider;
     public List<Sprite> normalConnectionSprites, diagonalConnectionSprites, normalBoardSprites, diagonalBoardSprites;
+    public Text restartText;
+    public GameObject settingNodes, settingText, settingLines;
 
     public enum ThemeName { light, dark, paper };
 
@@ -41,7 +43,16 @@ public class Appearance : MonoBehaviour
         {
             ChangeColors(paperTheme);
         }
+        if (PlayerPrefs.GetInt(PlayerPrefsManager.boardCompleted, 0) == 1)
+        {
+            GetComponent<Appearance>().RestartButtonNoSave();
+        }
+        else
+        {
+            GetComponent<Appearance>().RestartButtonSave();
+        }
         thicknessSlider.value = PlayerPrefs.GetInt(PlayerPrefsManager.lineThickness, 10);
+        ChangeSettingLinesThickness();
     }
 
     public void SetNodeToLockedLook(GameObject node)
@@ -109,7 +120,6 @@ public class Appearance : MonoBehaviour
         newLine.GetComponent<Image>().color = currentTheme.highlightColor;
         newLine.transform.position = new Vector3(lineX, lineY, 0);
         newLine.transform.SetParent(GetComponent<BoardCreator>().lineHolder.transform);
-        SetLineThickness(newLine);
         if ((int)previousNode.GetComponent<Node>().position.y == (int)currentNode.GetComponent<Node>().position.y)
         {
             newLine.transform.Rotate(0, 0, 90);
@@ -144,6 +154,7 @@ public class Appearance : MonoBehaviour
                 }
             }
         }
+        SetLineThickness(newLine);
         if (previousNode.GetComponent<Node>().line != null)
         {
             Destroy(previousNode.GetComponent<Node>().line);
@@ -278,6 +289,7 @@ public class Appearance : MonoBehaviour
         diagonalConnection.sprite = diagonalConnectionSprites[imageIndex];
         normalBoard.sprite = normalBoardSprites[imageIndex];
         diagonalBoard.sprite = diagonalBoardSprites[imageIndex];
+        ChangeSettingNodesColors();
     }
 
     public void NodeFeedBack(Transform node, GameObject box)
@@ -488,6 +500,11 @@ public class Appearance : MonoBehaviour
         }
     }
 
+    public void MovingThicknessSlider()
+    {
+        ChangeSettingLinesThickness();
+    }
+
     public void SaveThickness()
     {
         if (PlayerPrefs.GetInt(PlayerPrefsManager.lineThickness, 10) != (int)thicknessSlider.value)
@@ -515,6 +532,16 @@ public class Appearance : MonoBehaviour
         lineObj.GetComponent<RectTransform>().sizeDelta = new Vector2(thicknessSlider.value, oldSize.y);
     }
 
+    public void RestartButtonNoSave()
+    {
+        restartText.text = "Restart";
+    }
+
+    public void RestartButtonSave()
+    {
+        restartText.text = "Restart";
+    }
+
     Color GetClearOfColor(Color c)
     {
         return new Color(c.r, c.g, c.b, 0);
@@ -523,6 +550,41 @@ public class Appearance : MonoBehaviour
     Color GetOpaqueOfColor(Color c)
     {
         return new Color(c.r, c.g, c.b, 1);
+    }
+
+    public void ChangeSettingNodesColors()
+    {
+        for (int i = 0; i < settingNodes.transform.childCount; i++)
+        {
+            settingNodes.transform.GetChild(i).GetComponent<Image>().color = currentTheme.lockedNodeColor;
+        }
+        for (int i = 0; i < settingText.transform.childCount; i++)
+        {
+            if (i % 4 == 0)
+            {
+                settingText.transform.GetChild(i).GetComponent<Text>().color = currentTheme.lockedNodeTextColor;
+            }
+            else
+            {
+                settingText.transform.GetChild(i).GetComponent<Text>().color = currentTheme.userPlacedNodeTextColor;
+            }
+            settingText.transform.GetChild(i).GetComponent<Outline>().effectColor = currentTheme.lockedNodeColor;
+        }
+        for (int i = 0; i < settingLines.transform.childCount; i++)
+        {
+            settingLines.transform.GetChild(i).GetComponent<Image>().color = currentTheme.highlightColor;
+        }
+    }
+
+    public void ChangeSettingLinesThickness()
+    {
+        for (int i = 0; i < settingLines.transform.childCount; i++)
+        {
+            if (settingLines.name != "StartEndCircle(Clone)")
+            {
+                SetLineThickness(settingLines.transform.GetChild(i).gameObject);
+            }
+        }
     }
 
     void InitializeThemes()
@@ -541,9 +603,9 @@ public class Appearance : MonoBehaviour
             lockedNodeColor = new Color(1, 1, 1),
             userPlacedNodeColor = new Color(1, 1, 1),
             emptyNodeColor = new Color(0.75f, 0.75f, 0.75f),
-            lockedNodeTextColor = new Color(0, 0.25f, 0.75f),
+            lockedNodeTextColor = new Color(0.1f, 0.25f, 0.75f),
             userPlacedNodeTextColor = new Color(0, 0, 0),
-            hintedNodeTextColor = new Color(0, 0.5f, 0)
+            hintedNodeTextColor = new Color(0.2f, 0.5f, 0.2f)
         };
         darkTheme = new Theme
         {
@@ -551,7 +613,7 @@ public class Appearance : MonoBehaviour
             backgroundColor = new Color(0.125f, 0.125f, 0.125f),
             panelColor = new Color(0.1f, 0.1f, 0.1f),
 
-            highlightColor = new Color(1, 0.5f, 0.5f),
+            highlightColor = new Color(0.9f, 0.55f, 0.5f),
             generalButtonColor = new Color(0.9f, 0.9f, 0.9f),
             menuButtonColor = new Color(0.1f, 0.1f, 0.1f),
             menuButtonTextColor = new Color(0.9f, 0.9f, 0.9f),
@@ -559,9 +621,9 @@ public class Appearance : MonoBehaviour
             lockedNodeColor = new Color(0.4f, 0.4f, 0.4f),
             userPlacedNodeColor = new Color(0.4f, 0.4f, 0.4f),
             emptyNodeColor = new Color(0.2f, 0.2f, 0.2f),
-            lockedNodeTextColor = new Color(1, 1, 0),
+            lockedNodeTextColor = new Color(0.2f, 0.75f, 0.9f),
             userPlacedNodeTextColor = new Color(0.9f, 0.9f, 0.9f),
-            hintedNodeTextColor = new Color(0.1f, 0.8f, 1)
+            hintedNodeTextColor = new Color(0.3f, 0.8f, 0.3f)
         };
         paperTheme = new Theme
         {
@@ -579,7 +641,7 @@ public class Appearance : MonoBehaviour
             emptyNodeColor = new Color(0.74f, 0.71f, 0.65f),
             lockedNodeTextColor = new Color(0.9f, 0.25f, 0),
             userPlacedNodeTextColor = new Color(0.3f, 0.2f, 0.12f),
-            hintedNodeTextColor = new Color(1, 0.73f, 0)
+            hintedNodeTextColor = new Color(1, 0.61f, 0)
         };
     }
 
