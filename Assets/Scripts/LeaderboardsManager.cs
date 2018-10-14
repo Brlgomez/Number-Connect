@@ -11,6 +11,12 @@ public class LeaderboardsManager : MonoBehaviour
 {
     void Start()
     {
+#if (!NO_GPGS)
+        PlayGamesClientConfiguration config = new PlayGamesClientConfiguration.Builder().Build();
+        PlayGamesPlatform.InitializeInstance(config);
+        PlayGamesPlatform.DebugLogEnabled = true;
+        PlayGamesPlatform.Activate();
+#endif
         LogIn();
     }
 

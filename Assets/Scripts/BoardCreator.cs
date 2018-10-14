@@ -50,6 +50,7 @@ public class BoardCreator : MonoBehaviour
         }
     }
 
+    /*
     void Update()
     {
         if (Input.GetKeyDown("p"))
@@ -60,6 +61,7 @@ public class BoardCreator : MonoBehaviour
             }
         }
     }
+    */
 
     public void NewBoard(int boardSize, float percentage, string diff, int max, bool diag)
     {

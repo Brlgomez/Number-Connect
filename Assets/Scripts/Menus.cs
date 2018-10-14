@@ -34,7 +34,7 @@ public class Menus : MonoBehaviour
         easy = new Difficulties
         {
             difficulty = "Easy",
-            boardCount = 25,
+            boardCount = 100,
             maxBoardSize = 14,
             percentageEmpty = 0.80f,
             diagonals = false
@@ -66,7 +66,7 @@ public class Menus : MonoBehaviour
         easyDiag = new Difficulties
         {
             difficulty = "Easy +",
-            boardCount = 25,
+            boardCount = 60,
             maxBoardSize = 14,
             percentageEmpty = 0.75f,
             diagonals = true
@@ -160,24 +160,44 @@ public class Menus : MonoBehaviour
     public void NewGameMenuOpen()
     {
         GetComponent<Timer>().PauseTimer();
+        GetComponent<BoardCreator>().boxHolders.SetActive(false);
+        GetComponent<BoardCreator>().textHolder.SetActive(false);
+        GetComponent<BoardCreator>().lineHolder.SetActive(false);
+        GetComponent<NumberScroller>().scrollView.StopMovement();
         newGameMenu.SetActive(true);
     }
 
     public void NewGameMenuClose()
     {
         GetComponent<Timer>().UnPauseTimer();
+        GetComponent<BoardCreator>().boxHolders.SetActive(true);
+        GetComponent<BoardCreator>().textHolder.SetActive(true);
+        if (PlayerPrefs.GetInt(PlayerPrefsManager.showLines, 1) == 1)
+        {
+            GetComponent<BoardCreator>().lineHolder.SetActive(true);
+        }
         newGameMenu.SetActive(false);
     }
 
     public void MoreMenuOpen()
     {
         GetComponent<Timer>().PauseTimer();
+        GetComponent<BoardCreator>().boxHolders.SetActive(false);
+        GetComponent<BoardCreator>().textHolder.SetActive(false);
+        GetComponent<BoardCreator>().lineHolder.SetActive(false);
+        GetComponent<NumberScroller>().scrollView.StopMovement();
         moreMenu.SetActive(true);
     }
 
     public void MoreMenuClose()
     {
         GetComponent<Timer>().UnPauseTimer();
+        GetComponent<BoardCreator>().boxHolders.SetActive(true);
+        GetComponent<BoardCreator>().textHolder.SetActive(true);
+        if (PlayerPrefs.GetInt(PlayerPrefsManager.showLines, 1) == 1)
+        {
+            GetComponent<BoardCreator>().lineHolder.SetActive(true);
+        }
         moreMenu.SetActive(false);
     }
 
@@ -555,8 +575,9 @@ public class Menus : MonoBehaviour
         GetComponent<BoardCreator>().NewBoard(diff.boardCount, diff.percentageEmpty, diff.difficulty, diff.maxBoardSize, diff.diagonals);
         GetComponent<NumberScroller>().ClearNumberScroller();
         GetComponent<NumberScroller>().SetUpNumberScroller();
-        NewGameMenuClose();
+        GetComponent<NumberScroller>().GoToFirstButton();
         GetComponent<Appearance>().RestartButtonSave();
+        NewGameMenuClose();
     }
 
     public void Restart()

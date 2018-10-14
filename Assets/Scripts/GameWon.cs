@@ -13,12 +13,12 @@ public class GameWon : MonoBehaviour
     Color shineColor, highlightColor, backgroundColor, textColor, panelColor;
     GameObject shine, particles;
     Image topPanel, bottomPanel, buttonImage;
-    Text congratsText, statsText, newGameText;
+    Text congratsText, statsText, statsValueText, newGameText;
     ParticleSystem ps;
     float transition, timeForDestroying;
 
     public void SetUp(GameObject shineImage, GameObject particlesObject, Image top, Image bottom,
-                      Text congrats, Text stats, Image button, Text buttonText, string statsString)
+                      Text congrats, Text stats, Text statsValue, Image button, Text buttonText)
     {
         backgroundColor = Camera.main.GetComponent<Appearance>().CurrentTheme().backgroundColor;
         highlightColor = Camera.main.GetComponent<Appearance>().CurrentTheme().highlightColor;
@@ -31,6 +31,7 @@ public class GameWon : MonoBehaviour
         buttonImage = button;
         congratsText = congrats;
         statsText = stats;
+        statsValueText = statsValue;
         newGameText = buttonText;
         shine = shineImage;
         particles = particlesObject;
@@ -48,7 +49,6 @@ public class GameWon : MonoBehaviour
         congratsText.color = GetClearOfColor(congratsText.color);
         statsText.color = GetClearOfColor(statsText.color);
         newGameText.color = GetClearOfColor(newGameText.color);
-        statsText.text = statsString;
         turningOn = true;
     }
 
@@ -66,6 +66,7 @@ public class GameWon : MonoBehaviour
             buttonImage.color = Color.Lerp(GetClearOfColor(buttonImage.color), panelColor, transition);
             congratsText.color = Color.Lerp(GetClearOfColor(congratsText.color), textColor, transition);
             statsText.color = Color.Lerp(GetClearOfColor(statsText.color), textColor, transition);
+            statsValueText.color = Color.Lerp(GetClearOfColor(statsValueText.color), textColor, transition);
             newGameText.color = Color.Lerp(GetClearOfColor(newGameText.color), textColor, transition);
         }
         if (turningOff)

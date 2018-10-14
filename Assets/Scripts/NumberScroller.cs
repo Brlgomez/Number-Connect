@@ -57,6 +57,10 @@ public class NumberScroller : MonoBehaviour
     public void SetUpNumberScroller()
     {
         notPlacedNumbers = GetComponent<BoardCreator>().GetNotPlacedNumbers();
+        content.GetComponent<RectTransform>().sizeDelta = new Vector2(
+            notPlacedNumbers.Count * (numberButtonSize) - content.GetComponent<RectTransform>().rect.width,
+            content.GetComponent<RectTransform>().sizeDelta.y
+        );
         for (int i = 0; i < notPlacedNumbers.Count; i++)
         {
             GameObject newButton = Instantiate(numberButtonPrefab, content.transform, false);
@@ -69,9 +73,9 @@ public class NumberScroller : MonoBehaviour
             {
                 x = ((i - notPlacedNumbers.Count / 2) * (numberButtonSize)) + (content.GetComponent<RectTransform>().rect.width / 2);
             }
+            newButton.transform.localPosition = new Vector3(x, 0, 0);
             newButton.GetComponent<Image>().color = GetComponent<Appearance>().CurrentTheme().menuButtonColor;
             newButton.GetComponentInChildren<Text>().color = GetComponent<Appearance>().CurrentTheme().menuButtonTextColor;
-            newButton.transform.localPosition = new Vector3(x, 0, 0);
             newButton.GetComponentInChildren<Text>().text = notPlacedNumbers[i].GetComponent<Node>().value.ToString();
             newButton.GetComponent<NumberButton>().value = notPlacedNumbers[i].GetComponent<Node>().value;
             newButton.GetComponent<NumberButton>().index = i;
@@ -83,15 +87,6 @@ public class NumberScroller : MonoBehaviour
                 firstButton = newButton;
             }
         }
-        content.GetComponent<RectTransform>().transform.localPosition = new Vector3(
-            0,
-            content.GetComponent<RectTransform>().transform.localPosition.y,
-            content.GetComponent<RectTransform>().transform.localPosition.z
-        );
-        content.GetComponent<RectTransform>().sizeDelta = new Vector2(
-            notPlacedNumbers.Count * (numberButtonSize) - content.GetComponent<RectTransform>().rect.width,
-            content.GetComponent<RectTransform>().sizeDelta.y
-        );
     }
 
     public void ChangeHighlightedNumber(GameObject button, bool changeContentPos)
