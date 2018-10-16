@@ -198,7 +198,7 @@ public class Appearance : MonoBehaviour
         direction.color = currentTheme.generalButtonColor;
         hint.color = currentTheme.generalButtonColor;
         hint.gameObject.transform.GetChild(0).GetComponent<Image>().color = currentTheme.highlightColor;
-        hint.gameObject.GetComponentInChildren<Text>().color = currentTheme.menuButtonTextColor;
+        hint.gameObject.GetComponentInChildren<Text>().color = currentTheme.generalButtonColor;
         List<GameObject> gameBoard = GetComponent<BoardCreator>().GetGameBoard();
         GameObject content = GetComponent<NumberScroller>().GetContent();
         for (int i = 0; i < gameBoard.Count; i++)
@@ -226,7 +226,7 @@ public class Appearance : MonoBehaviour
         for (int i = 0; i < content.transform.childCount; i++)
         {
             content.transform.GetChild(i).GetComponent<Image>().color = currentTheme.menuButtonColor;
-            content.transform.GetChild(i).GetComponentInChildren<Text>().color = currentTheme.menuButtonTextColor;
+            content.transform.GetChild(i).GetComponentInChildren<Text>().color = currentTheme.generalButtonColor;
         }
         for (int i = 0; i < buttonsFromMenus.Count; i++)
         {
@@ -235,7 +235,7 @@ public class Appearance : MonoBehaviour
             {
                 if (buttonsFromMenus[i].transform.GetChild(j).GetComponentInChildren<Text>() != null)
                 {
-                    buttonsFromMenus[i].transform.GetChild(j).GetComponentInChildren<Text>().color = currentTheme.menuButtonTextColor;
+                    buttonsFromMenus[i].transform.GetChild(j).GetComponentInChildren<Text>().color = currentTheme.generalButtonColor;
                 }
             }
         }
@@ -598,7 +598,6 @@ public class Appearance : MonoBehaviour
             highlightColor = new Color(1, 0.5f, 0),
             generalButtonColor = new Color(0, 0, 0),
             menuButtonColor = new Color(1, 1, 1),
-            menuButtonTextColor = new Color(0, 0, 0),
 
             lockedNodeColor = new Color(1, 1, 1),
             userPlacedNodeColor = new Color(1, 1, 1),
@@ -616,7 +615,6 @@ public class Appearance : MonoBehaviour
             highlightColor = new Color(0.9f, 0.55f, 0.5f),
             generalButtonColor = new Color(0.9f, 0.9f, 0.9f),
             menuButtonColor = new Color(0.1f, 0.1f, 0.1f),
-            menuButtonTextColor = new Color(0.9f, 0.9f, 0.9f),
 
             lockedNodeColor = new Color(0.4f, 0.4f, 0.4f),
             userPlacedNodeColor = new Color(0.4f, 0.4f, 0.4f),
@@ -634,7 +632,6 @@ public class Appearance : MonoBehaviour
             highlightColor = new Color(0.47f, 0.67f, 0.76f),
             generalButtonColor = new Color(0.3f, 0.2f, 0.12f),
             menuButtonColor = new Color(0.97f, 0.94f, 0.89f),
-            menuButtonTextColor = new Color(0.3f, 0.2f, 0.12f),
 
             lockedNodeColor = new Color(0.97f, 0.94f, 0.89f),
             userPlacedNodeColor = new Color(0.97f, 0.94f, 0.89f),
@@ -658,7 +655,6 @@ public class Appearance : MonoBehaviour
         public Color highlightColor;
         public Color generalButtonColor;
         public Color menuButtonColor;
-        public Color menuButtonTextColor;
         public Color lockedNodeColor;
         public Color userPlacedNodeColor;
         public Color emptyNodeColor;
