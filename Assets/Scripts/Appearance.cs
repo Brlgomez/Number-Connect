@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class Appearance : MonoBehaviour
 {
-    public GameObject textPrefab, linePrefab, nodeHighlightPrefab, nodeFeedbackPrefab;
+    public GameObject textPrefab, nodeFeedbackPrefab;
     public GameObject textHolder, highlightHolder;
     public Image undo, erase, hint, direction;
     public List<Image> backgrounds;
@@ -20,7 +20,7 @@ public class Appearance : MonoBehaviour
     public GameObject settingNodes, settingText, settingLines;
 
     public GameObject startCircle, endCircle;
-    GameObject previousHighlight, nextHighlight;
+    public GameObject previousHighlight, nextHighlight;
 
     Themes.Theme currentTheme;
 
@@ -95,51 +95,45 @@ public class Appearance : MonoBehaviour
 
     public void DrawLine(GameObject previousNode, GameObject currentNode)
     {
-        GameObject newLine = Instantiate(linePrefab, GetComponent<BoardCreator>().boxHolders.transform, false);
+        GameObject newLine = previousNode.GetComponent<Node>().line;
         float lineX = (currentNode.transform.position.x + previousNode.transform.position.x) / 2;
         float lineY = (currentNode.transform.position.y + previousNode.transform.position.y) / 2;
         Vector2 currentNodePos = currentNode.GetComponent<Node>().position;
         Vector2 previousNodePos = previousNode.GetComponent<Node>().position;
-        newLine.GetComponent<Image>().color = currentTheme.highlightColor;
         newLine.transform.position = new Vector3(lineX, lineY, 0);
-        newLine.transform.SetParent(GetComponent<BoardCreator>().lineHolder.transform);
+        newLine.transform.eulerAngles = new Vector3(0, 0, 0);
         if ((int)previousNodePos.y == (int)currentNode.GetComponent<Node>().position.y)
         {
-            newLine.transform.Rotate(0, 0, 90);
+            newLine.transform.eulerAngles = new Vector3(0, 0, 90);
+            newLine.GetComponent<RectTransform>().sizeDelta = new Vector2(thicknessSlider.value, 60);
         }
         else if ((int)previousNodePos.x != (int)currentNodePos.x && GetComponent<BoardCreator>().GetDiagonal())
         {
             if (((int)previousNodePos.y - 1) == (int)currentNodePos.y &&
                 ((int)previousNodePos.x - 1) != (int)currentNodePos.x)
             {
-                newLine.transform.Rotate(0, 0, 45);
-                newLine.GetComponent<RectTransform>().sizeDelta = new Vector2(10, 80);
+                newLine.transform.eulerAngles = new Vector3(0, 0, 45);
+                newLine.GetComponent<RectTransform>().sizeDelta = new Vector2(thicknessSlider.value, 80);
             }
             else if (((int)previousNodePos.y + 1) == (int)currentNodePos.y &&
                      ((int)previousNodePos.x - 1) != (int)currentNodePos.x)
             {
-                newLine.transform.Rotate(0, 0, -45);
-                newLine.GetComponent<RectTransform>().sizeDelta = new Vector2(10, 80);
+                newLine.transform.eulerAngles = new Vector3(0, 0, -45);
+                newLine.GetComponent<RectTransform>().sizeDelta = new Vector2(thicknessSlider.value, 80);
             }
             else if (((int)previousNodePos.y - 1) == (int)currentNodePos.y &&
                      ((int)previousNodePos.x + 1) != (int)currentNodePos.x)
             {
-                newLine.transform.Rotate(0, 0, -45);
-                newLine.GetComponent<RectTransform>().sizeDelta = new Vector2(10, 80);
+                newLine.transform.eulerAngles = new Vector3(0, 0, -45);
+                newLine.GetComponent<RectTransform>().sizeDelta = new Vector2(thicknessSlider.value, 80);
             }
             else if (((int)previousNodePos.y + 1) == (int)currentNodePos.y &&
                      ((int)previousNodePos.x + 1) != (int)currentNodePos.x)
             {
-                newLine.transform.Rotate(0, 0, 45);
-                newLine.GetComponent<RectTransform>().sizeDelta = new Vector2(10, 80);
+                newLine.transform.eulerAngles = new Vector3(0, 0, 45);
+                newLine.GetComponent<RectTransform>().sizeDelta = new Vector2(thicknessSlider.value, 80);
             }
         }
-        SetLineThickness(newLine);
-        if (previousNode.GetComponent<Node>().line != null)
-        {
-            Destroy(previousNode.GetComponent<Node>().line);
-        }
-        previousNode.GetComponent<Node>().line = newLine;
         previousNode.GetComponent<Node>().nextNode = currentNode;
         currentNode.GetComponent<Node>().previousNode = previousNode;
     }
@@ -237,14 +231,8 @@ public class Appearance : MonoBehaviour
         }
         startCircle.GetComponent<Image>().color = currentTheme.highlightColor;
         endCircle.GetComponent<Image>().color = currentTheme.highlightColor;
-        if (nextHighlight != null)
-        {
-            nextHighlight.GetComponent<Image>().color = currentTheme.highlightColor;
-        }
-        if (previousHighlight != null)
-        {
-            previousHighlight.GetComponent<Image>().color = currentTheme.highlightColor;
-        }
+        nextHighlight.GetComponent<Image>().color = currentTheme.highlightColor;
+        previousHighlight.GetComponent<Image>().color = currentTheme.highlightColor;
         GetComponent<NumberScroller>().ChangeHighlightColor();
         int imageIndex = 0;
         switch (currentTheme.nameOfTheme)
@@ -329,7 +317,7 @@ public class Appearance : MonoBehaviour
         endCircle.transform.position = new Vector3(1000, 1000, 0);
     }
 
-    public void FindNextNumber(int value)
+    public void FindNextNumberForNodeHighlight(int value)
     {
         bool foundNext = false;
         bool foundPrevious = false;
@@ -363,13 +351,13 @@ public class Appearance : MonoBehaviour
                 break;
             }
         }
-        if (nextHighlight != null && !foundNext)
+        if (!foundNext)
         {
-            Destroy(nextHighlight);
+            nextHighlight.transform.position = new Vector3(1000, 1000, 0);
         }
-        if (previousHighlight != null && !foundPrevious)
+        if (!foundPrevious)
         {
-            Destroy(previousHighlight);
+            previousHighlight.transform.position = new Vector3(1000, 1000, 0);
         }
     }
 
@@ -377,50 +365,22 @@ public class Appearance : MonoBehaviour
     {
         if (next)
         {
-            if (nextHighlight == null)
-            {
-                GameObject nodeHighlight = Instantiate(nodeHighlightPrefab, node.transform);
-                nodeHighlight.transform.SetParent(highlightHolder.transform);
-                nodeHighlight.GetComponent<Image>().color = currentTheme.highlightColor;
-                nextHighlight = nodeHighlight;
-            }
-            else
-            {
-                nextHighlight.transform.SetParent(node.transform);
-                nextHighlight.transform.localPosition = Vector3.zero;
-                nextHighlight.transform.SetParent(highlightHolder.transform);
-            }
+            nextHighlight.transform.SetParent(node.transform);
+            nextHighlight.transform.localPosition = Vector3.zero;
+            nextHighlight.transform.SetParent(highlightHolder.transform);
         }
         else
         {
-            if (previousHighlight == null)
-            {
-                GameObject nodeHighlight = Instantiate(nodeHighlightPrefab, node.transform);
-                nodeHighlight.transform.SetParent(highlightHolder.transform);
-                nodeHighlight.GetComponent<Image>().color = currentTheme.highlightColor;
-                previousHighlight = nodeHighlight;
-            }
-            else
-            {
-                previousHighlight.transform.SetParent(node.transform);
-                previousHighlight.transform.localPosition = Vector3.zero;
-                previousHighlight.transform.SetParent(highlightHolder.transform);
-            }
+            previousHighlight.transform.SetParent(node.transform);
+            previousHighlight.transform.localPosition = Vector3.zero;
+            previousHighlight.transform.SetParent(highlightHolder.transform);
         }
     }
 
     public void RemoveNodeHighlight()
     {
-        if (nextHighlight != null)
-        {
-            Destroy(nextHighlight);
-        }
-        nextHighlight = null;
-        if (previousHighlight != null)
-        {
-            Destroy(previousHighlight);
-        }
-        previousHighlight = null;
+        previousHighlight.transform.position = new Vector3(1000, 1000, 0);
+        nextHighlight.transform.position = new Vector3(1000, 1000, 0);
     }
 
     public void MakeNodeHighlightClear(bool clear)

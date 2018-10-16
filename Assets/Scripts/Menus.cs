@@ -313,13 +313,11 @@ public class Menus : MonoBehaviour
             {
                 PlayerPrefs.SetInt(PlayerPrefsManager.showNodeHighlights, 1);
                 highlightSlider.GetComponent<SliderMovement>().SetGoTowards(1);
-                GetComponent<Appearance>().highlightHolder.SetActive(true);
             }
             else
             {
                 PlayerPrefs.SetInt(PlayerPrefsManager.showNodeHighlights, 0);
                 highlightSlider.GetComponent<SliderMovement>().SetGoTowards(0);
-                GetComponent<Appearance>().highlightHolder.SetActive(false);
             }
             PlayerPrefs.Save();
         }

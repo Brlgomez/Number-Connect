@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class BoardCreator : MonoBehaviour
 {
     public Canvas canvas;
-    public GameObject box;
+    public GameObject box, linePrefab;
     public GameObject boxHolders, lineHolder, textHolder;
     public Text difficulty;
     public GameObject undoButton;
@@ -149,6 +149,10 @@ public class BoardCreator : MonoBehaviour
             nextPosition.y
         );
         nextNode.GetComponent<Node>().value = i;
+        GameObject line = Instantiate(linePrefab, lineHolder.transform);
+        line.GetComponent<RectTransform>().sizeDelta = new Vector2(GetComponent<Appearance>().thicknessSlider.value, 60);
+        line.transform.position = new Vector3(1000, 1000, 0);
+        nextNode.GetComponent<Node>().line = line;
     }
 
     void AddValue(Vector2 value)
@@ -441,14 +445,12 @@ public class BoardCreator : MonoBehaviour
             }
             if (node.GetComponent<Node>().nextNode != null)
             {
-                Destroy(node.GetComponent<Node>().line);
-                node.GetComponent<Node>().line = null;
+                node.GetComponent<Node>().line.transform.position = new Vector3(1000, 1000, 0);
                 node.GetComponent<Node>().nextNode = null;
             }
             if (node.GetComponent<Node>().previousNode != null)
             {
-                Destroy(node.GetComponent<Node>().previousNode.GetComponent<Node>().line);
-                node.GetComponent<Node>().previousNode.GetComponent<Node>().line = null;
+                node.GetComponent<Node>().previousNode.GetComponent<Node>().line.transform.position = new Vector3(1000, 1000, 0);
                 node.GetComponent<Node>().previousNode.GetComponent<Node>().nextNode = null;
             }
             if (node.GetComponent<Node>().hinted == 1 && hintedNumbers.ContainsKey(node.GetComponent<Node>().value))
@@ -482,14 +484,12 @@ public class BoardCreator : MonoBehaviour
             }
             if (userPlacedNodes[value].GetComponent<Node>().nextNode != null)
             {
-                Destroy(userPlacedNodes[value].GetComponent<Node>().line);
-                userPlacedNodes[value].GetComponent<Node>().line = null;
+                userPlacedNodes[value].GetComponent<Node>().line.transform.position = new Vector3(1000, 1000, 0);
                 userPlacedNodes[value].GetComponent<Node>().nextNode = null;
             }
             if (userPlacedNodes[value].GetComponent<Node>().previousNode != null)
             {
-                Destroy(userPlacedNodes[value].GetComponent<Node>().previousNode.GetComponent<Node>().line);
-                userPlacedNodes[value].GetComponent<Node>().previousNode.GetComponent<Node>().line = null;
+                userPlacedNodes[value].GetComponent<Node>().previousNode.GetComponent<Node>().line.transform.position = new Vector3(1000, 1000, 0);
                 userPlacedNodes[value].GetComponent<Node>().previousNode.GetComponent<Node>().nextNode = null;
             }
             if (userPlacedNodes[value].GetComponent<Node>().hinted == 1 && hintedNumbers.ContainsKey(userPlacedNodes[value].GetComponent<Node>().value))

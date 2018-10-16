@@ -117,7 +117,7 @@ public class NumberScroller : MonoBehaviour
             }
             PlayerPrefs.SetInt(PlayerPrefsManager.highlightPosition, highLightedNumber.GetComponent<NumberButton>().index);
         }
-        GetComponent<Appearance>().FindNextNumber(highLightedValue);
+        GetComponent<Appearance>().FindNextNumberForNodeHighlight(highLightedValue);
     }
 
     public void HighlightNumber(int num)
