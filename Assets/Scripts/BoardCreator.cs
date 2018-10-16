@@ -150,7 +150,7 @@ public class BoardCreator : MonoBehaviour
         );
         nextNode.GetComponent<Node>().value = i;
         GameObject line = Instantiate(linePrefab, lineHolder.transform);
-        line.GetComponent<RectTransform>().sizeDelta = new Vector2(GetComponent<Appearance>().thicknessSlider.value, 60);
+        line.GetComponent<RectTransform>().sizeDelta = new Vector2(GetComponent<Menus>().thicknessSlider.value, 60);
         line.transform.position = new Vector3(1000, 1000, 0);
         nextNode.GetComponent<Node>().line = line;
     }

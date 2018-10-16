@@ -14,7 +14,6 @@ public class Appearance : MonoBehaviour
     public List<GameObject> buttonsFromMenus;
     public List<Image> sliderFill;
     public Image normalConnection, diagonalConnection, normalBoard, diagonalBoard;
-    public Slider thicknessSlider;
     public List<Sprite> normalConnectionSprites, diagonalConnectionSprites, normalBoardSprites, diagonalBoardSprites;
     public Text restartText;
     public GameObject settingNodes, settingText, settingLines;
@@ -48,8 +47,6 @@ public class Appearance : MonoBehaviour
         {
             GetComponent<Appearance>().RestartButtonSave();
         }
-        thicknessSlider.value = PlayerPrefs.GetInt(PlayerPrefsManager.lineThickness, 10);
-        ChangeSettingLinesThickness();
     }
 
     public void SetNodeToEmptyLook(GameObject node)
@@ -96,16 +93,16 @@ public class Appearance : MonoBehaviour
     public void DrawLine(GameObject previousNode, GameObject currentNode)
     {
         GameObject newLine = previousNode.GetComponent<Node>().line;
-        float lineX = (currentNode.transform.position.x + previousNode.transform.position.x) / 2;
-        float lineY = (currentNode.transform.position.y + previousNode.transform.position.y) / 2;
+        Vector3 linePos = (currentNode.transform.position + previousNode.transform.position) / 2;
         Vector2 currentNodePos = currentNode.GetComponent<Node>().position;
         Vector2 previousNodePos = previousNode.GetComponent<Node>().position;
-        newLine.transform.position = new Vector3(lineX, lineY, 0);
+        float thickness = newLine.GetComponent<RectTransform>().sizeDelta.x;
+        newLine.transform.position = linePos;
         newLine.transform.eulerAngles = new Vector3(0, 0, 0);
         if ((int)previousNodePos.y == (int)currentNode.GetComponent<Node>().position.y)
         {
             newLine.transform.eulerAngles = new Vector3(0, 0, 90);
-            newLine.GetComponent<RectTransform>().sizeDelta = new Vector2(thicknessSlider.value, 60);
+            newLine.GetComponent<RectTransform>().sizeDelta = new Vector2(thickness, 60);
         }
         else if ((int)previousNodePos.x != (int)currentNodePos.x && GetComponent<BoardCreator>().GetDiagonal())
         {
@@ -113,25 +110,25 @@ public class Appearance : MonoBehaviour
                 ((int)previousNodePos.x - 1) != (int)currentNodePos.x)
             {
                 newLine.transform.eulerAngles = new Vector3(0, 0, 45);
-                newLine.GetComponent<RectTransform>().sizeDelta = new Vector2(thicknessSlider.value, 80);
+                newLine.GetComponent<RectTransform>().sizeDelta = new Vector2(thickness, 80);
             }
             else if (((int)previousNodePos.y + 1) == (int)currentNodePos.y &&
                      ((int)previousNodePos.x - 1) != (int)currentNodePos.x)
             {
                 newLine.transform.eulerAngles = new Vector3(0, 0, -45);
-                newLine.GetComponent<RectTransform>().sizeDelta = new Vector2(thicknessSlider.value, 80);
+                newLine.GetComponent<RectTransform>().sizeDelta = new Vector2(thickness, 80);
             }
             else if (((int)previousNodePos.y - 1) == (int)currentNodePos.y &&
                      ((int)previousNodePos.x + 1) != (int)currentNodePos.x)
             {
                 newLine.transform.eulerAngles = new Vector3(0, 0, -45);
-                newLine.GetComponent<RectTransform>().sizeDelta = new Vector2(thicknessSlider.value, 80);
+                newLine.GetComponent<RectTransform>().sizeDelta = new Vector2(thickness, 80);
             }
             else if (((int)previousNodePos.y + 1) == (int)currentNodePos.y &&
                      ((int)previousNodePos.x + 1) != (int)currentNodePos.x)
             {
                 newLine.transform.eulerAngles = new Vector3(0, 0, 45);
-                newLine.GetComponent<RectTransform>().sizeDelta = new Vector2(thicknessSlider.value, 80);
+                newLine.GetComponent<RectTransform>().sizeDelta = new Vector2(thickness, 80);
             }
         }
         previousNode.GetComponent<Node>().nextNode = currentNode;
@@ -234,6 +231,12 @@ public class Appearance : MonoBehaviour
         nextHighlight.GetComponent<Image>().color = currentTheme.highlightColor;
         previousHighlight.GetComponent<Image>().color = currentTheme.highlightColor;
         GetComponent<NumberScroller>().ChangeHighlightColor();
+        ChangeHelpSprites();
+        ChangeSettingNodesColors();
+    }
+
+    void ChangeHelpSprites()
+    {
         int imageIndex = 0;
         switch (currentTheme.nameOfTheme)
         {
@@ -251,7 +254,27 @@ public class Appearance : MonoBehaviour
         diagonalConnection.sprite = diagonalConnectionSprites[imageIndex];
         normalBoard.sprite = normalBoardSprites[imageIndex];
         diagonalBoard.sprite = diagonalBoardSprites[imageIndex];
-        ChangeSettingNodesColors();
+    }
+
+    public void ChangeSettingNodesColors()
+    {
+        int i = 0;
+        while (i < settingNodes.transform.childCount)
+        {
+            settingNodes.transform.GetChild(i).GetComponent<Image>().color = currentTheme.lockedNodeColor;
+            settingLines.transform.GetChild(i).GetComponent<Image>().color = currentTheme.highlightColor;
+            settingText.transform.GetChild(i).GetComponent<Outline>().effectColor = currentTheme.lockedNodeColor;
+            if (i % 4 == 0)
+            {
+                settingText.transform.GetChild(i).GetComponent<Text>().color = currentTheme.lockedNodeTextColor;
+            }
+            else
+            {
+                settingText.transform.GetChild(i).GetComponent<Text>().color = currentTheme.userPlacedNodeTextColor;
+            }
+            i++;
+        }
+        settingLines.transform.GetChild(i - 1).GetComponent<Image>().color = currentTheme.highlightColor;
     }
 
     public void NodeFeedBack(Transform feedBackParent)
@@ -387,58 +410,44 @@ public class Appearance : MonoBehaviour
     {
         if (clear)
         {
-            if (nextHighlight != null)
-            {
-                nextHighlight.GetComponent<Image>().color = GetClearOfColor(nextHighlight.GetComponent<Image>().color);
-            }
-            if (previousHighlight != null)
-            {
-                previousHighlight.GetComponent<Image>().color = GetClearOfColor(previousHighlight.GetComponent<Image>().color);
-            }
+            nextHighlight.GetComponent<Image>().color = GetClearOfColor(nextHighlight.GetComponent<Image>().color);
+            previousHighlight.GetComponent<Image>().color = GetClearOfColor(previousHighlight.GetComponent<Image>().color);
         }
         else
         {
-            if (nextHighlight != null)
-            {
-                nextHighlight.GetComponent<Image>().color = GetOpaqueOfColor(nextHighlight.GetComponent<Image>().color);
-            }
-            if (previousHighlight != null)
-            {
-                previousHighlight.GetComponent<Image>().color = GetOpaqueOfColor(previousHighlight.GetComponent<Image>().color);
-            }
+            nextHighlight.GetComponent<Image>().color = GetOpaqueOfColor(nextHighlight.GetComponent<Image>().color);
+            previousHighlight.GetComponent<Image>().color = GetOpaqueOfColor(previousHighlight.GetComponent<Image>().color);
         }
     }
 
-    public void MovingThicknessSlider()
-    {
-        ChangeSettingLinesThickness();
-    }
-
-    public void SaveThickness()
-    {
-        if (PlayerPrefs.GetInt(PlayerPrefsManager.lineThickness, 10) != (int)thicknessSlider.value)
-        {
-            PlayerPrefs.SetInt(PlayerPrefsManager.lineThickness, (int)thicknessSlider.value);
-            ChangeLineThickness();
-        }
-    }
-
-    void ChangeLineThickness()
+    public void ChangeLineThickness()
     {
         GameObject lineHolder = GetComponent<BoardCreator>().lineHolder;
+        float thickness = GetComponent<Menus>().thicknessSlider.value;
         for (int i = 0; i < lineHolder.transform.childCount; i++)
         {
             if (lineHolder.transform.GetChild(i).name == "Line(Clone)")
             {
-                SetLineThickness(lineHolder.transform.GetChild(i).gameObject);
+                SetLineThickness(lineHolder.transform.GetChild(i).gameObject, thickness);
             }
         }
     }
 
-    void SetLineThickness(GameObject lineObj)
+    public void ChangeSettingLinesThickness(int thickness)
+    {
+        for (int i = 0; i < settingLines.transform.childCount; i++)
+        {
+            if (settingLines.name != "StartEndCircle(Clone)")
+            {
+                SetLineThickness(settingLines.transform.GetChild(i).gameObject, thickness);
+            }
+        }
+    }
+
+    void SetLineThickness(GameObject lineObj, float thickness)
     {
         Vector2 oldSize = lineObj.GetComponent<RectTransform>().sizeDelta;
-        lineObj.GetComponent<RectTransform>().sizeDelta = new Vector2(thicknessSlider.value, oldSize.y);
+        lineObj.GetComponent<RectTransform>().sizeDelta = new Vector2(thickness, oldSize.y);
     }
 
     public void RestartButtonNoSave()
@@ -451,49 +460,14 @@ public class Appearance : MonoBehaviour
         restartText.text = "Restart";
     }
 
-    Color GetClearOfColor(Color c)
+    public Color GetClearOfColor(Color c)
     {
         return new Color(c.r, c.g, c.b, 0);
     }
 
-    Color GetOpaqueOfColor(Color c)
+    public Color GetOpaqueOfColor(Color c)
     {
         return new Color(c.r, c.g, c.b, 1);
-    }
-
-    public void ChangeSettingNodesColors()
-    {
-        for (int i = 0; i < settingNodes.transform.childCount; i++)
-        {
-            settingNodes.transform.GetChild(i).GetComponent<Image>().color = currentTheme.lockedNodeColor;
-        }
-        for (int i = 0; i < settingText.transform.childCount; i++)
-        {
-            if (i % 4 == 0)
-            {
-                settingText.transform.GetChild(i).GetComponent<Text>().color = currentTheme.lockedNodeTextColor;
-            }
-            else
-            {
-                settingText.transform.GetChild(i).GetComponent<Text>().color = currentTheme.userPlacedNodeTextColor;
-            }
-            settingText.transform.GetChild(i).GetComponent<Outline>().effectColor = currentTheme.lockedNodeColor;
-        }
-        for (int i = 0; i < settingLines.transform.childCount; i++)
-        {
-            settingLines.transform.GetChild(i).GetComponent<Image>().color = currentTheme.highlightColor;
-        }
-    }
-
-    public void ChangeSettingLinesThickness()
-    {
-        for (int i = 0; i < settingLines.transform.childCount; i++)
-        {
-            if (settingLines.name != "StartEndCircle(Clone)")
-            {
-                SetLineThickness(settingLines.transform.GetChild(i).gameObject);
-            }
-        }
     }
 
     public Themes.Theme CurrentTheme()

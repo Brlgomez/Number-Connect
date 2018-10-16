@@ -14,6 +14,7 @@ public class Menus : MonoBehaviour
     public GameObject statsMenu;
     public GameObject howToPlayMenu;
     public GameObject soundEffectsSlider, timeSlider, lineSlider, highlightSlider;
+    public Slider thicknessSlider;
     public Text wins, bestTime, averageTime, currentWinStreak, longestWinStreak, hintCount, averageHintCount;
     public List<GameObject> difficultyButtons;
     int currentDifficultyIndex;
@@ -135,6 +136,8 @@ public class Menus : MonoBehaviour
             highlightSlider.GetComponent<Slider>().value = 1;
             GetComponent<Appearance>().highlightHolder.SetActive(true);
         }
+        thicknessSlider.value = PlayerPrefs.GetInt(PlayerPrefsManager.lineThickness, 10);
+        GetComponent<Appearance>().ChangeSettingLinesThickness((int)thicknessSlider.value);
         if (Application.platform == RuntimePlatform.Android)
         {
             ChangeMoreMenuForAndroid();
@@ -235,7 +238,7 @@ public class Menus : MonoBehaviour
 
     public void SettingsClose()
     {
-        GetComponent<Appearance>().SaveThickness();
+        GetComponent<Appearance>().ChangeLineThickness();
         settingsMenu.SetActive(false);
     }
 
@@ -321,6 +324,12 @@ public class Menus : MonoBehaviour
             }
             PlayerPrefs.Save();
         }
+    }
+
+    public void MovingThicknessSlider()
+    {
+        PlayerPrefs.SetInt(PlayerPrefsManager.lineThickness, (int)thicknessSlider.value);
+        GetComponent<Appearance>().ChangeSettingLinesThickness((int)thicknessSlider.value);
     }
 
     public void LightTheme()
