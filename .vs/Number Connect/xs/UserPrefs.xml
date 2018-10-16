@@ -2,11 +2,12 @@
   <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="Unity.Editor" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Appearance.cs">
     <Files>
-      <File FileName="Assets/Scripts/BoardCreator.cs" Line="305" Column="18" />
-      <File FileName="Assets/Scripts/Menus.cs" Line="191" Column="70" />
-      <File FileName="Assets/Scripts/NumberScroller.cs" Line="100" Column="70" />
-      <File FileName="Assets/Scripts/Appearance.cs" Line="653" Column="5" />
-      <File FileName="Assets/Scripts/Themes.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/BoardCreator.cs" Line="303" Column="1" />
+      <File FileName="Assets/Scripts/Menus.cs" Line="192" Column="16" />
+      <File FileName="Assets/Scripts/NumberScroller.cs" Line="78" Column="122" />
+      <File FileName="Assets/Scripts/GameWon.cs" Line="94" Column="17" />
+      <File FileName="Assets/Scripts/Themes.cs" Line="60" Column="7" />
+      <File FileName="Assets/Scripts/Appearance.cs" Line="256" Column="13" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />

@@ -24,7 +24,7 @@ public class GameWon : MonoBehaviour
         highlightColor = Camera.main.GetComponent<Appearance>().CurrentTheme().highlightColor;
         panelColor = Camera.main.GetComponent<Appearance>().CurrentTheme().panelColor;
         shineColor = Camera.main.GetComponent<Appearance>().CurrentTheme().lockedNodeColor;
-        textColor = Camera.main.GetComponent<Appearance>().CurrentTheme().menuButtonTextColor;
+        textColor = Camera.main.GetComponent<Appearance>().CurrentTheme().generalButtonColor;
 
         topPanel = top;
         bottomPanel = bottom;
@@ -97,7 +97,7 @@ public class GameWon : MonoBehaviour
         highlightColor = Camera.main.GetComponent<Appearance>().CurrentTheme().highlightColor;
         panelColor = Camera.main.GetComponent<Appearance>().CurrentTheme().panelColor;
         shineColor = Camera.main.GetComponent<Appearance>().CurrentTheme().lockedNodeColor;
-        textColor = Camera.main.GetComponent<Appearance>().CurrentTheme().menuButtonTextColor;
+        textColor = Camera.main.GetComponent<Appearance>().CurrentTheme().generalButtonColor;
         Camera.main.backgroundColor = highlightColor;
         shine.GetComponent<Image>().color = shineColor;
         var main = ps.main;

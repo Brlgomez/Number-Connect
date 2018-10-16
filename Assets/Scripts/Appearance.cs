@@ -5,43 +5,40 @@ using UnityEngine.UI;
 
 public class Appearance : MonoBehaviour
 {
-    public GameObject text, line;
+    public GameObject textPrefab, linePrefab, nodeHighlightPrefab, nodeFeedbackPrefab;
     public GameObject textHolder, highlightHolder;
-    Theme currentTheme;
-    Theme lightTheme, darkTheme, paperTheme;
     public Image undo, erase, hint, direction;
     public List<Image> backgrounds;
     public List<Image> panels;
     public List<Text> texts;
     public List<GameObject> buttonsFromMenus;
     public List<Image> sliderFill;
-    public GameObject startEndCirclePrefab, nodeHighlightPrefab;
-    public GameObject startCircle, endCircle;
-    public GameObject previousHighlight, nextHighlight;
     public Image normalConnection, diagonalConnection, normalBoard, diagonalBoard;
     public Slider thicknessSlider;
     public List<Sprite> normalConnectionSprites, diagonalConnectionSprites, normalBoardSprites, diagonalBoardSprites;
     public Text restartText;
     public GameObject settingNodes, settingText, settingLines;
 
-    public enum ThemeName { light, dark, paper };
+    public GameObject startCircle, endCircle;
+    GameObject previousHighlight, nextHighlight;
+
+    Themes.Theme currentTheme;
 
     void Awake()
     {
         Application.targetFrameRate = 60;
         string theme = PlayerPrefs.GetString(PlayerPrefsManager.currentTheme);
-        InitializeThemes();
-        if (theme == "" || theme == lightTheme.nameOfTheme.ToString())
+        if (theme == "" || theme == Themes.lightTheme.nameOfTheme.ToString())
         {
-            ChangeColors(lightTheme);
+            ChangeColors(Themes.lightTheme);
         }
-        else if (theme == darkTheme.nameOfTheme.ToString())
+        else if (theme == Themes.darkTheme.nameOfTheme.ToString())
         {
-            ChangeColors(darkTheme);
+            ChangeColors(Themes.darkTheme);
         }
-        else if (theme == paperTheme.nameOfTheme.ToString())
+        else if (theme == Themes.paperTheme.nameOfTheme.ToString())
         {
-            ChangeColors(paperTheme);
+            ChangeColors(Themes.paperTheme);
         }
         if (PlayerPrefs.GetInt(PlayerPrefsManager.boardCompleted, 0) == 1)
         {
@@ -55,52 +52,35 @@ public class Appearance : MonoBehaviour
         ChangeSettingLinesThickness();
     }
 
+    public void SetNodeToEmptyLook(GameObject node)
+    {
+        SetNode(node, currentTheme.emptyNodeColor, currentTheme.userPlacedNodeTextColor, "");
+    }
+
     public void SetNodeToLockedLook(GameObject node)
     {
-        node.GetComponent<Image>().color = currentTheme.lockedNodeColor;
-        if (node.GetComponent<Node>().text == null)
-        {
-            node.GetComponent<Node>().text = Instantiate(text, node.transform);
-            node.GetComponent<Node>().text.transform.SetParent(textHolder.transform);
-            node.GetComponent<Node>().text.GetComponent<Outline>().effectColor = currentTheme.lockedNodeColor;
-        }
-        if (node.GetComponent<Node>().line != null)
-        {
-            node.GetComponent<Node>().line.GetComponent<Image>().color = currentTheme.highlightColor;
-        }
-        node.GetComponent<Node>().text.GetComponentInChildren<Text>().text = node.GetComponent<Node>().value.ToString();
-        node.GetComponent<Node>().text.GetComponentInChildren<Text>().color = currentTheme.lockedNodeTextColor;
+        SetNode(node, currentTheme.lockedNodeColor, currentTheme.lockedNodeTextColor, node.GetComponent<Node>().value.ToString());
     }
 
     public void SetNodeToUserPlacedLook(GameObject node)
     {
-        if (node.GetComponent<Node>().text == null)
-        {
-            node.GetComponent<Node>().text = Instantiate(text, node.transform);
-            node.GetComponent<Node>().text.transform.SetParent(textHolder.transform);
-            node.GetComponent<Node>().text.GetComponent<Outline>().effectColor = currentTheme.lockedNodeColor;
-        }
-        if (node.GetComponent<Node>().line != null)
-        {
-            node.GetComponent<Node>().line.GetComponent<Image>().color = currentTheme.highlightColor;
-        }
-        node.GetComponent<Image>().color = currentTheme.userPlacedNodeColor;
-        node.GetComponent<Node>().text.GetComponentInChildren<Text>().text = node.GetComponent<Node>().userValue.ToString();
         if (node.GetComponent<Node>().hinted == 1)
         {
-            node.GetComponent<Node>().text.GetComponentInChildren<Text>().color = currentTheme.hintedNodeTextColor;
+            SetNode(node, currentTheme.userPlacedNodeColor,
+                    currentTheme.hintedNodeTextColor, node.GetComponent<Node>().userValue.ToString());
         }
         else
         {
-            node.GetComponent<Node>().text.GetComponentInChildren<Text>().color = currentTheme.userPlacedNodeTextColor;
+            SetNode(node, currentTheme.userPlacedNodeColor,
+                    currentTheme.userPlacedNodeTextColor, node.GetComponent<Node>().userValue.ToString());
         }
     }
 
-    public void SetNodeToEmptyLook(GameObject node)
+    void SetNode(GameObject node, Color nodeColor, Color nodeTextColor, string nodeText)
     {
         if (node.GetComponent<Node>().text == null)
         {
-            node.GetComponent<Node>().text = Instantiate(text, node.transform);
+            node.GetComponent<Node>().text = Instantiate(textPrefab, node.transform);
             node.GetComponent<Node>().text.transform.SetParent(textHolder.transform);
             node.GetComponent<Node>().text.GetComponent<Outline>().effectColor = currentTheme.lockedNodeColor;
         }
@@ -108,50 +88,50 @@ public class Appearance : MonoBehaviour
         {
             node.GetComponent<Node>().line.GetComponent<Image>().color = currentTheme.highlightColor;
         }
-        node.GetComponent<Image>().color = currentTheme.emptyNodeColor;
-        node.GetComponent<Node>().text.GetComponentInChildren<Text>().text = "";
+        node.GetComponent<Image>().color = nodeColor;
+        node.GetComponent<Node>().text.GetComponentInChildren<Text>().color = nodeTextColor;
+        node.GetComponent<Node>().text.GetComponentInChildren<Text>().text = nodeText;
     }
 
     public void DrawLine(GameObject previousNode, GameObject currentNode)
     {
-        GameObject newLine = Instantiate(line, GetComponent<BoardCreator>().boxHolders.transform, false);
+        GameObject newLine = Instantiate(linePrefab, GetComponent<BoardCreator>().boxHolders.transform, false);
         float lineX = (currentNode.transform.position.x + previousNode.transform.position.x) / 2;
         float lineY = (currentNode.transform.position.y + previousNode.transform.position.y) / 2;
+        Vector2 currentNodePos = currentNode.GetComponent<Node>().position;
+        Vector2 previousNodePos = previousNode.GetComponent<Node>().position;
         newLine.GetComponent<Image>().color = currentTheme.highlightColor;
         newLine.transform.position = new Vector3(lineX, lineY, 0);
         newLine.transform.SetParent(GetComponent<BoardCreator>().lineHolder.transform);
-        if ((int)previousNode.GetComponent<Node>().position.y == (int)currentNode.GetComponent<Node>().position.y)
+        if ((int)previousNodePos.y == (int)currentNode.GetComponent<Node>().position.y)
         {
             newLine.transform.Rotate(0, 0, 90);
         }
-        else if ((int)previousNode.GetComponent<Node>().position.x != (int)currentNode.GetComponent<Node>().position.x)
+        else if ((int)previousNodePos.x != (int)currentNodePos.x && GetComponent<BoardCreator>().GetDiagonal())
         {
-            if (GetComponent<BoardCreator>().GetDiagonal())
+            if (((int)previousNodePos.y - 1) == (int)currentNodePos.y &&
+                ((int)previousNodePos.x - 1) != (int)currentNodePos.x)
             {
-                if (((int)previousNode.GetComponent<Node>().position.y - 1) == (int)currentNode.GetComponent<Node>().position.y &&
-                    ((int)previousNode.GetComponent<Node>().position.x - 1) != (int)currentNode.GetComponent<Node>().position.x)
-                {
-                    newLine.transform.Rotate(0, 0, 45);
-                    newLine.GetComponent<RectTransform>().sizeDelta = new Vector2(10, 80);
-                }
-                else if (((int)previousNode.GetComponent<Node>().position.y + 1) == (int)currentNode.GetComponent<Node>().position.y &&
-                         ((int)previousNode.GetComponent<Node>().position.x - 1) != (int)currentNode.GetComponent<Node>().position.x)
-                {
-                    newLine.transform.Rotate(0, 0, -45);
-                    newLine.GetComponent<RectTransform>().sizeDelta = new Vector2(10, 80);
-                }
-                else if (((int)previousNode.GetComponent<Node>().position.y - 1) == (int)currentNode.GetComponent<Node>().position.y &&
-                         ((int)previousNode.GetComponent<Node>().position.x + 1) != (int)currentNode.GetComponent<Node>().position.x)
-                {
-                    newLine.transform.Rotate(0, 0, -45);
-                    newLine.GetComponent<RectTransform>().sizeDelta = new Vector2(10, 80);
-                }
-                else if (((int)previousNode.GetComponent<Node>().position.y + 1) == (int)currentNode.GetComponent<Node>().position.y &&
-                         ((int)previousNode.GetComponent<Node>().position.x + 1) != (int)currentNode.GetComponent<Node>().position.x)
-                {
-                    newLine.transform.Rotate(0, 0, 45);
-                    newLine.GetComponent<RectTransform>().sizeDelta = new Vector2(10, 80);
-                }
+                newLine.transform.Rotate(0, 0, 45);
+                newLine.GetComponent<RectTransform>().sizeDelta = new Vector2(10, 80);
+            }
+            else if (((int)previousNodePos.y + 1) == (int)currentNodePos.y &&
+                     ((int)previousNodePos.x - 1) != (int)currentNodePos.x)
+            {
+                newLine.transform.Rotate(0, 0, -45);
+                newLine.GetComponent<RectTransform>().sizeDelta = new Vector2(10, 80);
+            }
+            else if (((int)previousNodePos.y - 1) == (int)currentNodePos.y &&
+                     ((int)previousNodePos.x + 1) != (int)currentNodePos.x)
+            {
+                newLine.transform.Rotate(0, 0, -45);
+                newLine.GetComponent<RectTransform>().sizeDelta = new Vector2(10, 80);
+            }
+            else if (((int)previousNodePos.y + 1) == (int)currentNodePos.y &&
+                     ((int)previousNodePos.x + 1) != (int)currentNodePos.x)
+            {
+                newLine.transform.Rotate(0, 0, 45);
+                newLine.GetComponent<RectTransform>().sizeDelta = new Vector2(10, 80);
             }
         }
         SetLineThickness(newLine);
@@ -164,7 +144,7 @@ public class Appearance : MonoBehaviour
         currentNode.GetComponent<Node>().previousNode = previousNode;
     }
 
-    public void ChangeThemes(ThemeName name)
+    public void ChangeThemes(Themes.ThemeName name)
     {
         if (currentTheme.nameOfTheme != name)
         {
@@ -172,14 +152,14 @@ public class Appearance : MonoBehaviour
             PlayerPrefs.Save();
             switch (name)
             {
-                case ThemeName.light:
-                    ChangeColors(lightTheme);
+                case Themes.ThemeName.light:
+                    ChangeColors(Themes.lightTheme);
                     break;
-                case ThemeName.dark:
-                    ChangeColors(darkTheme);
+                case Themes.ThemeName.dark:
+                    ChangeColors(Themes.darkTheme);
                     break;
-                case ThemeName.paper:
-                    ChangeColors(paperTheme);
+                case Themes.ThemeName.paper:
+                    ChangeColors(Themes.paperTheme);
                     break;
             }
             if (GetComponent<GameWon>())
@@ -189,7 +169,7 @@ public class Appearance : MonoBehaviour
         }
     }
 
-    void ChangeColors(Theme newTheme)
+    void ChangeColors(Themes.Theme newTheme)
     {
         currentTheme = newTheme;
         Camera.main.backgroundColor = currentTheme.backgroundColor;
@@ -255,14 +235,8 @@ public class Appearance : MonoBehaviour
         {
             sliderFill[i].color = currentTheme.highlightColor;
         }
-        if (startCircle != null)
-        {
-            startCircle.GetComponent<Image>().color = currentTheme.highlightColor;
-        }
-        if (endCircle != null)
-        {
-            endCircle.GetComponent<Image>().color = currentTheme.highlightColor;
-        }
+        startCircle.GetComponent<Image>().color = currentTheme.highlightColor;
+        endCircle.GetComponent<Image>().color = currentTheme.highlightColor;
         if (nextHighlight != null)
         {
             nextHighlight.GetComponent<Image>().color = currentTheme.highlightColor;
@@ -275,13 +249,13 @@ public class Appearance : MonoBehaviour
         int imageIndex = 0;
         switch (currentTheme.nameOfTheme)
         {
-            case ThemeName.light:
+            case Themes.ThemeName.light:
                 imageIndex = 0;
                 break;
-            case ThemeName.dark:
+            case Themes.ThemeName.dark:
                 imageIndex = 1;
                 break;
-            case ThemeName.paper:
+            case Themes.ThemeName.paper:
                 imageIndex = 2;
                 break;
         }
@@ -292,12 +266,10 @@ public class Appearance : MonoBehaviour
         ChangeSettingNodesColors();
     }
 
-    public void NodeFeedBack(Transform node, GameObject box)
+    public void NodeFeedBack(Transform feedBackParent)
     {
-        GameObject feedback = Instantiate(box, node);
+        GameObject feedback = Instantiate(nodeFeedbackPrefab, feedBackParent);
         feedback.transform.SetParent(textHolder.transform);
-        Destroy(feedback.GetComponent<Node>());
-        Destroy(feedback.GetComponent<Button>());
         feedback.AddComponent<NodeFeedback>();
     }
 
@@ -329,24 +301,13 @@ public class Appearance : MonoBehaviour
 
     void CreateCircleSprite(bool start, GameObject node)
     {
-        GameObject circle = Instantiate(startEndCirclePrefab, node.transform);
-        circle.GetComponent<Image>().color = currentTheme.highlightColor;
-        circle.transform.SetParent(GetComponent<BoardCreator>().lineHolder.transform);
         if (start)
         {
-            if (startCircle != null)
-            {
-                Destroy(startCircle);
-            }
-            startCircle = circle;
+            startCircle.transform.position = node.transform.position;
         }
         else
         {
-            if (endCircle != null)
-            {
-                Destroy(endCircle);
-            }
-            endCircle = circle;
+            endCircle.transform.position = node.transform.position;
         }
     }
 
@@ -354,30 +315,18 @@ public class Appearance : MonoBehaviour
     {
         if (value == 1)
         {
-            if (startCircle != null)
-            {
-                Destroy(startCircle);
-            }
+            startCircle.transform.position = new Vector3(1000, 1000, 0);
         }
         else
         {
-            if (endCircle != null)
-            {
-                Destroy(endCircle);
-            }
+            endCircle.transform.position = new Vector3(1000, 1000, 0);
         }
     }
 
     public void DestroyAllCircles()
     {
-        if (startCircle != null)
-        {
-            Destroy(startCircle);
-        }
-        if (endCircle != null)
-        {
-            Destroy(endCircle);
-        }
+        startCircle.transform.position = new Vector3(1000, 1000, 0);
+        endCircle.transform.position = new Vector3(1000, 1000, 0);
     }
 
     public void FindNextNumber(int value)
@@ -587,79 +536,8 @@ public class Appearance : MonoBehaviour
         }
     }
 
-    void InitializeThemes()
-    {
-        lightTheme = new Theme
-        {
-            nameOfTheme = ThemeName.light,
-            backgroundColor = new Color(0.9f, 0.9f, 0.9f),
-            panelColor = new Color(1, 1, 1),
-
-            highlightColor = new Color(1, 0.5f, 0),
-            generalButtonColor = new Color(0, 0, 0),
-            menuButtonColor = new Color(1, 1, 1),
-
-            lockedNodeColor = new Color(1, 1, 1),
-            userPlacedNodeColor = new Color(1, 1, 1),
-            emptyNodeColor = new Color(0.75f, 0.75f, 0.75f),
-            lockedNodeTextColor = new Color(0.1f, 0.25f, 0.75f),
-            userPlacedNodeTextColor = new Color(0, 0, 0),
-            hintedNodeTextColor = new Color(0.2f, 0.5f, 0.2f)
-        };
-        darkTheme = new Theme
-        {
-            nameOfTheme = ThemeName.dark,
-            backgroundColor = new Color(0.125f, 0.125f, 0.125f),
-            panelColor = new Color(0.1f, 0.1f, 0.1f),
-
-            highlightColor = new Color(0.9f, 0.55f, 0.5f),
-            generalButtonColor = new Color(0.9f, 0.9f, 0.9f),
-            menuButtonColor = new Color(0.1f, 0.1f, 0.1f),
-
-            lockedNodeColor = new Color(0.4f, 0.4f, 0.4f),
-            userPlacedNodeColor = new Color(0.4f, 0.4f, 0.4f),
-            emptyNodeColor = new Color(0.2f, 0.2f, 0.2f),
-            lockedNodeTextColor = new Color(0.2f, 0.75f, 0.9f),
-            userPlacedNodeTextColor = new Color(0.9f, 0.9f, 0.9f),
-            hintedNodeTextColor = new Color(0.3f, 0.8f, 0.3f)
-        };
-        paperTheme = new Theme
-        {
-            nameOfTheme = ThemeName.paper,
-            backgroundColor = new Color(0.86f, 0.84f, 0.79f),
-            panelColor = new Color(0.97f, 0.94f, 0.89f),
-
-            highlightColor = new Color(0.47f, 0.67f, 0.76f),
-            generalButtonColor = new Color(0.3f, 0.2f, 0.12f),
-            menuButtonColor = new Color(0.97f, 0.94f, 0.89f),
-
-            lockedNodeColor = new Color(0.97f, 0.94f, 0.89f),
-            userPlacedNodeColor = new Color(0.97f, 0.94f, 0.89f),
-            emptyNodeColor = new Color(0.74f, 0.71f, 0.65f),
-            lockedNodeTextColor = new Color(0.9f, 0.25f, 0),
-            userPlacedNodeTextColor = new Color(0.3f, 0.2f, 0.12f),
-            hintedNodeTextColor = new Color(1, 0.61f, 0)
-        };
-    }
-
-    public Theme CurrentTheme()
+    public Themes.Theme CurrentTheme()
     {
         return currentTheme;
-    }
-
-    public class Theme
-    {
-        public ThemeName nameOfTheme;
-        public Color backgroundColor;
-        public Color panelColor;
-        public Color highlightColor;
-        public Color generalButtonColor;
-        public Color menuButtonColor;
-        public Color lockedNodeColor;
-        public Color userPlacedNodeColor;
-        public Color emptyNodeColor;
-        public Color lockedNodeTextColor;
-        public Color userPlacedNodeTextColor;
-        public Color hintedNodeTextColor;
     }
 }

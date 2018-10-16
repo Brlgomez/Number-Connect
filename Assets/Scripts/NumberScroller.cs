@@ -75,7 +75,7 @@ public class NumberScroller : MonoBehaviour
             }
             newButton.transform.localPosition = new Vector3(x, 0, 0);
             newButton.GetComponent<Image>().color = GetComponent<Appearance>().CurrentTheme().menuButtonColor;
-            newButton.GetComponentInChildren<Text>().color = GetComponent<Appearance>().CurrentTheme().menuButtonTextColor;
+            newButton.GetComponentInChildren<Text>().color = GetComponent<Appearance>().CurrentTheme().generalButtonColor;
             newButton.GetComponentInChildren<Text>().text = notPlacedNumbers[i].GetComponent<Node>().value.ToString();
             newButton.GetComponent<NumberButton>().value = notPlacedNumbers[i].GetComponent<Node>().value;
             newButton.GetComponent<NumberButton>().index = i;

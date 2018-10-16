@@ -23,13 +23,11 @@ public class BoardCreator : MonoBehaviour
     Dictionary<int, GameObject> lockedNodes = new Dictionary<int, GameObject>();
     List<GameObject> notPlacedNumbers = new List<GameObject>();
     Dictionary<int, GameObject> hintedNumbers = new Dictionary<int, GameObject>();
-
     List<TempNode.TempNodeValues> tempGameBoardAnswer = new List<TempNode.TempNodeValues>();
     Dictionary<Vector2, TempNode.TempNodeValues> tempGameBoardPositions = new Dictionary<Vector2, TempNode.TempNodeValues>();
 
     void Start()
     {
-        //PlayerPrefs.DeleteAll();
         undoButton.GetComponent<Button>().interactable = false;
         if (PlayerPrefs.GetInt(PlayerPrefsManager.boardSize) == 0)
         {
@@ -668,7 +666,7 @@ public class BoardCreator : MonoBehaviour
             {
                 GameObject randomNode = wrongAnswers[Random.Range(0, wrongAnswers.Count)];
                 AddNode(randomNode, randomNode.GetComponent<Node>().value, true, 1);
-                GetComponent<Appearance>().NodeFeedBack(randomNode.transform, box);
+                GetComponent<Appearance>().NodeFeedBack(randomNode.transform);
                 GetComponent<HapticFeedback>().SuccessTapticFeedback();
                 GetComponent<SoundManager>().PlayHintSound();
                 PlayerPrefs.SetInt(PlayerPrefsManager.currentHintCount, PlayerPrefs.GetInt(PlayerPrefsManager.currentHintCount, 0) + 1);

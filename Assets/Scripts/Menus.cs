@@ -165,6 +165,7 @@ public class Menus : MonoBehaviour
             GetComponent<BoardCreator>().boxHolders.SetActive(false);
             GetComponent<BoardCreator>().textHolder.SetActive(false);
             GetComponent<BoardCreator>().lineHolder.SetActive(false);
+            GetComponent<Appearance>().highlightHolder.SetActive(false);
         }
         GetComponent<NumberScroller>().scrollView.StopMovement();
         newGameMenu.SetActive(true);
@@ -179,6 +180,10 @@ public class Menus : MonoBehaviour
         {
             GetComponent<BoardCreator>().lineHolder.SetActive(true);
         }
+        if (PlayerPrefs.GetInt(PlayerPrefsManager.showNodeHighlights, 0) == 1)
+        {
+            GetComponent<Appearance>().highlightHolder.SetActive(true);
+        }
         newGameMenu.SetActive(false);
     }
 
@@ -190,6 +195,7 @@ public class Menus : MonoBehaviour
             GetComponent<BoardCreator>().boxHolders.SetActive(false);
             GetComponent<BoardCreator>().textHolder.SetActive(false);
             GetComponent<BoardCreator>().lineHolder.SetActive(false);
+            GetComponent<Appearance>().highlightHolder.SetActive(false);
         }
         GetComponent<NumberScroller>().scrollView.StopMovement();
         moreMenu.SetActive(true);
@@ -203,6 +209,10 @@ public class Menus : MonoBehaviour
         if (PlayerPrefs.GetInt(PlayerPrefsManager.showLines, 1) == 1)
         {
             GetComponent<BoardCreator>().lineHolder.SetActive(true);
+        }
+        if (PlayerPrefs.GetInt(PlayerPrefsManager.showNodeHighlights, 0) == 1)
+        {
+            GetComponent<Appearance>().highlightHolder.SetActive(true);
         }
         moreMenu.SetActive(false);
     }
@@ -317,17 +327,17 @@ public class Menus : MonoBehaviour
 
     public void LightTheme()
     {
-        GetComponent<Appearance>().ChangeThemes(Appearance.ThemeName.light);
+        GetComponent<Appearance>().ChangeThemes(Themes.ThemeName.light);
     }
 
     public void DarkTheme()
     {
-        GetComponent<Appearance>().ChangeThemes(Appearance.ThemeName.dark);
+        GetComponent<Appearance>().ChangeThemes(Themes.ThemeName.dark);
     }
 
     public void PaperTheme()
     {
-        GetComponent<Appearance>().ChangeThemes(Appearance.ThemeName.paper);
+        GetComponent<Appearance>().ChangeThemes(Themes.ThemeName.paper);
     }
 
     public void StatsOpen()
