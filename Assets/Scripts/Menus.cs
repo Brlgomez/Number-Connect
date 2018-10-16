@@ -160,9 +160,12 @@ public class Menus : MonoBehaviour
     public void NewGameMenuOpen()
     {
         GetComponent<Timer>().PauseTimer();
-        GetComponent<BoardCreator>().boxHolders.SetActive(false);
-        GetComponent<BoardCreator>().textHolder.SetActive(false);
-        GetComponent<BoardCreator>().lineHolder.SetActive(false);
+        if (!GetComponent<BoardCreator>().GetWinStatus())
+        {
+            GetComponent<BoardCreator>().boxHolders.SetActive(false);
+            GetComponent<BoardCreator>().textHolder.SetActive(false);
+            GetComponent<BoardCreator>().lineHolder.SetActive(false);
+        }
         GetComponent<NumberScroller>().scrollView.StopMovement();
         newGameMenu.SetActive(true);
     }
@@ -182,9 +185,12 @@ public class Menus : MonoBehaviour
     public void MoreMenuOpen()
     {
         GetComponent<Timer>().PauseTimer();
-        GetComponent<BoardCreator>().boxHolders.SetActive(false);
-        GetComponent<BoardCreator>().textHolder.SetActive(false);
-        GetComponent<BoardCreator>().lineHolder.SetActive(false);
+        if (!GetComponent<BoardCreator>().GetWinStatus())
+        {
+            GetComponent<BoardCreator>().boxHolders.SetActive(false);
+            GetComponent<BoardCreator>().textHolder.SetActive(false);
+            GetComponent<BoardCreator>().lineHolder.SetActive(false);
+        }
         GetComponent<NumberScroller>().scrollView.StopMovement();
         moreMenu.SetActive(true);
     }
@@ -275,14 +281,12 @@ public class Menus : MonoBehaviour
             {
                 PlayerPrefs.SetInt(PlayerPrefsManager.showLines, 1);
                 lineSlider.GetComponent<SliderMovement>().SetGoTowards(1);
-                GetComponent<BoardCreator>().lineHolder.SetActive(true);
                 GetComponent<Appearance>().settingLines.SetActive(true);
             }
             else
             {
                 PlayerPrefs.SetInt(PlayerPrefsManager.showLines, 0);
                 lineSlider.GetComponent<SliderMovement>().SetGoTowards(0);
-                GetComponent<BoardCreator>().lineHolder.SetActive(false);
                 GetComponent<Appearance>().settingLines.SetActive(false);
             }
             PlayerPrefs.Save();

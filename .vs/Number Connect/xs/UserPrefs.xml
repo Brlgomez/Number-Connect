@@ -1,18 +1,12 @@
-﻿<Properties StartupConfiguration="{EC8A5154-7D29-C66E-AADB-C91F976E88C1}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Menus.cs">
+﻿<Properties StartupConfiguration="{A22684FD-FA70-3D94-B894-34E76F112B5D}|">
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="Unity.Editor" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/NumberScroller.cs">
     <Files>
-      <File FileName="Assets/Scripts/BoardCreator.cs" Line="61" Column="14" />
+      <File FileName="Assets/Scripts/BoardCreator.cs" Line="305" Column="18" />
       <File FileName="Assets/Scripts/Appearance.cs" Line="540" Column="17" />
-      <File FileName="Assets/Scripts/Menus.cs" Line="20" Column="34" />
-      <File FileName="Assets/Scripts/NumberScroller.cs" Line="94" Column="39" />
-      <File FileName="Assets/Scripts/Timer.cs" Line="76" Column="22" />
-      <File FileName="Assets/Scripts/PlayerPrefsManager.cs" Line="75" Column="13" />
-      <File FileName="Assets/Scripts/IAPManager.cs" Line="9" Column="57" />
-      <File FileName="Assets/Scripts/UnityAds.cs" Line="12" Column="23" />
-      <File FileName="Assets/Scripts/LeaderboardsManager.cs" Line="52" Column="14" />
-      <File FileName="Assets/Scripts/SoundManager.cs" Line="49" Column="85" />
-      <File FileName="Assets/Scripts/CongratsScreenManager.cs" Line="31" Column="29" />
-      <File FileName="Assets/Scripts/GameWon.cs" Line="42" Column="38" />
+      <File FileName="Assets/Scripts/Menus.cs" Line="191" Column="70" />
+      <File FileName="Assets/Scripts/NumberScroller.cs" Line="100" Column="70" />
+      <File FileName="Assets/Scripts/PinchAndZoom.cs" Line="71" Column="13" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
