@@ -140,7 +140,6 @@ public class Appearance : MonoBehaviour
         if (currentTheme.nameOfTheme != name)
         {
             PlayerPrefs.SetString(PlayerPrefsManager.currentTheme, name.ToString());
-            PlayerPrefs.Save();
             switch (name)
             {
                 case Themes.ThemeName.light:

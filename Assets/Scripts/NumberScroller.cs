@@ -14,7 +14,6 @@ public class NumberScroller : MonoBehaviour
     static float numberButtonSize = 100;
     GameObject highLightedNumber;
     int highLightedValue;
-    GameObject firstButton;
     List<GameObject> numberButtonList = new List<GameObject>();
     List<GameObject> notPlacedNumbers;
     Dictionary<int, int> indexList = new Dictionary<int, int>();
@@ -84,7 +83,6 @@ public class NumberScroller : MonoBehaviour
             if (i == 0)
             {
                 ChangeHighlightedNumber(newButton, false);
-                firstButton = newButton;
             }
         }
     }
@@ -129,11 +127,6 @@ public class NumberScroller : MonoBehaviour
         }
     }
 
-    public int GetHighLightedValue()
-    {
-        return highLightedValue;
-    }
-
     public void GoToNextNumber()
     {
         int currentNumber = highLightedNumber.GetComponent<NumberButton>().index;
@@ -169,7 +162,7 @@ public class NumberScroller : MonoBehaviour
         }
     }
 
-    public void GoToNearbyNumber(int value)
+    public void GoToNearbyNumberByNodeValue(int value)
     {
         if (direction == 1)
         {
@@ -245,7 +238,7 @@ public class NumberScroller : MonoBehaviour
 
     public void GoToFirstButton()
     {
-        ChangeHighlightedNumber(firstButton, true);
+        ChangeHighlightedNumber(numberButtonList[0], true);
     }
 
     public void ClearNumberScroller()
@@ -270,6 +263,11 @@ public class NumberScroller : MonoBehaviour
     public GameObject GetContent()
     {
         return content;
+    }
+
+    public int GetHighLightedValue()
+    {
+        return highLightedValue;
     }
 
     public void ChangeHighlightColor()

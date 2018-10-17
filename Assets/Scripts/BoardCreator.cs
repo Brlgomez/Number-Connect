@@ -324,7 +324,7 @@ public class BoardCreator : MonoBehaviour
             }
             else
             {
-                GetComponent<NumberScroller>().GoToNearbyNumber(node.GetComponent<Node>().value);
+                GetComponent<NumberScroller>().GoToNearbyNumberByNodeValue(node.GetComponent<Node>().value);
                 GetComponent<HapticFeedback>().MediumTapticFeedback();
                 GetComponent<SoundManager>().PlayScrollSound();
             }
@@ -794,7 +794,6 @@ public class BoardCreator : MonoBehaviour
     {
         PlayerPrefs.SetInt(index + PlayerPrefsManager.hinted, gameBoardAnswer[index].GetComponent<Node>().hinted);
         PlayerPrefs.SetInt(index + PlayerPrefsManager.userValue, gameBoardAnswer[index].GetComponent<Node>().userValue);
-        PlayerPrefs.Save();
     }
 
     public void Load()

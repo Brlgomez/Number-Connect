@@ -229,12 +229,15 @@ public class Menus : MonoBehaviour
     public void SettingsOpen()
     {
         settingsMenu.SetActive(true);
+        moreMenu.SetActive(false);
     }
 
     public void SettingsClose()
     {
         GetComponent<Appearance>().ChangeLineThickness();
         settingsMenu.SetActive(false);
+        moreMenu.SetActive(true);
+        PlayerPrefs.Save();
     }
 
     public void SoundEffects()
@@ -252,7 +255,6 @@ public class Menus : MonoBehaviour
                 PlayerPrefs.SetInt(PlayerPrefsManager.soundEffects, 0);
                 soundEffectsSlider.GetComponent<SliderMovement>().SetGoTowards(0);
             }
-            PlayerPrefs.Save();
         }
     }
 
@@ -273,7 +275,6 @@ public class Menus : MonoBehaviour
                 timeSlider.GetComponent<SliderMovement>().SetGoTowards(0);
                 GetComponent<Timer>().timerText.gameObject.SetActive(false);
             }
-            PlayerPrefs.Save();
         }
     }
 
@@ -294,7 +295,6 @@ public class Menus : MonoBehaviour
                 lineSlider.GetComponent<SliderMovement>().SetGoTowards(0);
                 GetComponent<Appearance>().settingLines.SetActive(false);
             }
-            PlayerPrefs.Save();
         }
     }
 
@@ -313,7 +313,6 @@ public class Menus : MonoBehaviour
                 PlayerPrefs.SetInt(PlayerPrefsManager.showNodeHighlights, 0);
                 highlightSlider.GetComponent<SliderMovement>().SetGoTowards(0);
             }
-            PlayerPrefs.Save();
         }
     }
 
@@ -346,12 +345,14 @@ public class Menus : MonoBehaviour
     {
         statsMenu.SetActive(true);
         StatsEasy();
+        moreMenu.SetActive(false);
     }
 
     public void StatsClose()
     {
         statsMenu.SetActive(false);
         CloseConfirmation();
+        moreMenu.SetActive(true);
     }
 
     public void StatsEasy()
@@ -472,11 +473,13 @@ public class Menus : MonoBehaviour
     public void HowToPlayOpen()
     {
         howToPlayMenu.SetActive(true);
+        moreMenu.SetActive(false);
     }
 
     public void HowToPlayClose()
     {
         howToPlayMenu.SetActive(false);
+        moreMenu.SetActive(true);
     }
 
     public void FirstPlayPopUpOpen()

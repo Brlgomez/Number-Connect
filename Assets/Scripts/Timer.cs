@@ -1,10 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class Timer : MonoBehaviour
 {
+    static int timeToSave = 60;
     public Text timerText;
     float time;
     int tempTime;
@@ -20,6 +19,10 @@ public class Timer : MonoBehaviour
             {
                 timerText.text = ConvertTimeNoMilliseconds(time);
                 SaveTime();
+                if (Mathf.FloorToInt(time) % timeToSave == 0)
+                {
+                    PlayerPrefs.Save();
+                }
             }
             tempTime = Mathf.FloorToInt(time);
         }
