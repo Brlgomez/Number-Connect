@@ -157,34 +157,40 @@ public class Menus : MonoBehaviour
 
     void SetDifficulty(Difficulties.Difficulty diff)
     {
-        PlayerPrefs.SetInt(PlayerPrefsManager.boardCompleted, 0);
-        PlayerPrefs.SetInt(PlayerPrefsManager.currentHintCount, 0);
-        PlayerPrefs.SetInt(PlayerPrefsManager.hintCount, 1);
-        GetComponent<Appearance>().DestroyAllCircles();
-        GetComponent<Appearance>().hint.gameObject.GetComponent<UnityAds>().SetHint(1);
-        CheckIfRestartCurrentWinStreak();
-        GetComponent<BoardCreator>().ClearBoard();
-        GetComponent<BoardCreator>().NewBoard(diff.boardCount, diff.percentageEmpty, diff.name, diff.maxBoardSize, diff.diagonals);
-        GetComponent<NumberScroller>().ClearNumberScroller();
-        GetComponent<NumberScroller>().SetUpNumberScroller();
-        GetComponent<NumberScroller>().GoToFirstButton();
-        GetComponent<Appearance>().RestartButtonSave();
-        NewGameMenuClose();
-        if (diff.diagonals)
+        if (!newGameMenu.GetComponent<MenuTransitionOn>() && !newGameMenu.GetComponent<MenuTransitionOff>())
         {
-            if (PlayerPrefs.GetInt(PlayerPrefsManager.plusFirstStartUp) == 0)
+            PlayerPrefs.SetInt(PlayerPrefsManager.boardCompleted, 0);
+            PlayerPrefs.SetInt(PlayerPrefsManager.currentHintCount, 0);
+            PlayerPrefs.SetInt(PlayerPrefsManager.hintCount, 1);
+            GetComponent<Appearance>().DestroyAllCircles();
+            GetComponent<Appearance>().hint.gameObject.GetComponent<UnityAds>().SetHint(1);
+            CheckIfRestartCurrentWinStreak();
+            GetComponent<BoardCreator>().ClearBoard();
+            GetComponent<BoardCreator>().NewBoard(diff.boardCount, diff.percentageEmpty, diff.name, diff.maxBoardSize, diff.diagonals);
+            GetComponent<NumberScroller>().ClearNumberScroller();
+            GetComponent<NumberScroller>().SetUpNumberScroller();
+            GetComponent<NumberScroller>().GoToFirstButton();
+            GetComponent<Appearance>().RestartButtonSave();
+            NewGameMenuClose();
+            if (diff.diagonals)
             {
-                PlusFirstPlayPopUpOpen();
+                if (PlayerPrefs.GetInt(PlayerPrefsManager.plusFirstStartUp) == 0)
+                {
+                    PlusFirstPlayPopUpOpen();
+                }
             }
         }
     }
 
     public void Restart()
     {
-        CheckIfRestartCurrentWinStreak();
-        GetComponent<Appearance>().DestroyAllCircles();
-        GetComponent<BoardCreator>().Restart();
-        NewGameMenuClose();
+        if (!newGameMenu.GetComponent<MenuTransitionOn>() && !newGameMenu.GetComponent<MenuTransitionOff>())
+        {
+            CheckIfRestartCurrentWinStreak();
+            GetComponent<Appearance>().DestroyAllCircles();
+            GetComponent<BoardCreator>().Restart();
+            NewGameMenuClose();
+        }
     }
 
     void CheckIfRestartCurrentWinStreak()

@@ -26,8 +26,8 @@ public class MenuTransitionOff : MonoBehaviour
 
     void Update()
     {
-        time += Time.deltaTime * speed;
-        alpha -= Time.deltaTime * backgroundSpeed;
+        time += Time.smoothDeltaTime * speed;
+        alpha -= Time.smoothDeltaTime * backgroundSpeed;
         holder.transform.position = Vector3.Lerp(holder.transform.position, newPosition, time);
         if (alpha > newColor.a)
         {

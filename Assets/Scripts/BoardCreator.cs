@@ -118,7 +118,7 @@ public class BoardCreator : MonoBehaviour
         tempGameBoardPositions.Clear();
         CheckCompletedBoard();
         ShiftBoard();
-        Save();
+        //Save();
     }
 
     List<Vector2> GetListOfPositions(bool isDiagonal)
@@ -756,7 +756,7 @@ public class BoardCreator : MonoBehaviour
         }
         GetComponent<UserAction>().ClearActions();
         undoButton.GetComponent<Button>().interactable = false;
-        Save();
+        //Save();
     }
 
     public void Save()
