@@ -80,32 +80,39 @@ public class Menus : MonoBehaviour
 
     public void NewGameMenuOpen()
     {
-        GetComponent<Timer>().PauseTimer();
-        if (!GetComponent<BoardCreator>().GetWinStatus())
+        if (!newGameMenu.GetComponent<MenuTransitionOn>() && !newGameMenu.GetComponent<MenuTransitionOff>())
         {
-            GetComponent<BoardCreator>().boxHolders.SetActive(false);
-            GetComponent<BoardCreator>().textHolder.SetActive(false);
-            GetComponent<BoardCreator>().lineHolder.SetActive(false);
-            GetComponent<Appearance>().highlightHolder.SetActive(false);
+            newGameMenu.AddComponent<MenuTransitionOn>();
+            GetComponent<Timer>().PauseTimer();
+            if (!GetComponent<BoardCreator>().GetWinStatus())
+            {
+                GetComponent<BoardCreator>().boxHolders.SetActive(false);
+                GetComponent<BoardCreator>().textHolder.SetActive(false);
+                GetComponent<BoardCreator>().lineHolder.SetActive(false);
+                GetComponent<Appearance>().highlightHolder.SetActive(false);
+            }
+            GetComponent<NumberScroller>().scrollView.StopMovement();
+            newGameMenu.SetActive(true);
         }
-        GetComponent<NumberScroller>().scrollView.StopMovement();
-        newGameMenu.SetActive(true);
     }
 
     public void NewGameMenuClose()
     {
-        GetComponent<Timer>().UnPauseTimer();
-        GetComponent<BoardCreator>().boxHolders.SetActive(true);
-        GetComponent<BoardCreator>().textHolder.SetActive(true);
-        if (PlayerPrefs.GetInt(PlayerPrefsManager.showLines, 1) == 1)
+        if (!newGameMenu.GetComponent<MenuTransitionOn>() && !newGameMenu.GetComponent<MenuTransitionOff>())
         {
-            GetComponent<BoardCreator>().lineHolder.SetActive(true);
+            newGameMenu.AddComponent<MenuTransitionOff>();
+            GetComponent<Timer>().UnPauseTimer();
+            GetComponent<BoardCreator>().boxHolders.SetActive(true);
+            GetComponent<BoardCreator>().textHolder.SetActive(true);
+            if (PlayerPrefs.GetInt(PlayerPrefsManager.showLines, 1) == 1)
+            {
+                GetComponent<BoardCreator>().lineHolder.SetActive(true);
+            }
+            if (PlayerPrefs.GetInt(PlayerPrefsManager.showNodeHighlights, 0) == 1)
+            {
+                GetComponent<Appearance>().highlightHolder.SetActive(true);
+            }
         }
-        if (PlayerPrefs.GetInt(PlayerPrefsManager.showNodeHighlights, 0) == 1)
-        {
-            GetComponent<Appearance>().highlightHolder.SetActive(true);
-        }
-        newGameMenu.SetActive(false);
     }
 
     public void Easy()
@@ -194,32 +201,39 @@ public class Menus : MonoBehaviour
 
     public void MoreMenuOpen()
     {
-        GetComponent<Timer>().PauseTimer();
-        if (!GetComponent<BoardCreator>().GetWinStatus())
+        if (!moreMenu.GetComponent<MenuTransitionOn>() && !moreMenu.GetComponent<MenuTransitionOff>())
         {
-            GetComponent<BoardCreator>().boxHolders.SetActive(false);
-            GetComponent<BoardCreator>().textHolder.SetActive(false);
-            GetComponent<BoardCreator>().lineHolder.SetActive(false);
-            GetComponent<Appearance>().highlightHolder.SetActive(false);
+            moreMenu.AddComponent<MenuTransitionOn>();
+            GetComponent<Timer>().PauseTimer();
+            if (!GetComponent<BoardCreator>().GetWinStatus())
+            {
+                GetComponent<BoardCreator>().boxHolders.SetActive(false);
+                GetComponent<BoardCreator>().textHolder.SetActive(false);
+                GetComponent<BoardCreator>().lineHolder.SetActive(false);
+                GetComponent<Appearance>().highlightHolder.SetActive(false);
+            }
+            GetComponent<NumberScroller>().scrollView.StopMovement();
+            moreMenu.SetActive(true);
         }
-        GetComponent<NumberScroller>().scrollView.StopMovement();
-        moreMenu.SetActive(true);
     }
 
     public void MoreMenuClose()
     {
-        GetComponent<Timer>().UnPauseTimer();
-        GetComponent<BoardCreator>().boxHolders.SetActive(true);
-        GetComponent<BoardCreator>().textHolder.SetActive(true);
-        if (PlayerPrefs.GetInt(PlayerPrefsManager.showLines, 1) == 1)
+        if (!moreMenu.GetComponent<MenuTransitionOn>() && !moreMenu.GetComponent<MenuTransitionOff>())
         {
-            GetComponent<BoardCreator>().lineHolder.SetActive(true);
+            moreMenu.AddComponent<MenuTransitionOff>();
+            GetComponent<Timer>().UnPauseTimer();
+            GetComponent<BoardCreator>().boxHolders.SetActive(true);
+            GetComponent<BoardCreator>().textHolder.SetActive(true);
+            if (PlayerPrefs.GetInt(PlayerPrefsManager.showLines, 1) == 1)
+            {
+                GetComponent<BoardCreator>().lineHolder.SetActive(true);
+            }
+            if (PlayerPrefs.GetInt(PlayerPrefsManager.showNodeHighlights, 0) == 1)
+            {
+                GetComponent<Appearance>().highlightHolder.SetActive(true);
+            }
         }
-        if (PlayerPrefs.GetInt(PlayerPrefsManager.showNodeHighlights, 0) == 1)
-        {
-            GetComponent<Appearance>().highlightHolder.SetActive(true);
-        }
-        moreMenu.SetActive(false);
     }
 
     /*
@@ -228,16 +242,21 @@ public class Menus : MonoBehaviour
 
     public void SettingsOpen()
     {
-        settingsMenu.SetActive(true);
-        moreMenu.SetActive(false);
+        if (!settingsMenu.GetComponent<MenuTransitionOn>() && !settingsMenu.GetComponent<MenuTransitionOff>())
+        {
+            settingsMenu.AddComponent<MenuTransitionOn>();
+            settingsMenu.SetActive(true);
+        }
     }
 
     public void SettingsClose()
     {
-        GetComponent<Appearance>().ChangeLineThickness();
-        settingsMenu.SetActive(false);
-        moreMenu.SetActive(true);
-        PlayerPrefs.Save();
+        if (!settingsMenu.GetComponent<MenuTransitionOn>() && !settingsMenu.GetComponent<MenuTransitionOff>())
+        {
+            settingsMenu.AddComponent<MenuTransitionOff>();
+            GetComponent<Appearance>().ChangeLineThickness();
+            PlayerPrefs.Save();
+        }
     }
 
     public void SoundEffects()
@@ -343,16 +362,21 @@ public class Menus : MonoBehaviour
 
     public void StatsOpen()
     {
-        statsMenu.SetActive(true);
-        StatsEasy();
-        moreMenu.SetActive(false);
+        if (!statsMenu.GetComponent<MenuTransitionOn>() && !statsMenu.GetComponent<MenuTransitionOff>())
+        {
+            statsMenu.AddComponent<MenuTransitionOn>();
+            statsMenu.SetActive(true);
+            StatsEasy();
+        }
     }
 
     public void StatsClose()
     {
-        statsMenu.SetActive(false);
-        CloseConfirmation();
-        moreMenu.SetActive(true);
+        if (!statsMenu.GetComponent<MenuTransitionOn>() && !statsMenu.GetComponent<MenuTransitionOff>())
+        {
+            statsMenu.AddComponent<MenuTransitionOff>();
+            CloseConfirmation();
+        }
     }
 
     public void StatsEasy()
@@ -472,14 +496,19 @@ public class Menus : MonoBehaviour
 
     public void HowToPlayOpen()
     {
-        howToPlayMenu.SetActive(true);
-        moreMenu.SetActive(false);
+        if (!howToPlayMenu.GetComponent<MenuTransitionOn>() && !howToPlayMenu.GetComponent<MenuTransitionOff>())
+        {
+            howToPlayMenu.AddComponent<MenuTransitionOn>();
+            howToPlayMenu.SetActive(true);
+        }
     }
 
     public void HowToPlayClose()
     {
-        howToPlayMenu.SetActive(false);
-        moreMenu.SetActive(true);
+        if (!howToPlayMenu.GetComponent<MenuTransitionOn>() && !howToPlayMenu.GetComponent<MenuTransitionOff>())
+        {
+            howToPlayMenu.AddComponent<MenuTransitionOff>();
+        }
     }
 
     public void FirstPlayPopUpOpen()
