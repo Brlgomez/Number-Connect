@@ -22,7 +22,7 @@ public class Difficulties : MonoBehaviour
     {
         name = "Medium",
         boardCount = 110,
-        maxBoardSize = 13,
+        maxBoardSize = 14,
         percentageEmpty = 0.85f,
         diagonals = false
     };
@@ -46,7 +46,7 @@ public class Difficulties : MonoBehaviour
     {
         name = "Easy +",
         boardCount = 60,
-        maxBoardSize = 14,
+        maxBoardSize = 13,
         percentageEmpty = 0.75f,
         diagonals = true
     };
@@ -54,7 +54,7 @@ public class Difficulties : MonoBehaviour
     {
         name = "Medium +",
         boardCount = 80,
-        maxBoardSize = 14,
+        maxBoardSize = 13,
         percentageEmpty = 0.80f,
         diagonals = true
     };
@@ -62,7 +62,7 @@ public class Difficulties : MonoBehaviour
     {
         name = "Hard +",
         boardCount = 100,
-        maxBoardSize = 13,
+        maxBoardSize = 12,
         percentageEmpty = 0.85f,
         diagonals = true
     };

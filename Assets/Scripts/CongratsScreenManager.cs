@@ -16,13 +16,13 @@ public class CongratsScreenManager : MonoBehaviour
         string statsValueString = "";
         if (newBest)
         {
-            statsString = "Difficulty\nNew Best Time\nHint Count";
+            statsString = "Difficulty\nNew Best Time\nHints Used";
             statsValueString = diff + "\n" + GetComponent<Timer>().ConvertTime(bestTime) +
                           "\n" + PlayerPrefs.GetInt(PlayerPrefsManager.currentHintCount);
         }
         else
         {
-            statsString = "Difficulty\nTime\nBest Time\nHint Count";
+            statsString = "Difficulty\nTime\nBest Time\nHints Used";
             statsValueString = diff + "\n" + GetComponent<Timer>().ConvertTime(time) +
                           "\n" + GetComponent<Timer>().ConvertTime(bestTime) +
                           "\n" + PlayerPrefs.GetInt(PlayerPrefsManager.currentHintCount);

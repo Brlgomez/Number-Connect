@@ -99,10 +99,10 @@ public class Appearance : MonoBehaviour
         float thickness = newLine.GetComponent<RectTransform>().sizeDelta.x;
         newLine.transform.position = linePos;
         newLine.transform.eulerAngles = new Vector3(0, 0, 0);
+        newLine.GetComponent<RectTransform>().sizeDelta = new Vector2(thickness, 60);
         if ((int)previousNodePos.y == (int)currentNode.GetComponent<Node>().position.y)
         {
             newLine.transform.eulerAngles = new Vector3(0, 0, 90);
-            newLine.GetComponent<RectTransform>().sizeDelta = new Vector2(thickness, 60);
         }
         else if ((int)previousNodePos.x != (int)currentNodePos.x && GetComponent<BoardCreator>().GetDiagonal())
         {
@@ -325,18 +325,18 @@ public class Appearance : MonoBehaviour
     {
         if (value == 1)
         {
-            startCircle.transform.position = new Vector3(1000, 1000, 0);
+            startCircle.transform.position = new Vector3(10000, 10000, 0);
         }
         else
         {
-            endCircle.transform.position = new Vector3(1000, 1000, 0);
+            endCircle.transform.position = new Vector3(10000, 10000, 0);
         }
     }
 
     public void DestroyAllCircles()
     {
-        startCircle.transform.position = new Vector3(1000, 1000, 0);
-        endCircle.transform.position = new Vector3(1000, 1000, 0);
+        startCircle.transform.position = new Vector3(10000, 10000, 0);
+        endCircle.transform.position = new Vector3(10000, 10000, 0);
     }
 
     public void FindNextNumberForNodeHighlight(int value)
@@ -375,11 +375,11 @@ public class Appearance : MonoBehaviour
         }
         if (!foundNext)
         {
-            nextHighlight.transform.position = new Vector3(1000, 1000, 0);
+            nextHighlight.transform.position = new Vector3(10000, 10000, 0);
         }
         if (!foundPrevious)
         {
-            previousHighlight.transform.position = new Vector3(1000, 1000, 0);
+            previousHighlight.transform.position = new Vector3(10000, 10000, 0);
         }
     }
 
@@ -401,8 +401,8 @@ public class Appearance : MonoBehaviour
 
     public void RemoveNodeHighlight()
     {
-        previousHighlight.transform.position = new Vector3(1000, 1000, 0);
-        nextHighlight.transform.position = new Vector3(1000, 1000, 0);
+        previousHighlight.transform.position = new Vector3(10000, 10000, 0);
+        nextHighlight.transform.position = new Vector3(10000, 10000, 0);
     }
 
     public void MakeNodeHighlightClear(bool clear)

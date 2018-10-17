@@ -1,13 +1,13 @@
 ﻿<Properties StartupConfiguration="{A22684FD-FA70-3D94-B894-34E76F112B5D}|">
   <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="Unity.Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/NumberScroller.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Difficulties.cs">
     <Files>
-      <File FileName="Assets/Scripts/NumberScroller.cs" Line="101" Column="42" />
-      <File FileName="Assets/Scripts/BoardCreator.cs" Line="790" Column="9" />
-      <File FileName="Assets/Scripts/Appearance.cs" Line="142" Column="57" />
-      <File FileName="Assets/Scripts/Menus.cs" Line="471" Column="6" />
-      <File FileName="Assets/Scripts/PlayerPrefsManager.cs" Line="103" Column="13" />
-      <File FileName="Assets/Scripts/Timer.cs" Line="10" Column="16" />
+      <File FileName="Assets/Scripts/NumberScroller.cs" Line="273" Column="39" />
+      <File FileName="Assets/Scripts/BoardCreator.cs" Line="600" Column="14" />
+      <File FileName="Assets/Scripts/Appearance.cs" Line="105" Column="67" />
+      <File FileName="Assets/Scripts/Menus.cs" Line="479" Column="17" />
+      <File FileName="Assets/Scripts/Difficulties.cs" Line="25" Column="26" />
+      <File FileName="Assets/Scripts/BackButton.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
