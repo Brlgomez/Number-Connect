@@ -20,82 +20,9 @@ public class Menus : MonoBehaviour
     int currentDifficultyIndex;
     string currentDifficultyMenu;
     public List<GameObject> confirmation;
-    public Difficulties tutorial, easy, medium, hard, expert, easyDiag, mediumDiag, hardDiag, expertDiag;
 
     public void Awake()
     {
-        tutorial = new Difficulties
-        {
-            difficulty = "Tutorial",
-            boardCount = 50,
-            maxBoardSize = 14,
-            percentageEmpty = 0.75f,
-            diagonals = false
-        };
-        easy = new Difficulties
-        {
-            difficulty = "Easy",
-            boardCount = 100,
-            maxBoardSize = 14,
-            percentageEmpty = 0.80f,
-            diagonals = false
-        };
-        medium = new Difficulties
-        {
-            difficulty = "Medium",
-            boardCount = 110,
-            maxBoardSize = 13,
-            percentageEmpty = 0.85f,
-            diagonals = false
-        };
-        hard = new Difficulties
-        {
-            difficulty = "Hard",
-            boardCount = 120,
-            maxBoardSize = 13,
-            percentageEmpty = 0.90f,
-            diagonals = false
-        };
-        expert = new Difficulties
-        {
-            difficulty = "Expert",
-            boardCount = 130,
-            maxBoardSize = 13,
-            percentageEmpty = 0.95f,
-            diagonals = false
-        };
-        easyDiag = new Difficulties
-        {
-            difficulty = "Easy +",
-            boardCount = 60,
-            maxBoardSize = 14,
-            percentageEmpty = 0.75f,
-            diagonals = true
-        };
-        mediumDiag = new Difficulties
-        {
-            difficulty = "Medium +",
-            boardCount = 80,
-            maxBoardSize = 14,
-            percentageEmpty = 0.80f,
-            diagonals = true
-        };
-        hardDiag = new Difficulties
-        {
-            difficulty = "Hard +",
-            boardCount = 100,
-            maxBoardSize = 13,
-            percentageEmpty = 0.85f,
-            diagonals = true
-        };
-        expertDiag = new Difficulties
-        {
-            difficulty = "Expert +",
-            boardCount = 120,
-            maxBoardSize = 12,
-            percentageEmpty = 0.90f,
-            diagonals = true
-        };
         if (PlayerPrefs.GetInt(PlayerPrefsManager.soundEffects, 1) == 0)
         {
             soundEffectsSlider.GetComponent<Slider>().value = 0;
@@ -364,7 +291,7 @@ public class Menus : MonoBehaviour
         difficultyButtons[currentDifficultyIndex].GetComponent<Image>().color = GetComponent<Appearance>().CurrentTheme().menuButtonColor;
         currentDifficultyIndex = 0;
         difficultyButtons[currentDifficultyIndex].GetComponent<Image>().color = GetComponent<Appearance>().CurrentTheme().highlightColor;
-        FillStatsText(easy.difficulty);
+        FillStatsText(Difficulties.easy.name);
     }
 
     public void StatsMedium()
@@ -372,7 +299,7 @@ public class Menus : MonoBehaviour
         difficultyButtons[currentDifficultyIndex].GetComponent<Image>().color = GetComponent<Appearance>().CurrentTheme().menuButtonColor;
         currentDifficultyIndex = 1;
         difficultyButtons[currentDifficultyIndex].GetComponent<Image>().color = GetComponent<Appearance>().CurrentTheme().highlightColor;
-        FillStatsText(medium.difficulty);
+        FillStatsText(Difficulties.medium.name);
     }
 
     public void StatsHard()
@@ -380,7 +307,7 @@ public class Menus : MonoBehaviour
         difficultyButtons[currentDifficultyIndex].GetComponent<Image>().color = GetComponent<Appearance>().CurrentTheme().menuButtonColor;
         currentDifficultyIndex = 2;
         difficultyButtons[currentDifficultyIndex].GetComponent<Image>().color = GetComponent<Appearance>().CurrentTheme().highlightColor;
-        FillStatsText(hard.difficulty);
+        FillStatsText(Difficulties.hard.name);
     }
 
     public void StatsExpert()
@@ -388,7 +315,7 @@ public class Menus : MonoBehaviour
         difficultyButtons[currentDifficultyIndex].GetComponent<Image>().color = GetComponent<Appearance>().CurrentTheme().menuButtonColor;
         currentDifficultyIndex = 3;
         difficultyButtons[currentDifficultyIndex].GetComponent<Image>().color = GetComponent<Appearance>().CurrentTheme().highlightColor;
-        FillStatsText(expert.difficulty);
+        FillStatsText(Difficulties.expert.name);
     }
 
     public void StatsEasyPlus()
@@ -396,7 +323,7 @@ public class Menus : MonoBehaviour
         difficultyButtons[currentDifficultyIndex].GetComponent<Image>().color = GetComponent<Appearance>().CurrentTheme().menuButtonColor;
         currentDifficultyIndex = 4;
         difficultyButtons[currentDifficultyIndex].GetComponent<Image>().color = GetComponent<Appearance>().CurrentTheme().highlightColor;
-        FillStatsText(easyDiag.difficulty);
+        FillStatsText(Difficulties.easyDiag.name);
     }
 
     public void StatsMediumPlus()
@@ -404,7 +331,7 @@ public class Menus : MonoBehaviour
         difficultyButtons[currentDifficultyIndex].GetComponent<Image>().color = GetComponent<Appearance>().CurrentTheme().menuButtonColor;
         currentDifficultyIndex = 5;
         difficultyButtons[currentDifficultyIndex].GetComponent<Image>().color = GetComponent<Appearance>().CurrentTheme().highlightColor;
-        FillStatsText(mediumDiag.difficulty);
+        FillStatsText(Difficulties.mediumDiag.name);
     }
 
     public void StatsHardPlus()
@@ -412,7 +339,7 @@ public class Menus : MonoBehaviour
         difficultyButtons[currentDifficultyIndex].GetComponent<Image>().color = GetComponent<Appearance>().CurrentTheme().menuButtonColor;
         currentDifficultyIndex = 6;
         difficultyButtons[currentDifficultyIndex].GetComponent<Image>().color = GetComponent<Appearance>().CurrentTheme().highlightColor;
-        FillStatsText(hardDiag.difficulty);
+        FillStatsText(Difficulties.hardDiag.name);
     }
 
     public void StatsExpertPlus()
@@ -420,7 +347,7 @@ public class Menus : MonoBehaviour
         difficultyButtons[currentDifficultyIndex].GetComponent<Image>().color = GetComponent<Appearance>().CurrentTheme().menuButtonColor;
         currentDifficultyIndex = 7;
         difficultyButtons[currentDifficultyIndex].GetComponent<Image>().color = GetComponent<Appearance>().CurrentTheme().highlightColor;
-        FillStatsText(expertDiag.difficulty);
+        FillStatsText(Difficulties.expertDiag.name);
     }
 
     void FillStatsText(string diff)
@@ -530,12 +457,12 @@ public class Menus : MonoBehaviour
 
     public void Easy()
     {
-        SetDifficulty(easy);
+        SetDifficulty(Difficulties.easy);
     }
 
     public void EasyDiagonal()
     {
-        SetDifficulty(easyDiag);
+        SetDifficulty(Difficulties.easyDiag);
         if (PlayerPrefs.GetInt(PlayerPrefsManager.plusFirstStartUp) == 0)
         {
             PlusFirstPlayPopUpOpen();
@@ -544,12 +471,12 @@ public class Menus : MonoBehaviour
 
     public void Medium()
     {
-        SetDifficulty(medium);
+        SetDifficulty(Difficulties.medium);
     }
 
     public void MediumDiagonal()
     {
-        SetDifficulty(mediumDiag);
+        SetDifficulty(Difficulties.mediumDiag);
         if (PlayerPrefs.GetInt(PlayerPrefsManager.plusFirstStartUp) == 0)
         {
             PlusFirstPlayPopUpOpen();
@@ -558,12 +485,12 @@ public class Menus : MonoBehaviour
 
     public void Hard()
     {
-        SetDifficulty(hard);
+        SetDifficulty(Difficulties.hard);
     }
 
     public void HardDiagonal()
     {
-        SetDifficulty(hardDiag);
+        SetDifficulty(Difficulties.hardDiag);
         if (PlayerPrefs.GetInt(PlayerPrefsManager.plusFirstStartUp) == 0)
         {
             PlusFirstPlayPopUpOpen();
@@ -572,19 +499,19 @@ public class Menus : MonoBehaviour
 
     public void Expert()
     {
-        SetDifficulty(expert);
+        SetDifficulty(Difficulties.expert);
     }
 
     public void ExpertDiagonal()
     {
-        SetDifficulty(expertDiag);
+        SetDifficulty(Difficulties.expertDiag);
         if (PlayerPrefs.GetInt(PlayerPrefsManager.plusFirstStartUp) == 0)
         {
             PlusFirstPlayPopUpOpen();
         }
     }
 
-    void SetDifficulty(Difficulties diff)
+    void SetDifficulty(Difficulties.Difficulty diff)
     {
         PlayerPrefs.SetInt(PlayerPrefsManager.boardCompleted, 0);
         PlayerPrefs.SetInt(PlayerPrefsManager.currentHintCount, 0);
@@ -593,7 +520,7 @@ public class Menus : MonoBehaviour
         GetComponent<Appearance>().hint.gameObject.GetComponent<UnityAds>().SetHint(1);
         CheckIfRestartCurrentWinStreak();
         GetComponent<BoardCreator>().ClearBoard();
-        GetComponent<BoardCreator>().NewBoard(diff.boardCount, diff.percentageEmpty, diff.difficulty, diff.maxBoardSize, diff.diagonals);
+        GetComponent<BoardCreator>().NewBoard(diff.boardCount, diff.percentageEmpty, diff.name, diff.maxBoardSize, diff.diagonals);
         GetComponent<NumberScroller>().ClearNumberScroller();
         GetComponent<NumberScroller>().SetUpNumberScroller();
         GetComponent<NumberScroller>().GoToFirstButton();
@@ -615,14 +542,5 @@ public class Menus : MonoBehaviour
         {
             PlayerPrefs.SetInt(PlayerPrefs.GetString(PlayerPrefsManager.difficulty) + PlayerPrefsManager.currentWinStreak, 0);
         }
-    }
-
-    public class Difficulties
-    {
-        public string difficulty;
-        public int maxBoardSize;
-        public int boardCount;
-        public float percentageEmpty;
-        public bool diagonals;
     }
 }

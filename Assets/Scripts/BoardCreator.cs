@@ -31,11 +31,11 @@ public class BoardCreator : MonoBehaviour
         undoButton.GetComponent<Button>().interactable = false;
         if (PlayerPrefs.GetInt(PlayerPrefsManager.boardSize) == 0)
         {
-            NewBoard(GetComponent<Menus>().tutorial.boardCount,
-                     GetComponent<Menus>().tutorial.percentageEmpty,
-                     GetComponent<Menus>().tutorial.difficulty,
-                     GetComponent<Menus>().tutorial.maxBoardSize,
-                     GetComponent<Menus>().tutorial.diagonals
+            NewBoard(Difficulties.tutorial.boardCount,
+                     Difficulties.tutorial.percentageEmpty,
+                     Difficulties.tutorial.name,
+                     Difficulties.tutorial.maxBoardSize,
+                     Difficulties.tutorial.diagonals
                     );
         }
         else

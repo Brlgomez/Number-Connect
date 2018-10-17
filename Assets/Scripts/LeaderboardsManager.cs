@@ -39,56 +39,56 @@ public class LeaderboardsManager : MonoBehaviour
 
     public void PushBestTime(int time, string diff)
     {
-        if (diff == GetComponent<Menus>().easy.difficulty)
+        if (diff == Difficulties.easy.name)
         {
             Social.ReportScore(time, LeaderboardIDs.bestTimeEasy, (bool success) =>
             {
                 SetTempBestTime(success, diff, time);
             });
         }
-        else if (diff == GetComponent<Menus>().medium.difficulty)
+        else if (diff == Difficulties.medium.name)
         {
             Social.ReportScore(time, LeaderboardIDs.bestTimeMedium, (bool success) =>
             {
                 SetTempBestTime(success, diff, time);
             });
         }
-        else if (diff == GetComponent<Menus>().hard.difficulty)
+        else if (diff == Difficulties.hard.name)
         {
             Social.ReportScore(time, LeaderboardIDs.bestTimeHard, (bool success) =>
             {
                 SetTempBestTime(success, diff, time);
             });
         }
-        else if (diff == GetComponent<Menus>().expert.difficulty)
+        else if (diff == Difficulties.expert.name)
         {
             Social.ReportScore(time, LeaderboardIDs.bestTimeExpert, (bool success) =>
             {
                 SetTempBestTime(success, diff, time);
             });
         }
-        else if (diff == GetComponent<Menus>().easyDiag.difficulty)
+        else if (diff == Difficulties.easyDiag.name)
         {
             Social.ReportScore(time, LeaderboardIDs.bestTimeEasyPlus, (bool success) =>
             {
                 SetTempBestTime(success, diff, time);
             });
         }
-        else if (diff == GetComponent<Menus>().mediumDiag.difficulty)
+        else if (diff == Difficulties.mediumDiag.name)
         {
             Social.ReportScore(time, LeaderboardIDs.bestTimeMediumPlus, (bool success) =>
             {
                 SetTempBestTime(success, diff, time);
             });
         }
-        else if (diff == GetComponent<Menus>().hardDiag.difficulty)
+        else if (diff == Difficulties.hardDiag.name)
         {
             Social.ReportScore(time, LeaderboardIDs.bestTimeHardPlus, (bool success) =>
             {
                 SetTempBestTime(success, diff, time);
             });
         }
-        else if (diff == GetComponent<Menus>().expertDiag.difficulty)
+        else if (diff == Difficulties.expertDiag.name)
         {
             Social.ReportScore(time, LeaderboardIDs.bestTimeExpertPlus, (bool success) =>
             {
@@ -99,56 +99,56 @@ public class LeaderboardsManager : MonoBehaviour
 
     public void PushWinCount(int wins, string diff)
     {
-        if (diff == GetComponent<Menus>().easy.difficulty)
+        if (diff == Difficulties.easy.name)
         {
             Social.ReportScore(wins, LeaderboardIDs.winsEasy, (bool success) =>
             {
                 SetWinCount(success, diff, wins);
             });
         }
-        else if (diff == GetComponent<Menus>().medium.difficulty)
+        else if (diff == Difficulties.medium.name)
         {
             Social.ReportScore(wins, LeaderboardIDs.winsMedium, (bool success) =>
             {
                 SetWinCount(success, diff, wins);
             });
         }
-        else if (diff == GetComponent<Menus>().hard.difficulty)
+        else if (diff == Difficulties.hard.name)
         {
             Social.ReportScore(wins, LeaderboardIDs.winsHard, (bool success) =>
             {
                 SetWinCount(success, diff, wins);
             });
         }
-        else if (diff == GetComponent<Menus>().expert.difficulty)
+        else if (diff == Difficulties.expert.name)
         {
             Social.ReportScore(wins, LeaderboardIDs.winsExpert, (bool success) =>
             {
                 SetWinCount(success, diff, wins);
             });
         }
-        else if (diff == GetComponent<Menus>().easyDiag.difficulty)
+        else if (diff == Difficulties.easyDiag.name)
         {
             Social.ReportScore(wins, LeaderboardIDs.winsEasyPlus, (bool success) =>
             {
                 SetWinCount(success, diff, wins);
             });
         }
-        else if (diff == GetComponent<Menus>().mediumDiag.difficulty)
+        else if (diff == Difficulties.mediumDiag.name)
         {
             Social.ReportScore(wins, LeaderboardIDs.winsMediumPlus, (bool success) =>
             {
                 SetWinCount(success, diff, wins);
             });
         }
-        else if (diff == GetComponent<Menus>().hardDiag.difficulty)
+        else if (diff == Difficulties.hardDiag.name)
         {
             Social.ReportScore(wins, LeaderboardIDs.winsHardPlus, (bool success) =>
             {
                 SetWinCount(success, diff, wins);
             });
         }
-        else if (diff == GetComponent<Menus>().expertDiag.difficulty)
+        else if (diff == Difficulties.expertDiag.name)
         {
             Social.ReportScore(wins, LeaderboardIDs.winsExpertPlus, (bool success) =>
             {
@@ -183,22 +183,22 @@ public class LeaderboardsManager : MonoBehaviour
 
     void PushTempScores()
     {
-        CheckTime(GetComponent<Menus>().easy.difficulty);
-        CheckTime(GetComponent<Menus>().medium.difficulty);
-        CheckTime(GetComponent<Menus>().hard.difficulty);
-        CheckTime(GetComponent<Menus>().expert.difficulty);
-        CheckTime(GetComponent<Menus>().easyDiag.difficulty);
-        CheckTime(GetComponent<Menus>().mediumDiag.difficulty);
-        CheckTime(GetComponent<Menus>().hardDiag.difficulty);
-        CheckTime(GetComponent<Menus>().expertDiag.difficulty);
-        CheckWins(GetComponent<Menus>().easy.difficulty);
-        CheckWins(GetComponent<Menus>().medium.difficulty);
-        CheckWins(GetComponent<Menus>().hard.difficulty);
-        CheckWins(GetComponent<Menus>().expert.difficulty);
-        CheckWins(GetComponent<Menus>().easyDiag.difficulty);
-        CheckWins(GetComponent<Menus>().mediumDiag.difficulty);
-        CheckWins(GetComponent<Menus>().hardDiag.difficulty);
-        CheckWins(GetComponent<Menus>().expertDiag.difficulty);
+        CheckTime(Difficulties.easy.name);
+        CheckTime(Difficulties.medium.name);
+        CheckTime(Difficulties.hard.name);
+        CheckTime(Difficulties.expert.name);
+        CheckTime(Difficulties.easyDiag.name);
+        CheckTime(Difficulties.mediumDiag.name);
+        CheckTime(Difficulties.hardDiag.name);
+        CheckTime(Difficulties.expertDiag.name);
+        CheckWins(Difficulties.easy.name);
+        CheckWins(Difficulties.medium.name);
+        CheckWins(Difficulties.hard.name);
+        CheckWins(Difficulties.expert.name);
+        CheckWins(Difficulties.easyDiag.name);
+        CheckWins(Difficulties.mediumDiag.name);
+        CheckWins(Difficulties.hardDiag.name);
+        CheckWins(Difficulties.expertDiag.name);
     }
 
     void CheckTime(string diff)
