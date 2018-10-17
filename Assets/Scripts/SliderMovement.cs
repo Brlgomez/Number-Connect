@@ -22,6 +22,7 @@ public class SliderMovement : MonoBehaviour
             if (slider.value <= goTowards)
             {
                 slider.value = goTowards;
+                Camera.main.GetComponent<HapticFeedback>().LightTapticFeedback();
                 Destroy(GetComponent<SliderMovement>());
             }
         }
@@ -31,6 +32,7 @@ public class SliderMovement : MonoBehaviour
             if (slider.value >= goTowards)
             {
                 slider.value = goTowards;
+                Camera.main.GetComponent<HapticFeedback>().LightTapticFeedback();
                 Destroy(GetComponent<SliderMovement>());
             }
         }

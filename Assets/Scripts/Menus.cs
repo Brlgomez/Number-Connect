@@ -5,32 +5,20 @@ using UnityEngine.UI;
 
 public class Menus : MonoBehaviour
 {
-    public GameObject firstPlayPopUp;
-    public GameObject plusFirstPlayPopUp;
-    public GameObject newGameMenu;
-    public GameObject moreMenu;
-    public GameObject winMenu;
-    public GameObject settingsMenu;
-    public GameObject statsMenu;
-    public GameObject howToPlayMenu;
+    public GameObject firstPlayPopUp, plusFirstPlayPopUp;
+    public GameObject newGameMenu, moreMenu, winMenu;
+    public GameObject settingsMenu, statsMenu, howToPlayMenu;
     public GameObject soundEffectsSlider, timeSlider, lineSlider, highlightSlider;
     public Slider thicknessSlider;
     public Text wins, bestTime, averageTime, currentWinStreak, longestWinStreak, hintCount, averageHintCount;
     public List<GameObject> difficultyButtons;
+    public List<GameObject> confirmation;
     int currentDifficultyIndex;
     string currentDifficultyMenu;
-    public List<GameObject> confirmation;
 
     public void Awake()
     {
-        if (PlayerPrefs.GetInt(PlayerPrefsManager.soundEffects, 1) == 0)
-        {
-            soundEffectsSlider.GetComponent<Slider>().value = 0;
-        }
-        else
-        {
-            soundEffectsSlider.GetComponent<Slider>().value = 1;
-        }
+        soundEffectsSlider.GetComponent<Slider>().value = PlayerPrefs.GetInt(PlayerPrefsManager.soundEffects, 1);
         if (PlayerPrefs.GetInt(PlayerPrefsManager.showTime, 1) == 0)
         {
             timeSlider.GetComponent<Slider>().value = 0;
@@ -82,10 +70,13 @@ public class Menus : MonoBehaviour
             Vector3 newPosition = new Vector2(
                 moreMenu.transform.GetChild(i).GetComponent<RectTransform>().anchoredPosition.x,
                 (moreMenu.transform.GetChild(i).GetComponent<RectTransform>().anchoredPosition.y - 100));
-            Debug.Log(newPosition);
             moreMenu.transform.GetChild(i).GetComponent<RectTransform>().anchoredPosition = newPosition;
         }
     }
+
+    /*
+     * New Game Menu
+     */
 
     public void NewGameMenuOpen()
     {
@@ -117,6 +108,90 @@ public class Menus : MonoBehaviour
         newGameMenu.SetActive(false);
     }
 
+    public void Easy()
+    {
+        SetDifficulty(Difficulties.easy);
+    }
+
+    public void EasyDiagonal()
+    {
+        SetDifficulty(Difficulties.easyDiag);
+    }
+
+    public void Medium()
+    {
+        SetDifficulty(Difficulties.medium);
+    }
+
+    public void MediumDiagonal()
+    {
+        SetDifficulty(Difficulties.mediumDiag);
+    }
+
+    public void Hard()
+    {
+        SetDifficulty(Difficulties.hard);
+    }
+
+    public void HardDiagonal()
+    {
+        SetDifficulty(Difficulties.hardDiag);
+    }
+
+    public void Expert()
+    {
+        SetDifficulty(Difficulties.expert);
+    }
+
+    public void ExpertDiagonal()
+    {
+        SetDifficulty(Difficulties.expertDiag);
+    }
+
+    void SetDifficulty(Difficulties.Difficulty diff)
+    {
+        PlayerPrefs.SetInt(PlayerPrefsManager.boardCompleted, 0);
+        PlayerPrefs.SetInt(PlayerPrefsManager.currentHintCount, 0);
+        PlayerPrefs.SetInt(PlayerPrefsManager.hintCount, 1);
+        GetComponent<Appearance>().DestroyAllCircles();
+        GetComponent<Appearance>().hint.gameObject.GetComponent<UnityAds>().SetHint(1);
+        CheckIfRestartCurrentWinStreak();
+        GetComponent<BoardCreator>().ClearBoard();
+        GetComponent<BoardCreator>().NewBoard(diff.boardCount, diff.percentageEmpty, diff.name, diff.maxBoardSize, diff.diagonals);
+        GetComponent<NumberScroller>().ClearNumberScroller();
+        GetComponent<NumberScroller>().SetUpNumberScroller();
+        GetComponent<NumberScroller>().GoToFirstButton();
+        GetComponent<Appearance>().RestartButtonSave();
+        NewGameMenuClose();
+        if (diff.diagonals)
+        {
+            if (PlayerPrefs.GetInt(PlayerPrefsManager.plusFirstStartUp) == 0)
+            {
+                PlusFirstPlayPopUpOpen();
+            }
+        }
+    }
+
+    public void Restart()
+    {
+        CheckIfRestartCurrentWinStreak();
+        GetComponent<Appearance>().DestroyAllCircles();
+        GetComponent<BoardCreator>().Restart();
+        NewGameMenuClose();
+    }
+
+    void CheckIfRestartCurrentWinStreak()
+    {
+        if (!GetComponent<BoardCreator>().GetWinStatus())
+        {
+            PlayerPrefs.SetInt(PlayerPrefs.GetString(PlayerPrefsManager.difficulty) + PlayerPrefsManager.currentWinStreak, 0);
+        }
+    }
+
+    /*
+     * More Menu
+     */
+
     public void MoreMenuOpen()
     {
         GetComponent<Timer>().PauseTimer();
@@ -147,16 +222,9 @@ public class Menus : MonoBehaviour
         moreMenu.SetActive(false);
     }
 
-    public void WinMenuOpen()
-    {
-        winMenu.SetActive(true);
-    }
-
-    public void WinMenuClose()
-    {
-        winMenu.SetActive(false);
-        NewGameMenuOpen();
-    }
+    /*
+     * Settings
+     */
 
     public void SettingsOpen()
     {
@@ -173,7 +241,6 @@ public class Menus : MonoBehaviour
     {
         if (!soundEffectsSlider.GetComponent<SliderMovement>())
         {
-            GetComponent<HapticFeedback>().LightTapticFeedback();
             soundEffectsSlider.AddComponent<SliderMovement>();
             if (PlayerPrefs.GetInt(PlayerPrefsManager.soundEffects, 1) == 0)
             {
@@ -193,7 +260,6 @@ public class Menus : MonoBehaviour
     {
         if (!timeSlider.GetComponent<SliderMovement>())
         {
-            GetComponent<HapticFeedback>().LightTapticFeedback();
             timeSlider.AddComponent<SliderMovement>();
             if (PlayerPrefs.GetInt(PlayerPrefsManager.showTime, 1) == 0)
             {
@@ -215,7 +281,6 @@ public class Menus : MonoBehaviour
     {
         if (!lineSlider.GetComponent<SliderMovement>())
         {
-            GetComponent<HapticFeedback>().LightTapticFeedback();
             lineSlider.AddComponent<SliderMovement>();
             if (PlayerPrefs.GetInt(PlayerPrefsManager.showLines, 1) == 0)
             {
@@ -237,7 +302,6 @@ public class Menus : MonoBehaviour
     {
         if (!highlightSlider.GetComponent<SliderMovement>())
         {
-            GetComponent<HapticFeedback>().LightTapticFeedback();
             highlightSlider.AddComponent<SliderMovement>();
             if (PlayerPrefs.GetInt(PlayerPrefsManager.showNodeHighlights) == 0)
             {
@@ -274,6 +338,10 @@ public class Menus : MonoBehaviour
         GetComponent<Appearance>().ChangeThemes(Themes.ThemeName.paper);
     }
 
+    /*
+     * Stats
+     */
+
     public void StatsOpen()
     {
         statsMenu.SetActive(true);
@@ -288,66 +356,50 @@ public class Menus : MonoBehaviour
 
     public void StatsEasy()
     {
-        difficultyButtons[currentDifficultyIndex].GetComponent<Image>().color = GetComponent<Appearance>().CurrentTheme().menuButtonColor;
-        currentDifficultyIndex = 0;
-        difficultyButtons[currentDifficultyIndex].GetComponent<Image>().color = GetComponent<Appearance>().CurrentTheme().highlightColor;
-        FillStatsText(Difficulties.easy.name);
+        SetStats(0, Difficulties.easy.name);
     }
 
     public void StatsMedium()
     {
-        difficultyButtons[currentDifficultyIndex].GetComponent<Image>().color = GetComponent<Appearance>().CurrentTheme().menuButtonColor;
-        currentDifficultyIndex = 1;
-        difficultyButtons[currentDifficultyIndex].GetComponent<Image>().color = GetComponent<Appearance>().CurrentTheme().highlightColor;
-        FillStatsText(Difficulties.medium.name);
+        SetStats(1, Difficulties.medium.name);
     }
 
     public void StatsHard()
     {
-        difficultyButtons[currentDifficultyIndex].GetComponent<Image>().color = GetComponent<Appearance>().CurrentTheme().menuButtonColor;
-        currentDifficultyIndex = 2;
-        difficultyButtons[currentDifficultyIndex].GetComponent<Image>().color = GetComponent<Appearance>().CurrentTheme().highlightColor;
-        FillStatsText(Difficulties.hard.name);
+        SetStats(2, Difficulties.hard.name);
     }
 
     public void StatsExpert()
     {
-        difficultyButtons[currentDifficultyIndex].GetComponent<Image>().color = GetComponent<Appearance>().CurrentTheme().menuButtonColor;
-        currentDifficultyIndex = 3;
-        difficultyButtons[currentDifficultyIndex].GetComponent<Image>().color = GetComponent<Appearance>().CurrentTheme().highlightColor;
-        FillStatsText(Difficulties.expert.name);
+        SetStats(3, Difficulties.expert.name);
     }
 
     public void StatsEasyPlus()
     {
-        difficultyButtons[currentDifficultyIndex].GetComponent<Image>().color = GetComponent<Appearance>().CurrentTheme().menuButtonColor;
-        currentDifficultyIndex = 4;
-        difficultyButtons[currentDifficultyIndex].GetComponent<Image>().color = GetComponent<Appearance>().CurrentTheme().highlightColor;
-        FillStatsText(Difficulties.easyDiag.name);
+        SetStats(4, Difficulties.easyDiag.name);
     }
 
     public void StatsMediumPlus()
     {
-        difficultyButtons[currentDifficultyIndex].GetComponent<Image>().color = GetComponent<Appearance>().CurrentTheme().menuButtonColor;
-        currentDifficultyIndex = 5;
-        difficultyButtons[currentDifficultyIndex].GetComponent<Image>().color = GetComponent<Appearance>().CurrentTheme().highlightColor;
-        FillStatsText(Difficulties.mediumDiag.name);
+        SetStats(5, Difficulties.mediumDiag.name);
     }
 
     public void StatsHardPlus()
     {
-        difficultyButtons[currentDifficultyIndex].GetComponent<Image>().color = GetComponent<Appearance>().CurrentTheme().menuButtonColor;
-        currentDifficultyIndex = 6;
-        difficultyButtons[currentDifficultyIndex].GetComponent<Image>().color = GetComponent<Appearance>().CurrentTheme().highlightColor;
-        FillStatsText(Difficulties.hardDiag.name);
+        SetStats(6, Difficulties.hardDiag.name);
     }
 
     public void StatsExpertPlus()
     {
+        SetStats(7, Difficulties.expertDiag.name);
+    }
+
+    void SetStats(int index, string diffName)
+    {
         difficultyButtons[currentDifficultyIndex].GetComponent<Image>().color = GetComponent<Appearance>().CurrentTheme().menuButtonColor;
-        currentDifficultyIndex = 7;
+        currentDifficultyIndex = index;
         difficultyButtons[currentDifficultyIndex].GetComponent<Image>().color = GetComponent<Appearance>().CurrentTheme().highlightColor;
-        FillStatsText(Difficulties.expertDiag.name);
+        FillStatsText(diffName);
     }
 
     void FillStatsText(string diff)
@@ -413,6 +465,10 @@ public class Menus : MonoBehaviour
         CloseConfirmation();
     }
 
+    /*
+     * How To Play
+     */
+
     public void HowToPlayOpen()
     {
         howToPlayMenu.SetActive(true);
@@ -455,92 +511,18 @@ public class Menus : MonoBehaviour
         }
     }
 
-    public void Easy()
+    /*
+     * Winning Screen
+     */
+
+    public void WinMenuOpen()
     {
-        SetDifficulty(Difficulties.easy);
+        winMenu.SetActive(true);
     }
 
-    public void EasyDiagonal()
+    public void WinMenuClose()
     {
-        SetDifficulty(Difficulties.easyDiag);
-        if (PlayerPrefs.GetInt(PlayerPrefsManager.plusFirstStartUp) == 0)
-        {
-            PlusFirstPlayPopUpOpen();
-        }
-    }
-
-    public void Medium()
-    {
-        SetDifficulty(Difficulties.medium);
-    }
-
-    public void MediumDiagonal()
-    {
-        SetDifficulty(Difficulties.mediumDiag);
-        if (PlayerPrefs.GetInt(PlayerPrefsManager.plusFirstStartUp) == 0)
-        {
-            PlusFirstPlayPopUpOpen();
-        }
-    }
-
-    public void Hard()
-    {
-        SetDifficulty(Difficulties.hard);
-    }
-
-    public void HardDiagonal()
-    {
-        SetDifficulty(Difficulties.hardDiag);
-        if (PlayerPrefs.GetInt(PlayerPrefsManager.plusFirstStartUp) == 0)
-        {
-            PlusFirstPlayPopUpOpen();
-        }
-    }
-
-    public void Expert()
-    {
-        SetDifficulty(Difficulties.expert);
-    }
-
-    public void ExpertDiagonal()
-    {
-        SetDifficulty(Difficulties.expertDiag);
-        if (PlayerPrefs.GetInt(PlayerPrefsManager.plusFirstStartUp) == 0)
-        {
-            PlusFirstPlayPopUpOpen();
-        }
-    }
-
-    void SetDifficulty(Difficulties.Difficulty diff)
-    {
-        PlayerPrefs.SetInt(PlayerPrefsManager.boardCompleted, 0);
-        PlayerPrefs.SetInt(PlayerPrefsManager.currentHintCount, 0);
-        PlayerPrefs.SetInt(PlayerPrefsManager.hintCount, 1);
-        GetComponent<Appearance>().DestroyAllCircles();
-        GetComponent<Appearance>().hint.gameObject.GetComponent<UnityAds>().SetHint(1);
-        CheckIfRestartCurrentWinStreak();
-        GetComponent<BoardCreator>().ClearBoard();
-        GetComponent<BoardCreator>().NewBoard(diff.boardCount, diff.percentageEmpty, diff.name, diff.maxBoardSize, diff.diagonals);
-        GetComponent<NumberScroller>().ClearNumberScroller();
-        GetComponent<NumberScroller>().SetUpNumberScroller();
-        GetComponent<NumberScroller>().GoToFirstButton();
-        GetComponent<Appearance>().RestartButtonSave();
-        NewGameMenuClose();
-    }
-
-    public void Restart()
-    {
-        CheckIfRestartCurrentWinStreak();
-        GetComponent<Appearance>().DestroyAllCircles();
-        GetComponent<BoardCreator>().Restart();
-        NewGameMenuClose();
-    }
-
-    void CheckIfRestartCurrentWinStreak()
-    {
-        if (!GetComponent<BoardCreator>().GetWinStatus())
-        {
-            PlayerPrefs.SetInt(PlayerPrefs.GetString(PlayerPrefsManager.difficulty) + PlayerPrefsManager.currentWinStreak, 0);
-        }
+        winMenu.SetActive(false);
+        NewGameMenuOpen();
     }
 }

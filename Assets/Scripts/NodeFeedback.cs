@@ -1,13 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class NodeFeedback : MonoBehaviour
 {
-    Color initialColor;
-    float speed = 1.5f;
+    static float speed = 1.5f;
     float alpha = 1;
+    Color initialColor;
 
     void Start()
     {
