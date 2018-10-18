@@ -34,7 +34,8 @@ public class BoardCreator : MonoBehaviour
             NewBoard(Difficulties.tutorial.boardCount,
                      Difficulties.tutorial.percentageEmpty,
                      Difficulties.tutorial.name,
-                     Difficulties.tutorial.maxBoardSize,
+                     Difficulties.tutorial.width,
+                     Difficulties.tutorial.height,
                      Difficulties.tutorial.diagonals
                     );
         }
@@ -42,13 +43,13 @@ public class BoardCreator : MonoBehaviour
         {
             Load();
         }
-        if (PlayerPrefs.GetInt(PlayerPrefsManager.firstStartUp) == 0)
+        if (PlayerPrefs.GetInt(PlayerPrefsManager.firstStartUp, 0) == 0)
         {
             GetComponent<Menus>().FirstPlayPopUpOpen();
         }
     }
 
-    public void NewBoard(int boardSize, float percentage, string diff, int max, bool diag)
+    public void NewBoard(int boardSize, float percentage, string diff, int width, int height, bool diag)
     {
         difficulty.text = diff;
         amount = boardSize;
@@ -70,8 +71,8 @@ public class BoardCreator : MonoBehaviour
             Vector2 nextPosition = previous.position;
             Vector2 tempPosition = Vector2.zero;
             while (tempGameBoardPositions.ContainsKey(nextPosition) ||
-                   (!xAmounts.ContainsKey((int)nextPosition.x) && xAmounts.Count >= max) ||
-                   (!yAmounts.ContainsKey((int)nextPosition.y) && yAmounts.Count >= max))
+                   (!xAmounts.ContainsKey((int)nextPosition.x) && xAmounts.Count >= width) ||
+                   (!yAmounts.ContainsKey((int)nextPosition.y) && yAmounts.Count >= height))
             {
                 if (listOfPositions.Count == 0)
                 {

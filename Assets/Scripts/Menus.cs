@@ -7,7 +7,7 @@ public class Menus : MonoBehaviour
 {
     public GameObject firstPlayPopUp, plusFirstPlayPopUp;
     public GameObject newGameMenu, moreMenu, winMenu;
-    public GameObject settingsMenu, statsMenu, howToPlayMenu;
+    public GameObject settingsMenu, statsMenu, howToPlayMenu, loadingBackground;
     public GameObject soundEffectsSlider, timeSlider, lineSlider, highlightSlider;
     public Slider thicknessSlider;
     public Text wins, bestTime, averageTime, currentWinStreak, longestWinStreak, hintCount, averageHintCount;
@@ -93,6 +93,7 @@ public class Menus : MonoBehaviour
             }
             GetComponent<NumberScroller>().scrollView.StopMovement();
             newGameMenu.SetActive(true);
+            loadingBackground.SetActive(false);
         }
     }
 
@@ -159,28 +160,38 @@ public class Menus : MonoBehaviour
     {
         if (!newGameMenu.GetComponent<MenuTransitionOn>() && !newGameMenu.GetComponent<MenuTransitionOff>())
         {
-            PlayerPrefs.SetInt(PlayerPrefsManager.boardCompleted, 0);
-            PlayerPrefs.SetInt(PlayerPrefsManager.currentHintCount, 0);
-            PlayerPrefs.SetInt(PlayerPrefsManager.hintCount, 1);
-            GetComponent<Appearance>().DestroyAllCircles();
-            GetComponent<Appearance>().hint.gameObject.GetComponent<UnityAds>().SetHint(1);
-            CheckIfRestartCurrentWinStreak();
-            GetComponent<BoardCreator>().ClearBoard();
-            GetComponent<BoardCreator>().NewBoard(diff.boardCount, diff.percentageEmpty, diff.name, diff.maxBoardSize, diff.diagonals);
-            GetComponent<NumberScroller>().ClearNumberScroller();
-            GetComponent<NumberScroller>().SetUpNumberScroller();
-            GetComponent<NumberScroller>().GoToFirstButton();
-            GetComponent<Appearance>().RestartButtonSave();
-            NewGameMenuClose();
-            if (diff.diagonals)
-            {
-                if (PlayerPrefs.GetInt(PlayerPrefsManager.plusFirstStartUp) == 0)
-                {
-                    PlusFirstPlayPopUpOpen();
-                }
-            }
-            winMenu.SetActive(false);
+            StartCoroutine(Load(diff));
         }
+    }
+
+    IEnumerator Load(Difficulties.Difficulty diff)
+    {
+        loadingBackground.SetActive(true);
+        Handheld.StartActivityIndicator();
+        yield return new WaitForSeconds(0);
+        PlayerPrefs.SetInt(PlayerPrefsManager.boardCompleted, 0);
+        PlayerPrefs.SetInt(PlayerPrefsManager.currentHintCount, 0);
+        PlayerPrefs.SetInt(PlayerPrefsManager.hintCount, 1);
+        GetComponent<Appearance>().DestroyAllCircles();
+        GetComponent<Appearance>().hint.gameObject.GetComponent<UnityAds>().SetHint(1);
+        CheckIfRestartCurrentWinStreak();
+        GetComponent<BoardCreator>().ClearBoard();
+        GetComponent<BoardCreator>().NewBoard(diff.boardCount, diff.percentageEmpty, diff.name, diff.width, diff.height, diff.diagonals);
+        GetComponent<NumberScroller>().ClearNumberScroller();
+        GetComponent<NumberScroller>().SetUpNumberScroller();
+        GetComponent<NumberScroller>().GoToFirstButton();
+        GetComponent<Appearance>().RestartButtonSave();
+        yield return new WaitForSeconds(0);
+        NewGameMenuClose();
+        if (diff.diagonals)
+        {
+            if (PlayerPrefs.GetInt(PlayerPrefsManager.plusFirstStartUp) == 0)
+            {
+                PlusFirstPlayPopUpOpen();
+            }
+        }
+        winMenu.SetActive(false);
+        Handheld.StopActivityIndicator();
     }
 
     public void Restart()
@@ -521,32 +532,34 @@ public class Menus : MonoBehaviour
 
     public void FirstPlayPopUpOpen()
     {
+        firstPlayPopUp.SetActive(true);
+        firstPlayPopUp.AddComponent<MenuTransitionOn>();
         GetComponent<Timer>().PauseTimer();
-        gameObject.AddComponent<TutorialTransition>().TurnOn(firstPlayPopUp);
     }
 
     public void FirstPlayPopUpClose()
     {
-        GetComponent<Timer>().UnPauseTimer();
-        if (gameObject.GetComponent<TutorialTransition>())
+        if (!firstPlayPopUp.GetComponent<MenuTransitionOn>() && !firstPlayPopUp.GetComponent<MenuTransitionOff>())
         {
-            gameObject.GetComponent<TutorialTransition>().TurnOff();
+            GetComponent<Timer>().UnPauseTimer();
+            firstPlayPopUp.AddComponent<MenuTransitionOff>();
             PlayerPrefs.SetInt(PlayerPrefsManager.firstStartUp, 1);
         }
     }
 
     public void PlusFirstPlayPopUpOpen()
     {
+        plusFirstPlayPopUp.SetActive(true);
+        plusFirstPlayPopUp.AddComponent<MenuTransitionOn>();
         GetComponent<Timer>().PauseTimer();
-        gameObject.AddComponent<TutorialTransition>().TurnOn(plusFirstPlayPopUp);
     }
 
     public void PlusFirstPlayPopUpClose()
     {
-        GetComponent<Timer>().UnPauseTimer();
-        if (gameObject.GetComponent<TutorialTransition>())
+        if (!plusFirstPlayPopUp.GetComponent<MenuTransitionOn>() && !plusFirstPlayPopUp.GetComponent<MenuTransitionOff>())
         {
-            gameObject.GetComponent<TutorialTransition>().TurnOff();
+            GetComponent<Timer>().UnPauseTimer();
+            plusFirstPlayPopUp.AddComponent<MenuTransitionOff>();
             PlayerPrefs.SetInt(PlayerPrefsManager.plusFirstStartUp, 1);
         }
     }
