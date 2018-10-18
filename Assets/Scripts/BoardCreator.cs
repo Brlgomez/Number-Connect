@@ -118,7 +118,7 @@ public class BoardCreator : MonoBehaviour
         tempGameBoardPositions.Clear();
         CheckCompletedBoard();
         ShiftBoard();
-        //Save();
+        Save();
     }
 
     List<Vector2> GetListOfPositions(bool isDiagonal)
@@ -313,14 +313,7 @@ public class BoardCreator : MonoBehaviour
                         GetComponent<SoundManager>().EraseNode();
                     }
                 }
-                List<Vector2> neighbors = GetNeighboringPositions(node.GetComponent<Node>().position);
-                for (int i = 0; i < neighbors.Count; i++)
-                {
-                    if (gameBoardPositions.ContainsKey(neighbors[i]))
-                    {
-                        AddLineToNeighbors(neighbors[i], gameBoardPositions[neighbors[i]]);
-                    }
-                }
+                RecheckNeighborConnections(node);
             }
             else
             {
@@ -465,41 +458,47 @@ public class BoardCreator : MonoBehaviour
     {
         if (userPlacedNodes.ContainsKey(value))
         {
+            GameObject node = userPlacedNodes[value];
             if (action != null)
             {
                 if (!action.removedOther)
                 {
                     action.removedOther = true;
-                    action.otherPosition = userPlacedNodes[value].GetComponent<Node>().position;
-                    action.otherValue = userPlacedNodes[value].GetComponent<Node>().userValue;
-                    action.otherHinted = userPlacedNodes[value].GetComponent<Node>().hinted;
+                    action.otherPosition = node.GetComponent<Node>().position;
+                    action.otherValue = node.GetComponent<Node>().userValue;
+                    action.otherHinted = node.GetComponent<Node>().hinted;
                 }
                 else
                 {
                     action.removedOtherOther = true;
-                    action.otherOtherPosition = userPlacedNodes[value].GetComponent<Node>().position;
-                    action.otherOtherValue = userPlacedNodes[value].GetComponent<Node>().userValue;
-                    action.otherOtherHinted = userPlacedNodes[value].GetComponent<Node>().hinted;
+                    action.otherOtherPosition = node.GetComponent<Node>().position;
+                    action.otherOtherValue = node.GetComponent<Node>().userValue;
+                    action.otherOtherHinted = node.GetComponent<Node>().hinted;
                 }
             }
-            if (userPlacedNodes[value].GetComponent<Node>().nextNode != null)
+            if (node.GetComponent<Node>().userValue == 1 || node.GetComponent<Node>().userValue == gameBoardAnswer.Count)
             {
-                userPlacedNodes[value].GetComponent<Node>().line.transform.position = new Vector3(10000, 10000, 0);
-                userPlacedNodes[value].GetComponent<Node>().nextNode = null;
+                GetComponent<Appearance>().DestroyCircleByValue(node.GetComponent<Node>().userValue);
             }
-            if (userPlacedNodes[value].GetComponent<Node>().previousNode != null)
+            if (node.GetComponent<Node>().nextNode != null)
             {
-                userPlacedNodes[value].GetComponent<Node>().previousNode.GetComponent<Node>().line.transform.position = new Vector3(10000, 10000, 0);
-                userPlacedNodes[value].GetComponent<Node>().previousNode.GetComponent<Node>().nextNode = null;
+                node.GetComponent<Node>().line.transform.position = new Vector3(10000, 10000, 0);
+                node.GetComponent<Node>().nextNode = null;
             }
-            if (userPlacedNodes[value].GetComponent<Node>().hinted == 1 && hintedNumbers.ContainsKey(userPlacedNodes[value].GetComponent<Node>().value))
+            if (node.GetComponent<Node>().previousNode != null)
             {
-                hintedNumbers.Remove(userPlacedNodes[value].GetComponent<Node>().value);
+                node.GetComponent<Node>().previousNode.GetComponent<Node>().line.transform.position = new Vector3(10000, 10000, 0);
+                node.GetComponent<Node>().previousNode.GetComponent<Node>().nextNode = null;
             }
-            userPlacedNodes[value].GetComponent<Node>().userValue = -1;
-            SaveByIndex(userPlacedNodes[value].GetComponent<Node>().value - 1);
-            GetComponent<Appearance>().SetNodeToEmptyLook(userPlacedNodes[value]);
+            if (node.GetComponent<Node>().hinted == 1 && hintedNumbers.ContainsKey(node.GetComponent<Node>().value))
+            {
+                hintedNumbers.Remove(node.GetComponent<Node>().value);
+            }
+            node.GetComponent<Node>().userValue = -1;
+            SaveByIndex(node.GetComponent<Node>().value - 1);
+            GetComponent<Appearance>().SetNodeToEmptyLook(node);
             userPlacedNodes.Remove(value);
+            RecheckNeighborConnections(node);
         }
     }
 
@@ -623,14 +622,7 @@ public class BoardCreator : MonoBehaviour
                 {
                     AddNode(node, action.value, false, action.hinted);
                 }
-                List<Vector2> neighbors = GetNeighboringPositions(node.GetComponent<Node>().position);
-                for (int i = 0; i < neighbors.Count; i++)
-                {
-                    if (gameBoardPositions.ContainsKey(neighbors[i]))
-                    {
-                        AddLineToNeighbors(neighbors[i], gameBoardPositions[neighbors[i]]);
-                    }
-                }
+                RecheckNeighborConnections(node);
                 GetComponent<SoundManager>().Undo();
             }
             undoButton.GetComponent<Button>().interactable &= GetComponent<UserAction>().HaveActions();
@@ -669,10 +661,27 @@ public class BoardCreator : MonoBehaviour
                 GetComponent<Appearance>().NodeFeedBack(randomNode.transform);
                 GetComponent<HapticFeedback>().SuccessTapticFeedback();
                 GetComponent<SoundManager>().PlayHintSound();
+                RecheckNeighborConnections(randomNode);
                 PlayerPrefs.SetInt(PlayerPrefsManager.currentHintCount, PlayerPrefs.GetInt(PlayerPrefsManager.currentHintCount, 0) + 1);
             }
         }
     }
+
+    void RecheckNeighborConnections(GameObject node)
+    {
+        List<Vector2> neighbors = GetNeighboringPositions(node.GetComponent<Node>().position);
+        for (int i = 0; i < neighbors.Count; i++)
+        {
+            if (gameBoardPositions.ContainsKey(neighbors[i]))
+            {
+                AddLineToNeighbors(neighbors[i], gameBoardPositions[neighbors[i]]);
+            }
+        }
+    }
+
+    /*
+     * Restarting & Clearing
+     */
 
     public void ClearBoard()
     {
@@ -756,8 +765,12 @@ public class BoardCreator : MonoBehaviour
         }
         GetComponent<UserAction>().ClearActions();
         undoButton.GetComponent<Button>().interactable = false;
-        //Save();
+        Save();
     }
+
+    /*
+     * Save & Load
+     */
 
     public void Save()
     {
@@ -868,6 +881,10 @@ public class BoardCreator : MonoBehaviour
             GetComponent<Appearance>().MakeNodeHighlightClear(true);
         }
     }
+
+    /*
+     * Getters
+     */
 
     public int GetBoardNumberAmount()
     {

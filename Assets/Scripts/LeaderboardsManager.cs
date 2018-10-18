@@ -39,121 +39,127 @@ public class LeaderboardsManager : MonoBehaviour
 
     public void PushBestTime(int time, string diff)
     {
-        if (diff == Difficulties.easy.name)
+        if (Application.platform == RuntimePlatform.Android || Application.platform == RuntimePlatform.IPhonePlayer)
         {
-            Social.ReportScore(time, LeaderboardIDs.bestTimeEasy, (bool success) =>
+            if (diff == Difficulties.easy.name)
             {
-                SetTempBestTime(success, diff, time);
-            });
-        }
-        else if (diff == Difficulties.medium.name)
-        {
-            Social.ReportScore(time, LeaderboardIDs.bestTimeMedium, (bool success) =>
+                Social.ReportScore(time, LeaderboardIDs.bestTimeEasy, (bool success) =>
+                {
+                    SetTempBestTime(success, diff, time);
+                });
+            }
+            else if (diff == Difficulties.medium.name)
             {
-                SetTempBestTime(success, diff, time);
-            });
-        }
-        else if (diff == Difficulties.hard.name)
-        {
-            Social.ReportScore(time, LeaderboardIDs.bestTimeHard, (bool success) =>
+                Social.ReportScore(time, LeaderboardIDs.bestTimeMedium, (bool success) =>
+                {
+                    SetTempBestTime(success, diff, time);
+                });
+            }
+            else if (diff == Difficulties.hard.name)
             {
-                SetTempBestTime(success, diff, time);
-            });
-        }
-        else if (diff == Difficulties.expert.name)
-        {
-            Social.ReportScore(time, LeaderboardIDs.bestTimeExpert, (bool success) =>
+                Social.ReportScore(time, LeaderboardIDs.bestTimeHard, (bool success) =>
+                {
+                    SetTempBestTime(success, diff, time);
+                });
+            }
+            else if (diff == Difficulties.expert.name)
             {
-                SetTempBestTime(success, diff, time);
-            });
-        }
-        else if (diff == Difficulties.easyDiag.name)
-        {
-            Social.ReportScore(time, LeaderboardIDs.bestTimeEasyPlus, (bool success) =>
+                Social.ReportScore(time, LeaderboardIDs.bestTimeExpert, (bool success) =>
+                {
+                    SetTempBestTime(success, diff, time);
+                });
+            }
+            else if (diff == Difficulties.easyDiag.name)
             {
-                SetTempBestTime(success, diff, time);
-            });
-        }
-        else if (diff == Difficulties.mediumDiag.name)
-        {
-            Social.ReportScore(time, LeaderboardIDs.bestTimeMediumPlus, (bool success) =>
+                Social.ReportScore(time, LeaderboardIDs.bestTimeEasyPlus, (bool success) =>
+                {
+                    SetTempBestTime(success, diff, time);
+                });
+            }
+            else if (diff == Difficulties.mediumDiag.name)
             {
-                SetTempBestTime(success, diff, time);
-            });
-        }
-        else if (diff == Difficulties.hardDiag.name)
-        {
-            Social.ReportScore(time, LeaderboardIDs.bestTimeHardPlus, (bool success) =>
+                Social.ReportScore(time, LeaderboardIDs.bestTimeMediumPlus, (bool success) =>
+                {
+                    SetTempBestTime(success, diff, time);
+                });
+            }
+            else if (diff == Difficulties.hardDiag.name)
             {
-                SetTempBestTime(success, diff, time);
-            });
-        }
-        else if (diff == Difficulties.expertDiag.name)
-        {
-            Social.ReportScore(time, LeaderboardIDs.bestTimeExpertPlus, (bool success) =>
+                Social.ReportScore(time, LeaderboardIDs.bestTimeHardPlus, (bool success) =>
+                {
+                    SetTempBestTime(success, diff, time);
+                });
+            }
+            else if (diff == Difficulties.expertDiag.name)
             {
-                SetTempBestTime(success, diff, time);
-            });
+                Social.ReportScore(time, LeaderboardIDs.bestTimeExpertPlus, (bool success) =>
+                {
+                    SetTempBestTime(success, diff, time);
+                });
+            }
         }
     }
 
     public void PushWinCount(int wins, string diff)
     {
-        if (diff == Difficulties.easy.name)
+        if (Application.platform == RuntimePlatform.Android || Application.platform == RuntimePlatform.IPhonePlayer)
         {
-            Social.ReportScore(wins, LeaderboardIDs.winsEasy, (bool success) =>
+            if (diff == Difficulties.easy.name)
             {
-                SetWinCount(success, diff, wins);
-            });
-        }
-        else if (diff == Difficulties.medium.name)
-        {
-            Social.ReportScore(wins, LeaderboardIDs.winsMedium, (bool success) =>
+                Social.ReportScore(wins, LeaderboardIDs.winsEasy, (bool success) =>
+                {
+                    SetWinCount(success, diff, wins);
+                });
+            }
+            else if (diff == Difficulties.medium.name)
             {
-                SetWinCount(success, diff, wins);
-            });
-        }
-        else if (diff == Difficulties.hard.name)
-        {
-            Social.ReportScore(wins, LeaderboardIDs.winsHard, (bool success) =>
+                Social.ReportScore(wins, LeaderboardIDs.winsMedium, (bool success) =>
+                {
+                    SetWinCount(success, diff, wins);
+                });
+            }
+            else if (diff == Difficulties.hard.name)
             {
-                SetWinCount(success, diff, wins);
-            });
-        }
-        else if (diff == Difficulties.expert.name)
-        {
-            Social.ReportScore(wins, LeaderboardIDs.winsExpert, (bool success) =>
+                Social.ReportScore(wins, LeaderboardIDs.winsHard, (bool success) =>
+                {
+                    SetWinCount(success, diff, wins);
+                });
+            }
+            else if (diff == Difficulties.expert.name)
             {
-                SetWinCount(success, diff, wins);
-            });
-        }
-        else if (diff == Difficulties.easyDiag.name)
-        {
-            Social.ReportScore(wins, LeaderboardIDs.winsEasyPlus, (bool success) =>
+                Social.ReportScore(wins, LeaderboardIDs.winsExpert, (bool success) =>
+                {
+                    SetWinCount(success, diff, wins);
+                });
+            }
+            else if (diff == Difficulties.easyDiag.name)
             {
-                SetWinCount(success, diff, wins);
-            });
-        }
-        else if (diff == Difficulties.mediumDiag.name)
-        {
-            Social.ReportScore(wins, LeaderboardIDs.winsMediumPlus, (bool success) =>
+                Social.ReportScore(wins, LeaderboardIDs.winsEasyPlus, (bool success) =>
+                {
+                    SetWinCount(success, diff, wins);
+                });
+            }
+            else if (diff == Difficulties.mediumDiag.name)
             {
-                SetWinCount(success, diff, wins);
-            });
-        }
-        else if (diff == Difficulties.hardDiag.name)
-        {
-            Social.ReportScore(wins, LeaderboardIDs.winsHardPlus, (bool success) =>
+                Social.ReportScore(wins, LeaderboardIDs.winsMediumPlus, (bool success) =>
+                {
+                    SetWinCount(success, diff, wins);
+                });
+            }
+            else if (diff == Difficulties.hardDiag.name)
             {
-                SetWinCount(success, diff, wins);
-            });
-        }
-        else if (diff == Difficulties.expertDiag.name)
-        {
-            Social.ReportScore(wins, LeaderboardIDs.winsExpertPlus, (bool success) =>
+                Social.ReportScore(wins, LeaderboardIDs.winsHardPlus, (bool success) =>
+                {
+                    SetWinCount(success, diff, wins);
+                });
+            }
+            else if (diff == Difficulties.expertDiag.name)
             {
-                SetWinCount(success, diff, wins);
-            });
+                Social.ReportScore(wins, LeaderboardIDs.winsExpertPlus, (bool success) =>
+                {
+                    SetWinCount(success, diff, wins);
+                });
+            }
         }
     }
 

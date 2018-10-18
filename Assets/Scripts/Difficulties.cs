@@ -15,7 +15,7 @@ public class Difficulties : MonoBehaviour
         name = "Easy",
         boardCount = 100,
         maxBoardSize = 14,
-        percentageEmpty = 0.80f,
+        percentageEmpty = 0.75f,
         diagonals = false
     };
     public static Difficulty medium = new Difficulty
@@ -23,7 +23,7 @@ public class Difficulties : MonoBehaviour
         name = "Medium",
         boardCount = 110,
         maxBoardSize = 14,
-        percentageEmpty = 0.85f,
+        percentageEmpty = 0.80f,
         diagonals = false
     };
     public static Difficulty hard = new Difficulty
@@ -31,7 +31,7 @@ public class Difficulties : MonoBehaviour
         name = "Hard",
         boardCount = 120,
         maxBoardSize = 13,
-        percentageEmpty = 0.90f,
+        percentageEmpty = 0.85f,
         diagonals = false
     };
     public static Difficulty expert = new Difficulty
@@ -39,7 +39,7 @@ public class Difficulties : MonoBehaviour
         name = "Expert",
         boardCount = 130,
         maxBoardSize = 13,
-        percentageEmpty = 0.95f,
+        percentageEmpty = 0.90f,
         diagonals = false
     };
     public static Difficulty easyDiag = new Difficulty

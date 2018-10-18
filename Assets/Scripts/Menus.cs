@@ -179,6 +179,7 @@ public class Menus : MonoBehaviour
                     PlusFirstPlayPopUpOpen();
                 }
             }
+            winMenu.SetActive(false);
         }
     }
 
@@ -190,6 +191,7 @@ public class Menus : MonoBehaviour
             GetComponent<Appearance>().DestroyAllCircles();
             GetComponent<BoardCreator>().Restart();
             NewGameMenuClose();
+            winMenu.SetActive(false);
         }
     }
 
@@ -560,7 +562,6 @@ public class Menus : MonoBehaviour
 
     public void WinMenuClose()
     {
-        winMenu.SetActive(false);
         NewGameMenuOpen();
     }
 }
