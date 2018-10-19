@@ -7,7 +7,7 @@ public class Menus : MonoBehaviour
 {
     public GameObject firstPlayPopUp, plusFirstPlayPopUp;
     public GameObject newGameMenu, moreMenu, winMenu;
-    public GameObject settingsMenu, statsMenu, howToPlayMenu, loadingBackground;
+    public GameObject settingsMenu, statsMenu, howToPlayMenu, loadingBackground, loadingText;
     public GameObject soundEffectsSlider, timeSlider, lineSlider, highlightSlider;
     public Slider thicknessSlider;
     public Text wins, bestTime, averageTime, currentWinStreak, longestWinStreak, hintCount, averageHintCount;
@@ -167,7 +167,14 @@ public class Menus : MonoBehaviour
     IEnumerator Load(Difficulties.Difficulty diff)
     {
         loadingBackground.SetActive(true);
-        Handheld.StartActivityIndicator();
+        if (Application.platform == RuntimePlatform.IPhonePlayer)
+        {
+            Handheld.StartActivityIndicator();
+        }
+        else
+        {
+            loadingText.SetActive(true);
+        }
         yield return new WaitForSeconds(0);
         PlayerPrefs.SetInt(PlayerPrefsManager.boardCompleted, 0);
         PlayerPrefs.SetInt(PlayerPrefsManager.currentHintCount, 0);
@@ -181,7 +188,6 @@ public class Menus : MonoBehaviour
         GetComponent<NumberScroller>().SetUpNumberScroller();
         GetComponent<NumberScroller>().GoToFirstButton();
         GetComponent<Appearance>().RestartButtonSave();
-        yield return new WaitForSeconds(0);
         NewGameMenuClose();
         if (diff.diagonals)
         {
@@ -192,6 +198,7 @@ public class Menus : MonoBehaviour
         }
         winMenu.SetActive(false);
         Handheld.StopActivityIndicator();
+        loadingText.SetActive(false);
     }
 
     public void Restart()

@@ -317,11 +317,18 @@ public class BoardCreator : MonoBehaviour
                 }
                 RecheckNeighborConnections(node);
             }
-            else
+            else if (node.GetComponent<Node>().lockedValue)
             {
-                GetComponent<NumberScroller>().GoToNearbyNumberByNodeValue(node.GetComponent<Node>().value);
-                GetComponent<HapticFeedback>().MediumTapticFeedback();
-                GetComponent<SoundManager>().PlayScrollSound();
+                if (GetComponent<NumberScroller>().GetHighLightedValue() != -1)
+                {
+                    GetComponent<NumberScroller>().GoToNearbyNumberByNodeValue(node.GetComponent<Node>().value);
+                    GetComponent<HapticFeedback>().MediumTapticFeedback();
+                    GetComponent<SoundManager>().PlayScrollSound();
+                }
+                else
+                {
+                    GetComponent<HapticFeedback>().ErrorTapticFeedback();
+                }
             }
         }
     }

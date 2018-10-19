@@ -6,17 +6,17 @@ public class Difficulties : MonoBehaviour
     {
         name = "Tutorial",
         boardCount = 50,
-        width = 14,
-        height = 14,
-        percentageEmpty = 0.75f,
+        width = 12,
+        height = 13,
+        percentageEmpty = 0.70f,
         diagonals = false
     };
     public static Difficulty easy = new Difficulty
     {
         name = "Easy",
         boardCount = 100,
-        width = 14,
-        height = 14,
+        width = 13,
+        height = 15,
         percentageEmpty = 0.75f,
         diagonals = false
     };
@@ -52,7 +52,7 @@ public class Difficulties : MonoBehaviour
         name = "Easy +",
         boardCount = 60,
         width = 13,
-        height = 13,
+        height = 14,
         percentageEmpty = 0.75f,
         diagonals = true
     };

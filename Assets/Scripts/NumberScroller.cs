@@ -221,6 +221,7 @@ public class NumberScroller : MonoBehaviour
         GetComponent<Appearance>().direction.transform.Rotate(new Vector3(0, 180, 0));
         GetComponent<Appearance>().direction.transform.GetChild(0).transform.Rotate(new Vector3(0, 180, 0));
         GetComponent<SoundManager>().Direction();
+        GetComponent<HapticFeedback>().MediumTapticFeedback();
     }
 
     public void PressEraser()
