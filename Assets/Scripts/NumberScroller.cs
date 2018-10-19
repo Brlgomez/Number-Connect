@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -24,9 +23,7 @@ public class NumberScroller : MonoBehaviour
 
     void Start()
     {
-        float height = content.transform.parent.transform.parent.GetComponent<RectTransform>().rect.height;
-        numberButtonSize = height;
-        numberButtonPrefab.GetComponent<RectTransform>().sizeDelta = Vector2.one * height;
+        numberButtonSize = content.transform.parent.transform.parent.GetComponent<RectTransform>().rect.height;
         originalPosition = content.GetComponent<RectTransform>().transform.localPosition;
         originalSizeDelta = content.GetComponent<RectTransform>().sizeDelta;
         SetUpNumberScroller();
@@ -63,6 +60,8 @@ public class NumberScroller : MonoBehaviour
         for (int i = 0; i < notPlacedNumbers.Count; i++)
         {
             GameObject newButton = Instantiate(numberButtonPrefab, content.transform, false);
+            newButton.GetComponent<RectTransform>().sizeDelta = Vector2.one * numberButtonSize;
+            newButton.GetComponentInChildren<Text>().fontSize = Mathf.RoundToInt((numberButtonSize / 100) * 49);
             float x = 0;
             if (notPlacedNumbers.Count % 2 == 0)
             {

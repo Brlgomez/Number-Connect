@@ -317,6 +317,7 @@ public class BoardCreator : MonoBehaviour
                 }
                 RecheckNeighborConnections(node);
             }
+            /*
             else if (node.GetComponent<Node>().lockedValue)
             {
                 if (GetComponent<NumberScroller>().GetHighLightedValue() != -1)
@@ -330,6 +331,7 @@ public class BoardCreator : MonoBehaviour
                     GetComponent<HapticFeedback>().ErrorTapticFeedback();
                 }
             }
+            */
         }
     }
 

@@ -4552,7 +4552,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -890}
+  m_AnchoredPosition: {x: 0, y: -1105}
   m_SizeDelta: {x: -100, y: 2}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &431177087
@@ -12259,8 +12259,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -1175}
-  m_SizeDelta: {x: -100, y: 500}
+  m_AnchoredPosition: {x: 0, y: -1179.9}
+  m_SizeDelta: {x: -100, y: 549.7}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1147329179
 MonoBehaviour:
@@ -12294,7 +12294,15 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Tips
+  m_Text: 'Long pressing a cell on the board will take you to the next or previous
+    number on your scroller.
+
+
+    The next number selected on your slider will be determined by the direction arrow.
+
+
+
+    Tips
 
 
     Fill in cells that can only have one guaranteed answer first.
@@ -12304,14 +12312,7 @@ MonoBehaviour:
     start elsewhere.
 
 
-    Working backwards can reveal clues to solving the puzzle.
-
-
-    The next number selected on your slider will be determined by the direction arrow.
-
-
-    Pressing a preplaced cell on the board will take you to the next or previous number
-    on your scroller.'
+    Working backwards can reveal clues to solving the puzzle.'
 --- !u!222 &1147329180
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -14897,7 +14898,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -230}
+  m_AnchoredPosition: {x: 0, y: -260}
   m_SizeDelta: {x: 0, y: 450}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1349570922
@@ -15789,7 +15790,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -680}
+  m_AnchoredPosition: {x: 0, y: -710}
   m_SizeDelta: {x: 0, y: 450}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1405532472
@@ -17724,7 +17725,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -0.000030264257, y: 0}
+  m_AnchoredPosition: {x: -0.000027410324, y: 0}
   m_SizeDelta: {x: 0, y: 100}
   m_Pivot: {x: 0, y: 1}
 --- !u!1 &1738461365
@@ -19291,7 +19292,7 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 0
     m_MaxSize: 40
-    m_Alignment: 4
+    m_Alignment: 3
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
