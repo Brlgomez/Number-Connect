@@ -24,8 +24,8 @@ public class Difficulties : MonoBehaviour
     {
         name = "Medium",
         boardCount = 110,
-        width = 13,
-        height = 12,
+        width = 12,
+        height = 13,
         percentageEmpty = 0.80f,
         diagonals = false
     };
@@ -42,9 +42,9 @@ public class Difficulties : MonoBehaviour
     {
         name = "Expert",
         boardCount = 130,
-        width = 13,
+        width = 12,
         height = 13,
-        percentageEmpty = 0.90f,
+        percentageEmpty = 0.925f,
         diagonals = false
     };
     public static Difficulty easyDiag = new Difficulty

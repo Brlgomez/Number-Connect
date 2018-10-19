@@ -7476,6 +7476,7 @@ GameObject:
   - component: {fileID: 751534620}
   - component: {fileID: 751534621}
   - component: {fileID: 751534624}
+  - component: {fileID: 751534625}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -7975,6 +7976,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b9f87678afd6435b84ec6b969f6c3c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &751534625
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 751534606}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25757e8aa08b64f6faa43e6bddfa5069, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  boxHolder: {fileID: 872080841}
+  lineHolder: {fileID: 1204351935}
+  textHolder: {fileID: 1352203157}
+  highlightHolder: {fileID: 2129059647}
 --- !u!1 &755101983
 GameObject:
   m_ObjectHideFlags: 0
@@ -17706,7 +17722,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -0.000041544063, y: 0}
+  m_AnchoredPosition: {x: -0.000019049965, y: 0}
   m_SizeDelta: {x: 0, y: 100}
   m_Pivot: {x: 0, y: 1}
 --- !u!1 &1738461365

@@ -77,7 +77,7 @@ public class BoardCreator : MonoBehaviour
                 if (listOfPositions.Count == 0)
                 {
                     skip++;
-                    if (skip % 16 == 0)
+                    if (skip % ((boardSize - i) + 1) == 0)
                     {
                         increment++;
                     }
@@ -291,6 +291,7 @@ public class BoardCreator : MonoBehaviour
         );
         lineHolder.transform.position = boxHolders.transform.position;
         textHolder.transform.position = boxHolders.transform.position;
+        GetComponent<ZoomInBoard>().Zoom(xAmounts.Count, yAmounts.Count);
     }
 
     public void PressedNode(GameObject node)
