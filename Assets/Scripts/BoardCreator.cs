@@ -7,7 +7,7 @@ public class BoardCreator : MonoBehaviour
 {
     public Canvas canvas;
     public GameObject box, linePrefab;
-    public GameObject boxHolders, lineHolder, textHolder;
+    public GameObject boxHolders, lineHolder, textHolder, holdDownHolder;
     public Text difficulty;
     public GameObject undoButton;
     static int nodeSize = 50;
@@ -291,6 +291,7 @@ public class BoardCreator : MonoBehaviour
         );
         lineHolder.transform.position = boxHolders.transform.position;
         textHolder.transform.position = boxHolders.transform.position;
+        holdDownHolder.transform.position = boxHolders.transform.position;
         GetComponent<ZoomInBoard>().Zoom(xAmounts.Count, yAmounts.Count);
     }
 
@@ -699,14 +700,17 @@ public class BoardCreator : MonoBehaviour
         boxHolders.GetComponent<RectTransform>().pivot = Vector2.one / 2.0f;
         lineHolder.GetComponent<RectTransform>().pivot = Vector2.one / 2.0f;
         textHolder.GetComponent<RectTransform>().pivot = Vector2.one / 2.0f;
+        holdDownHolder.GetComponent<RectTransform>().pivot = Vector2.one / 2.0f;
         GetComponent<Appearance>().highlightHolder.GetComponent<RectTransform>().pivot = Vector2.one / 2.0f;
         GetComponent<Appearance>().RemoveNodeHighlight();
         boxHolders.transform.position = new Vector3(Screen.width / 2, Screen.height / 2, 0);
         lineHolder.transform.position = boxHolders.transform.position;
         textHolder.transform.position = boxHolders.transform.position;
+        holdDownHolder.transform.position = boxHolders.transform.position;
         boxHolders.transform.localScale = Vector3.one;
         lineHolder.transform.localScale = Vector3.one;
         textHolder.transform.localScale = Vector3.one;
+        holdDownHolder.transform.localScale = Vector3.one;
         GetComponent<Appearance>().highlightHolder.transform.localScale = Vector3.one;
         for (int i = 0; i < gameBoardAnswer.Count; i++)
         {
@@ -744,10 +748,12 @@ public class BoardCreator : MonoBehaviour
         boxHolders.GetComponent<RectTransform>().pivot = Vector2.one / 2.0f;
         lineHolder.GetComponent<RectTransform>().pivot = Vector2.one / 2.0f;
         textHolder.GetComponent<RectTransform>().pivot = Vector2.one / 2.0f;
+        holdDownHolder.GetComponent<RectTransform>().pivot = Vector2.one / 2.0f;
         GetComponent<Appearance>().highlightHolder.GetComponent<RectTransform>().pivot = Vector2.one / 2.0f;
         boxHolders.transform.localScale = Vector3.one;
         lineHolder.transform.localScale = Vector3.one;
         textHolder.transform.localScale = Vector3.one;
+        holdDownHolder.transform.localScale = Vector3.one;
         GetComponent<Appearance>().highlightHolder.transform.localScale = Vector3.one;
         for (int i = 0; i < gameBoardAnswer.Count; i++)
         {

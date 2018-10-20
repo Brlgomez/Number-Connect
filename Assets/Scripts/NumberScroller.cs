@@ -165,7 +165,7 @@ public class NumberScroller : MonoBehaviour
     {
         if (direction == 1)
         {
-            if (value != GetComponent<BoardCreator>().GetBoardNumberAmount())
+            if (value < numberButtonList[numberButtonList.Count - 1].GetComponent<NumberButton>().value)
             {
                 NextNumberForward(value);
             }
@@ -176,7 +176,7 @@ public class NumberScroller : MonoBehaviour
         }
         else
         {
-            if (value != 1)
+            if (value > numberButtonList[0].GetComponent<NumberButton>().value)
             {
                 NextNumberBackwards(value);
             }

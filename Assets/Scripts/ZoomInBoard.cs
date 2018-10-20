@@ -2,7 +2,7 @@
 
 public class ZoomInBoard : MonoBehaviour
 {
-    public GameObject boxHolder, lineHolder, textHolder, highlightHolder;
+    public GameObject boxHolder, lineHolder, textHolder, highlightHolder, holdDownHolder;
 
     public void Zoom(int width, int height)
     {
@@ -10,6 +10,7 @@ public class ZoomInBoard : MonoBehaviour
         lineHolder.transform.GetComponent<RectTransform>().pivot = new Vector2(0.5f, 0.5f);
         textHolder.transform.GetComponent<RectTransform>().pivot = new Vector2(0.5f, 0.5f);
         highlightHolder.transform.GetComponent<RectTransform>().pivot = new Vector2(0.5f, 0.5f);
+        holdDownHolder.transform.GetComponent<RectTransform>().pivot = new Vector2(0.5f, 0.5f);
 
         float xShift = (boxHolder.transform.position.x - (Screen.width / 2)) / (Screen.width);
         float yShift = (boxHolder.transform.position.y - (Screen.height / 2)) / (Screen.height);
@@ -20,6 +21,7 @@ public class ZoomInBoard : MonoBehaviour
         lineHolder.transform.GetComponent<RectTransform>().pivot = newPivot;
         textHolder.transform.GetComponent<RectTransform>().pivot = newPivot;
         highlightHolder.transform.GetComponent<RectTransform>().pivot = newPivot;
+        holdDownHolder.transform.GetComponent<RectTransform>().pivot = newPivot;
 
         float boardHeight = (Screen.height * 0.62f) / Screen.width;
         float maxHeight = boardHeight * 16;
@@ -30,6 +32,7 @@ public class ZoomInBoard : MonoBehaviour
             lineHolder.transform.localScale = Vector3.one * maxHeight / height;
             textHolder.transform.localScale = Vector3.one * maxHeight / height;
             highlightHolder.transform.localScale = Vector3.one * maxHeight / height;
+            holdDownHolder.transform.localScale = Vector3.one * maxHeight / height;
         }
         else
         {
@@ -37,6 +40,7 @@ public class ZoomInBoard : MonoBehaviour
             lineHolder.transform.localScale = Vector3.one * 15 / width;
             textHolder.transform.localScale = Vector3.one * 15 / width;
             highlightHolder.transform.localScale = Vector3.one * 15 / width;
+            holdDownHolder.transform.localScale = Vector3.one * 15 / width;
         }
     }
 }

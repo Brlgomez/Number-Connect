@@ -19,6 +19,7 @@ public class Appearance : MonoBehaviour
 
     public GameObject startCircle, endCircle;
     public GameObject previousHighlight, nextHighlight;
+    public GameObject holdObject;
 
     Themes.Theme currentTheme;
 
@@ -168,6 +169,7 @@ public class Appearance : MonoBehaviour
         hint.color = currentTheme.generalButtonColor;
         hint.gameObject.transform.GetChild(0).GetComponent<Image>().color = currentTheme.highlightColor;
         hint.gameObject.GetComponentInChildren<Text>().color = currentTheme.generalButtonColor;
+        holdObject.GetComponent<Image>().color = currentTheme.lockedNodeColor;
         List<GameObject> gameBoard = GetComponent<BoardCreator>().GetGameBoard();
         GameObject content = GetComponent<NumberScroller>().GetContent();
         for (int i = 0; i < gameBoard.Count; i++)
@@ -446,6 +448,26 @@ public class Appearance : MonoBehaviour
     {
         Vector2 oldSize = lineObj.GetComponent<RectTransform>().sizeDelta;
         lineObj.GetComponent<RectTransform>().sizeDelta = new Vector2(thickness, oldSize.y);
+    }
+
+    public void MoveHoldObjectToCell(GameObject cell, int value, Color textColor)
+    {
+        if (holdObject.transform.GetChild(1).gameObject.GetComponent<HoldDownProgress>())
+        {
+            Destroy(holdObject.transform.GetChild(1).gameObject.GetComponent<HoldDownProgress>());
+        }
+        holdObject.transform.GetChild(1).gameObject.AddComponent<HoldDownProgress>();
+        holdObject.transform.GetChild(0).GetComponent<Text>().text = value.ToString();
+        holdObject.transform.GetChild(0).GetComponent<Text>().color = textColor;
+        holdObject.transform.localPosition = new Vector3(
+            cell.transform.localPosition.x,
+            cell.transform.localPosition.y + 70,
+            cell.transform.localPosition.z);
+    }
+
+    public void MoveHoldObjectOutOfScene()
+    {
+        holdObject.transform.position = new Vector3(10000, 10000);
     }
 
     public void RestartButtonNoSave()
