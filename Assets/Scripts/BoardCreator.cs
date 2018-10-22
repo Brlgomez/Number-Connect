@@ -68,12 +68,16 @@ public class BoardCreator : MonoBehaviour
             TempNode.TempNodeValues nextNode;
             TempNode.TempNodeValues previous = tempGameBoardAnswer[i - 1];
             List<Vector2> listOfPositions = GetListOfPositions(diagonal);
-            Vector2 nextPosition = previous.position;
-            Vector2 tempPosition = Vector2.zero;
+            Vector2 tempPosition = listOfPositions[Random.Range(0, listOfPositions.Count)];
+            Vector2 nextPosition = nextPosition = new Vector2(
+                previous.position.x + tempPosition.x,
+                previous.position.y + tempPosition.y
+            );
             while (tempGameBoardPositions.ContainsKey(nextPosition) ||
                    (!xAmounts.ContainsKey((int)nextPosition.x) && xAmounts.Count >= width) ||
                    (!yAmounts.ContainsKey((int)nextPosition.y) && yAmounts.Count >= height))
             {
+                listOfPositions.Remove(tempPosition);
                 if (listOfPositions.Count == 0)
                 {
                     skip++;
@@ -96,7 +100,6 @@ public class BoardCreator : MonoBehaviour
                     listOfPositions = GetListOfPositions(diagonal);
                 }
                 tempPosition = listOfPositions[Random.Range(0, listOfPositions.Count)];
-                listOfPositions.Remove(tempPosition);
                 nextPosition = new Vector2(
                     previous.position.x + tempPosition.x,
                     previous.position.y + tempPosition.y
@@ -158,25 +161,18 @@ public class BoardCreator : MonoBehaviour
 
     void AddValue(Vector2 value)
     {
-        if (xAmounts.ContainsKey((int)value.x))
+        int x, y;
+        if (xAmounts.TryGetValue((int)value.x, out x))
         {
-            int xAmount = 0;
-            xAmounts.TryGetValue((int)value.x, out xAmount);
-            xAmount++;
-            xAmounts.Remove((int)value.x);
-            xAmounts.Add((int)value.x, xAmount);
+            xAmounts[(int)value.x]++;
         }
         else
         {
             xAmounts.Add((int)value.x, 1);
         }
-        if (yAmounts.ContainsKey((int)value.y))
+        if (yAmounts.TryGetValue((int)value.y, out y))
         {
-            int yAmount = 0;
-            yAmounts.TryGetValue((int)value.y, out yAmount);
-            yAmount++;
-            yAmounts.Remove((int)value.y);
-            yAmounts.Add((int)value.y, yAmount);
+            yAmounts[(int)value.y]++;
         }
         else
         {
@@ -186,27 +182,16 @@ public class BoardCreator : MonoBehaviour
 
     void RemoveValue(Vector2 value)
     {
-        if (xAmounts.ContainsKey((int)value.x))
+        xAmounts[(int)value.x]--;
+        if (xAmounts[(int)value.x] == 0)
         {
-            int xAmount = 0;
-            xAmounts.TryGetValue((int)value.x, out xAmount);
-            xAmount--;
             xAmounts.Remove((int)value.x);
-            if (xAmount > 0)
-            {
-                xAmounts.Add((int)value.x, xAmount);
-            }
+
         }
-        if (yAmounts.ContainsKey((int)value.y))
+        yAmounts[(int)value.y]--;
+        if (yAmounts[(int)value.y] == 0)
         {
-            int yAmount = 0;
-            yAmounts.TryGetValue((int)value.y, out yAmount);
-            yAmount--;
             yAmounts.Remove((int)value.y);
-            if (yAmount > 0)
-            {
-                yAmounts.Add((int)value.y, yAmount);
-            }
         }
     }
 
@@ -745,16 +730,6 @@ public class BoardCreator : MonoBehaviour
 
     public void Restart()
     {
-        boxHolders.GetComponent<RectTransform>().pivot = Vector2.one / 2.0f;
-        lineHolder.GetComponent<RectTransform>().pivot = Vector2.one / 2.0f;
-        textHolder.GetComponent<RectTransform>().pivot = Vector2.one / 2.0f;
-        holdDownHolder.GetComponent<RectTransform>().pivot = Vector2.one / 2.0f;
-        GetComponent<Appearance>().highlightHolder.GetComponent<RectTransform>().pivot = Vector2.one / 2.0f;
-        boxHolders.transform.localScale = Vector3.one;
-        lineHolder.transform.localScale = Vector3.one;
-        textHolder.transform.localScale = Vector3.one;
-        holdDownHolder.transform.localScale = Vector3.one;
-        GetComponent<Appearance>().highlightHolder.transform.localScale = Vector3.one;
         for (int i = 0; i < gameBoardAnswer.Count; i++)
         {
             if (!gameBoardAnswer[i].GetComponent<Node>().lockedValue && gameBoardAnswer[i].GetComponent<Node>().userValue > 0)

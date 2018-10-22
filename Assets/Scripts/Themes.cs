@@ -25,15 +25,15 @@ public class Themes : MonoBehaviour
     public static Theme darkTheme = new Theme
     {
         nameOfTheme = ThemeName.dark,
-        backgroundColor = new Color(0.125f, 0.125f, 0.125f),
-        panelColor = new Color(0.1f, 0.1f, 0.1f),
+        backgroundColor = new Color(0.1f, 0.1f, 0.1f),
+        panelColor = new Color(0, 0, 0),
 
         generalButtonColor = new Color(0.9f, 0.9f, 0.9f),
-        menuButtonColor = new Color(0.1f, 0.1f, 0.1f),
+        menuButtonColor = new Color(0, 0, 0),
         highlightColor = new Color(0.9f, 0.55f, 0.5f),
 
-        lockedNodeColor = new Color(0.4f, 0.4f, 0.4f),
-        userPlacedNodeColor = new Color(0.4f, 0.4f, 0.4f),
+        lockedNodeColor = new Color(0.35f, 0.35f, 0.35f),
+        userPlacedNodeColor = new Color(0.35f, 0.35f, 0.35f),
         emptyNodeColor = new Color(0.2f, 0.2f, 0.2f),
         lockedNodeTextColor = new Color(0.2f, 0.75f, 0.9f),
         userPlacedNodeTextColor = new Color(0.9f, 0.9f, 0.9f),
