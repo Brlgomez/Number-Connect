@@ -61,16 +61,17 @@ public class Menus : MonoBehaviour
 
     void ChangeMoreMenuForAndroid()
     {
-        for (int i = 0; i < moreMenu.transform.childCount - 1; i++)
+        for (int i = 0; i < moreMenu.transform.GetChild(0).childCount - 1; i++)
         {
-            if (moreMenu.transform.GetChild(i).name == "Restore Purchases")
+            Debug.Log(moreMenu.transform.GetChild(0).GetChild(i).name);
+            if (moreMenu.transform.GetChild(0).GetChild(i).name == "Restore Purchases")
             {
-                moreMenu.transform.GetChild(i).gameObject.SetActive(false);
+                moreMenu.transform.GetChild(0).GetChild(i).gameObject.SetActive(false);
             }
             Vector3 newPosition = new Vector2(
-                moreMenu.transform.GetChild(i).GetComponent<RectTransform>().anchoredPosition.x,
-                (moreMenu.transform.GetChild(i).GetComponent<RectTransform>().anchoredPosition.y - 100));
-            moreMenu.transform.GetChild(i).GetComponent<RectTransform>().anchoredPosition = newPosition;
+                moreMenu.transform.GetChild(0).GetChild(i).GetComponent<RectTransform>().anchoredPosition.x,
+                (moreMenu.transform.GetChild(0).GetChild(i).GetComponent<RectTransform>().anchoredPosition.y - 100));
+            moreMenu.transform.GetChild(0).GetChild(i).GetComponent<RectTransform>().anchoredPosition = newPosition;
         }
     }
 
