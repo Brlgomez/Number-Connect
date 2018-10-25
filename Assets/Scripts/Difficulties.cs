@@ -7,7 +7,7 @@ public class Difficulties : MonoBehaviour
         name = "Tutorial",
         boardCount = 50,
         width = 12,
-        height = 13,
+        height = 11,
         percentageEmpty = 0.70f,
         diagonals = false
     };
@@ -15,35 +15,35 @@ public class Difficulties : MonoBehaviour
     {
         name = "Easy",
         boardCount = 100,
-        width = 13,
-        height = 15,
-        percentageEmpty = 0.75f,
+        width = 12,
+        height = 14,
+        percentageEmpty = 0.775f,
         diagonals = false
     };
     public static Difficulty medium = new Difficulty
     {
         name = "Medium",
         boardCount = 110,
-        width = 12,
+        width = 11,
         height = 13,
-        percentageEmpty = 0.80f,
+        percentageEmpty = 0.825f,
         diagonals = false
     };
     public static Difficulty hard = new Difficulty
     {
         name = "Hard",
         boardCount = 120,
-        width = 12,
-        height = 12,
-        percentageEmpty = 0.85f,
+        width = 11,
+        height = 13,
+        percentageEmpty = 0.875f,
         diagonals = false
     };
     public static Difficulty expert = new Difficulty
     {
         name = "Expert",
         boardCount = 130,
-        width = 12,
-        height = 13,
+        width = 11,
+        height = 14,
         percentageEmpty = 0.925f,
         diagonals = false
     };
@@ -51,7 +51,7 @@ public class Difficulties : MonoBehaviour
     {
         name = "Easy +",
         boardCount = 60,
-        width = 13,
+        width = 12,
         height = 14,
         percentageEmpty = 0.75f,
         diagonals = true
@@ -60,8 +60,8 @@ public class Difficulties : MonoBehaviour
     {
         name = "Medium +",
         boardCount = 80,
-        width = 13,
-        height = 13,
+        width = 11, 
+        height = 14,
         percentageEmpty = 0.80f,
         diagonals = true
     };
@@ -69,8 +69,8 @@ public class Difficulties : MonoBehaviour
     {
         name = "Hard +",
         boardCount = 100,
-        width = 12,
-        height = 12,
+        width = 11,
+        height = 13,
         percentageEmpty = 0.85f,
         diagonals = true
     };
@@ -78,8 +78,8 @@ public class Difficulties : MonoBehaviour
     {
         name = "Expert +",
         boardCount = 120,
-        width = 12,
-        height = 12,
+        width = 11,
+        height = 13,
         percentageEmpty = 0.90f,
         diagonals = true
     };

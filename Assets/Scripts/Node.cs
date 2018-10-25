@@ -66,16 +66,14 @@ public class Node : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPoin
         onLongPress.Invoke();
         if (lockedValue)
         {
-            Camera.main.GetComponent<HapticFeedback>().MediumTapticFeedback();
+            Camera.main.GetComponent<HapticFeedback>().HeavyTapticFeedback();
             Camera.main.GetComponent<NumberScroller>().GoToNearbyNumberByNodeValue(value);
-            //Camera.main.GetComponent<Appearance>().NodeFeedBack(transform);
             Camera.main.GetComponent<SoundManager>().PlayScrollSound();
         }
         else if (!lockedValue && userValue > 0)
         {
-            Camera.main.GetComponent<HapticFeedback>().MediumTapticFeedback();
+            Camera.main.GetComponent<HapticFeedback>().HeavyTapticFeedback();
             Camera.main.GetComponent<NumberScroller>().GoToNearbyNumberByNodeValue(userValue);
-            //Camera.main.GetComponent<Appearance>().NodeFeedBack(transform);
             Camera.main.GetComponent<SoundManager>().PlayScrollSound();
         }
         else

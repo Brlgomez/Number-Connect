@@ -55,6 +55,7 @@ public class BoardCreator : MonoBehaviour
         amount = boardSize;
         percentRemoved = percentage;
         diagonal = diag;
+        //int steps = 0;
         int i = 0;
         int increment = 1;
         int skip = 0;
@@ -69,10 +70,7 @@ public class BoardCreator : MonoBehaviour
             TempNode.TempNodeValues previous = tempGameBoardAnswer[i - 1];
             List<Vector2> listOfPositions = GetListOfPositions(diagonal);
             Vector2 tempPosition = listOfPositions[Random.Range(0, listOfPositions.Count)];
-            Vector2 nextPosition = nextPosition = new Vector2(
-                previous.position.x + tempPosition.x,
-                previous.position.y + tempPosition.y
-            );
+            Vector2 nextPosition = previous.position + tempPosition;
             while (tempGameBoardPositions.ContainsKey(nextPosition) ||
                    (!xAmounts.ContainsKey((int)nextPosition.x) && xAmounts.Count >= width) ||
                    (!yAmounts.ContainsKey((int)nextPosition.y) && yAmounts.Count >= height))
@@ -80,6 +78,7 @@ public class BoardCreator : MonoBehaviour
                 listOfPositions.Remove(tempPosition);
                 if (listOfPositions.Count == 0)
                 {
+                    bool restart = false;
                     skip++;
                     if (skip % ((boardSize - i) + 1) == 0)
                     {
@@ -87,6 +86,7 @@ public class BoardCreator : MonoBehaviour
                     }
                     if (increment > tempGameBoardPositions.Count - 1)
                     {
+                        restart = true;
                         increment = tempGameBoardPositions.Count - 1;
                     }
                     for (int k = 0; k < increment; k++)
@@ -98,19 +98,22 @@ public class BoardCreator : MonoBehaviour
                         previous = tempGameBoardAnswer[i - 1];
                     }
                     listOfPositions = GetListOfPositions(diagonal);
+                    if (restart)
+                    {
+                        increment = 1;
+                    }
                 }
                 tempPosition = listOfPositions[Random.Range(0, listOfPositions.Count)];
-                nextPosition = new Vector2(
-                    previous.position.x + tempPosition.x,
-                    previous.position.y + tempPosition.y
-                );
+                nextPosition = previous.position + tempPosition;
             }
             nextNode = new TempNode.TempNodeValues(nextPosition, i + 1);
             tempGameBoardAnswer.Add(nextNode);
             tempGameBoardPositions.Add(nextNode.position, nextNode);
             AddValue(nextPosition);
             i++;
+            //steps++;
         }
+        //Debug.Log("Steps " + steps);
         for (int j = 0; j < tempGameBoardAnswer.Count; j++)
         {
             GameObject nextNode = Instantiate(box, boxHolders.transform);
@@ -292,6 +295,7 @@ public class BoardCreator : MonoBehaviour
                     AddNode(node, highLightedValue, true, 0);
                     GetComponent<NumberScroller>().GoToNextNumber();
                     GetComponent<SoundManager>().PressNode();
+                    GetComponent<HapticFeedback>().SelectTapticFeedback();
                 }
                 else
                 {
@@ -299,6 +303,7 @@ public class BoardCreator : MonoBehaviour
                     {
                         RemoveNode(node, true);
                         GetComponent<SoundManager>().EraseNode();
+                        GetComponent<HapticFeedback>().SelectTapticFeedback();
                     }
                 }
                 RecheckNeighborConnections(node);
@@ -623,6 +628,7 @@ public class BoardCreator : MonoBehaviour
                 GetComponent<SoundManager>().Undo();
             }
             undoButton.GetComponent<Button>().interactable &= GetComponent<UserAction>().HaveActions();
+            GetComponent<HapticFeedback>().SelectTapticFeedback();
         }
     }
 

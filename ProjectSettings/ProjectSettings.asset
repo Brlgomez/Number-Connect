@@ -122,7 +122,7 @@ PlayerSettings:
     16:10: 1
     16:9: 1
     Others: 1
-  bundleVersion: 0.9.1
+  bundleVersion: 0.9.2
   preloadedAssets: []
   metroInputSource: 0
   wsaTransparentSwapchain: 0
@@ -159,8 +159,8 @@ PlayerSettings:
     Android: com.brandongomez.onetwolink
     iOS: com.brandongomez.12link
   buildNumber:
-    iOS: 6
-  AndroidBundleVersionCode: 9
+    iOS: 7
+  AndroidBundleVersionCode: 10
   AndroidMinSdkVersion: 16
   AndroidTargetSdkVersion: 0
   AndroidPreferredInstallLocation: 1
@@ -377,14 +377,12 @@ PlayerSettings:
       m_Height: 40
       m_Kind: 2
       m_SubKind: iPhone
-    - m_Textures:
-      - {fileID: 0}
+    - m_Textures: []
       m_Width: 40
       m_Height: 40
       m_Kind: 2
       m_SubKind: iPad
-    - m_Textures:
-      - {fileID: 0}
+    - m_Textures: []
       m_Width: 20
       m_Height: 20
       m_Kind: 2
