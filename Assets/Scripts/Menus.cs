@@ -206,6 +206,7 @@ public class Menus : MonoBehaviour
     {
         if (!newGameMenu.GetComponent<MenuTransitionOn>() && !newGameMenu.GetComponent<MenuTransitionOff>())
         {
+            GetComponent<Appearance>().hint.gameObject.GetComponent<UnityAds>().SetHint(1);
             CheckIfRestartCurrentWinStreak();
             GetComponent<Appearance>().DestroyAllCircles();
             GetComponent<BoardCreator>().Restart();

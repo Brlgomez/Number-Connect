@@ -126,10 +126,12 @@ public class UnityAds : MonoBehaviour
         else if (count > 0)
         {
             gameObject.transform.GetChild(0).transform.GetChild(0).GetComponent<Text>().text = count.ToString();
+            hintCount = 1;
         }
         else
         {
             gameObject.transform.GetChild(0).transform.GetChild(0).GetComponent<Text>().text = "Ad";
+            hintCount = 0;
         }
     }
 
